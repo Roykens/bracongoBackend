@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="bracongoPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>jdbc/bracongoDatasource</jta-data-source>
+    <class>com.royken.bracongo.survey.entities.Enqueteur</class>
+    <class>com.royken.bracongo.survey.entities.Planning</class>
+    <class>com.royken.bracongo.survey.entities.PointDeVente</class>
+    <class>com.royken.bracongo.survey.entities.Position</class>
+    <class>com.royken.bracongo.survey.entities.Question</class>
+    <class>com.royken.bracongo.survey.entities.Reponse</class>
+    <properties>
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+      <property name="eclipselink.logging.level" value="OFF"/>
+      <property name="eclipselink.cache.shared.default" value="false"/>
+      <property name="eclipselink.query-results-cache" value="false"/>
+      <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.transaction.jta.platform" value="org.hibernate.engine.transaction.jta.platform.internal.SunOneJtaPlatform" />
+            <property name="hibernate.transaction.factory_class" value="org.hibernate.engine.transaction.internal.jta.JtaTransactionFactory"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.classloading.use_current_tccl_as_parent" value="false"/>-->
+    </properties>
+  </persistence-unit>
+</persistence>
