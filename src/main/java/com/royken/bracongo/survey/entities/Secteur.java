@@ -2,28 +2,26 @@ package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="planning")
+@XmlRootElement(name="secteur")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Planning implements Serializable{
+public class Secteur implements Serializable{
     
-    @XmlTransient
     @Version
     private int version;
     
@@ -31,11 +29,11 @@ public class Planning implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
-    private Enqueteur enqueteur;
+    @Column(unique = true)
+    private String code;
     
-    @OneToMany
-    private List<PointDeVente> pointDeVentes;
+    @OneToMany(mappedBy = "secteur")
+    private List<Zone> zones;
 
     public int getVersion() {
         return version;
@@ -53,19 +51,21 @@ public class Planning implements Serializable{
         this.id = id;
     }
 
-    public Enqueteur getEnqueteur() {
-        return enqueteur;
+    public String getCode() {
+        return code;
     }
 
-    public void setEnqueteur(Enqueteur enqueteur) {
-        this.enqueteur = enqueteur;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public List<PointDeVente> getPointDeVentes() {
-        return pointDeVentes;
+    public List<Zone> getZones() {
+        return zones;
     }
 
-    public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
-        this.pointDeVentes = pointDeVentes;
+    public void setZones(List<Zone> zones) {
+        this.zones = zones;
     }
+    
+    
 }

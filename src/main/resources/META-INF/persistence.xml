@@ -9,6 +9,10 @@
     <class>com.royken.bracongo.survey.entities.Position</class>
     <class>com.royken.bracongo.survey.entities.Question</class>
     <class>com.royken.bracongo.survey.entities.Reponse</class>
+    <class>com.royken.bracongo.survey.entities.Circuit</class>
+    <class>com.royken.bracongo.survey.entities.Secteur</class>
+    <class>com.royken.bracongo.survey.entities.Zone</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
       <property name="eclipselink.logging.level" value="OFF"/>
@@ -20,6 +24,7 @@
             <property name="hibernate.transaction.factory_class" value="org.hibernate.engine.transaction.internal.jta.JtaTransactionFactory"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.classloading.use_current_tccl_as_parent" value="false"/>-->
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

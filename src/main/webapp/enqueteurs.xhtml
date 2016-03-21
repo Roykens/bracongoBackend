@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
+
+        <h3 class="hardblue TexAlCenter">Empty Page</h3>
+        <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
+        <f:view>
+
+
+            <h:form id="form">
+                <h1><h:outputText value="List"/></h1>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:dataTable value="#{enqueteursBean.enqueteurs}" var="item" id="table" selection="#{enqueteursBean.enqueteur}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="No cars found with given criteria" reflow="true">
+                    <f:facet name="header">
+                        La liste des enquêteurs
+                    </f:facet>
+                    <p:column sortable="true" filterBy="#{item.nom}" sortBy="#{item.nom}">
+                        <f:facet name="header">
+                            <h:outputText value="Nom"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nom}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Matricule"/>
+                        </f:facet>
+                        <h:outputText value="#{item.matricule}"/>
+                    </p:column>
+                    <f:facet name="footer">  
+                            <p:commandButton value="Ajouter un Enquêteur" onclick="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" /> 
+                            <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                    </f:facet> 
+                </p:dataTable>
+            </h:form>
+            <p:dialog id="ajout" header="Ajouter un Enquêteur" widgetVar="ajouter_dialog" resizable="true" showEffect="clip" hideEffect="explode" modal="true"> 
+                   <h:form id ="saveform">
+                        <h:panelGrid id="display" columns="2" >  
+                            <h:outputText value="Nom"/> 
+                            <p:inputText  id="en" value="#{pointDeVenteBean.pointDeVente.nom}"/> 
+                            <h:outputText value="Adresse"/> 
+                            <p:inputText  id="fr" value="#{pointDeVenteBean.pointDeVente.adresse}"/> 
+                            <h:outputText value="Latitude"/> 
+                            <p:inputText  id="lat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
+                            <h:outputText value="Longitude"/> 
+                            <p:inputText  id="long" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
+                            <f:facet name="footer"> <br/> 
+                                <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.savePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+               </p:dialog>
+            <p:dialog id="import" header="Importer des PDV" widgetVar="importer_dialog"  width="500" showEffect="clip" hideEffect="explode" modal="true"> 
+                   <h:form id ="importform"  enctype="multipart/form-data">
+                        <h:panelGrid id="display" columns="2" >
+                            <h:outputText  value="Selectionner le fichier excel " />  
+                            <p:fileUpload required="true"  value="#{pointDeVenteBean.file}" mode="simple"
+                                              auto="true"  
+                                              sizeLimit="100000"   
+                                              allowTypes="/(\.|\/)(xslx|xsl)$/" class="syntaxe_content" update="feuille" process="@this" invalidFileMessage="fichier invalide" requiredMessage="chargez le fichier" > 
+                                    <!--                                    <p:ajax listener="" event="change" update="cities" process="@this"/>-->
+                                </p:fileUpload>
+                            
+                            
+                            <f:facet name="footer"> <br/>  
+                                <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Effacer" type="reset"/>  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+               </p:dialog>
+        </f:view>
+
+    </ui:define>
+
+</ui:composition>

@@ -11,6 +11,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
+import com.royken.bracongo.survey.entities.Enqueteur_;
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 public class EnqueteurDaoImpl extends GenericDao<Enqueteur, Long> implements IEnqueteurDao{

@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,30 +13,31 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="planning")
+@XmlRootElement(name="zone")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Planning implements Serializable{
+public class Zone implements Serializable{
     
-    @XmlTransient
     @Version
     private int version;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
+    
+    @Column(unique = true)
+    private String code;
+    
+    @OneToMany(mappedBy = "zone")
+    private List<Circuit> circuits;
     
     @ManyToOne
-    private Enqueteur enqueteur;
-    
-    @OneToMany
-    private List<PointDeVente> pointDeVentes;
+    private Secteur secteur;
 
     public int getVersion() {
         return version;
@@ -45,27 +47,37 @@ public class Planning implements Serializable{
         this.version = version;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Enqueteur getEnqueteur() {
-        return enqueteur;
+    public String getCode() {
+        return code;
     }
 
-    public void setEnqueteur(Enqueteur enqueteur) {
-        this.enqueteur = enqueteur;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public List<PointDeVente> getPointDeVentes() {
-        return pointDeVentes;
+    public List<Circuit> getCircuits() {
+        return circuits;
     }
 
-    public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
-        this.pointDeVentes = pointDeVentes;
+    public void setCircuits(List<Circuit> circuits) {
+        this.circuits = circuits;
     }
+
+    public Secteur getSecteur() {
+        return secteur;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
+    }
+    
+    
 }

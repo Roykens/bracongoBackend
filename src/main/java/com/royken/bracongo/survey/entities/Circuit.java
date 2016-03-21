@@ -1,46 +1,46 @@
 package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
-import java.util.Date;
-import javax.persistence.Basic;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="position")
+@XmlRootElement(name="circuit")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Position implements Serializable{
+public class Circuit implements Serializable{
+    
     
     @Version
+    @XmlTransient
     private int version;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Basic
-    private Double longitude;
+    @Column
+    private String code;
     
-    @Basic
-    private Double latitude;
-    
-    @Temporal(javax.persistence.TemporalType.TIME)
-    private Date datePosition;
+    @OneToMany(mappedBy = "circuit")
+    private List<PointDeVente> pointDeVentes;
     
     @ManyToOne
-    private Enqueteur enqueteur;
+    private Zone zone;
 
     public int getVersion() {
         return version;
@@ -58,36 +58,28 @@ public class Position implements Serializable{
         this.id = id;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public String getCode() {
+        return code;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public List<PointDeVente> getPointDeVentes() {
+        return pointDeVentes;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
+        this.pointDeVentes = pointDeVentes;
     }
 
-    public Date getDatePosition() {
-        return datePosition;
+    public Zone getZone() {
+        return zone;
     }
 
-    public void setDatePosition(Date datePosition) {
-        this.datePosition = datePosition;
-    }
-
-    public Enqueteur getEnqueteur() {
-        return enqueteur;
-    }
-
-    public void setEnqueteur(Enqueteur enqueteur) {
-        this.enqueteur = enqueteur;
+    public void setZone(Zone zone) {
+        this.zone = zone;
     }
     
     
