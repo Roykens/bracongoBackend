@@ -1,31 +1,30 @@
 package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="planning")
+@XmlRootElement(name="boisson")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Planning implements Serializable{
+public class Boisson implements Serializable{
+    @OneToMany(mappedBy = "boisson")
+    private List<FormatBoisson> formatBoissons;
     
-    @XmlTransient
     @Version
     private int version;
     
@@ -33,14 +32,14 @@ public class Planning implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
-    private Enqueteur enqueteur;
+    @Column(unique = true)
+    private String nom;
     
-    @OneToMany
-    private List<PointDeVente> pointDeVentes;
+    @Enumerated
+    private TypeBoisson typeBoisson;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date datePlaning;
+    @Column(columnDefinition = "tinyint(1) default true")
+    private boolean isBracongo;
 
     public int getVersion() {
         return version;
@@ -58,29 +57,30 @@ public class Planning implements Serializable{
         this.id = id;
     }
 
-    public Enqueteur getEnqueteur() {
-        return enqueteur;
+    public String getNom() {
+        return nom;
     }
 
-    public void setEnqueteur(Enqueteur enqueteur) {
-        this.enqueteur = enqueteur;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public List<PointDeVente> getPointDeVentes() {
-        return pointDeVentes;
+    public TypeBoisson getTypeBoisson() {
+        return typeBoisson;
     }
 
-    public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
-        this.pointDeVentes = pointDeVentes;
+    public void setTypeBoisson(TypeBoisson typeBoisson) {
+        this.typeBoisson = typeBoisson;
     }
 
-    public Date getDatePlaning() {
-        return datePlaning;
+    public boolean isIsBracongo() {
+        return isBracongo;
     }
 
-    public void setDatePlaning(Date datePlaning) {
-        this.datePlaning = datePlaning;
+    public void setIsBracongo(boolean isBracongo) {
+        this.isBracongo = isBracongo;
     }
+    
     
     
 }

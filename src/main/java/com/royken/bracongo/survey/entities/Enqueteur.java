@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -23,6 +24,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="enqueteur")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Enqueteur implements Serializable{
+    @OneToOne(mappedBy = "enqueteur")
+    private Telephone telephone;
     @OneToMany(mappedBy = "enqueteur")
     private List<Planning> plannings;
     @OneToMany(mappedBy = "enqueteur")

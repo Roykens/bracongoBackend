@@ -2,14 +2,16 @@ package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-import javax.persistence.Column;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -35,22 +37,51 @@ public class Reponse implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(columnDefinition = "tinyint(1) default true")
-    private boolean valeur;
+    @Enumerated(EnumType.STRING)
+    private TypePdv typePdv;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dateReponse;
-
-    @ManyToOne
-    private Question question;
     
+    @Temporal(javax.persistence.TemporalType.TIME)
+    private Date heureDeVisite;
+   
+    @Basic
+    private int jourDepuisDernierPassageFVD;
+    
+    @Enumerated
+    private ReponseValue srdBracongo;
+    
+    
+    @Temporal(javax.persistence.TemporalType.TIME)
+    private Date heurePassageSrdBracongo;
+    
+    @Basic
+    private int jourDernierPassageFVDBralimba;
+    
+    @Enumerated
+    private ReponseValue srdBralimba;
+    
+    
+    @Temporal(javax.persistence.TemporalType.TIME)
+    private Date heurePassageSrdBralimba;
+    
+    @Basic
+    private int nombrePHN;
+    
+    @Enumerated
+    private ReponseValue verificationFifo;
+    
+    @OneToOne
+    private EtatMateriel etatMateriel;
+    
+    
+    @OneToOne
+    private DisponibiliteBoisson disponibiliteBoisson;
+    
+    @OneToOne
+    private PrixBoisson prixBoisson;
+   
     @ManyToOne
     private Enqueteur enqueteur;
-    
-    @ManyToMany(mappedBy = "reponses")
-    private List<PointDeVente> pointDeVentes;
-    
-   
     
     public int getVersion() {
         return version;
@@ -68,28 +99,109 @@ public class Reponse implements Serializable{
         this.id = id;
     }
 
-    public boolean isValeur() {
-        return valeur;
+    public TypePdv getTypePdv() {
+        return typePdv;
     }
 
-    public void setValeur(boolean valeur) {
-        this.valeur = valeur;
+    public void setTypePdv(TypePdv typePdv) {
+        this.typePdv = typePdv;
     }
 
-    public Date getDateReponse() {
-        return dateReponse;
+    public Date getHeureDeVisite() {
+        return heureDeVisite;
     }
 
-    public void setDateReponse(Date dateReponse) {
-        this.dateReponse = dateReponse;
+    public void setHeureDeVisite(Date heureDeVisite) {
+        this.heureDeVisite = heureDeVisite;
     }
 
-    public Question getQuestion() {
-        return question;
+    public int getJourDepuisDernierPassageFVD() {
+        return jourDepuisDernierPassageFVD;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setJourDepuisDernierPassageFVD(int jourDepuisDernierPassageFVD) {
+        this.jourDepuisDernierPassageFVD = jourDepuisDernierPassageFVD;
+    }
+
+    public ReponseValue getSrdBracongo() {
+        return srdBracongo;
+    }
+
+    public void setSrdBracongo(ReponseValue srdBracongo) {
+        this.srdBracongo = srdBracongo;
+    }
+
+    public Date getHeurePassageSrdBracongo() {
+        return heurePassageSrdBracongo;
+    }
+
+    public void setHeurePassageSrdBracongo(Date heurePassageSrdBracongo) {
+        this.heurePassageSrdBracongo = heurePassageSrdBracongo;
+    }
+
+    public int getJourDernierPassageFVDBralimba() {
+        return jourDernierPassageFVDBralimba;
+    }
+
+    public void setJourDernierPassageFVDBralimba(int jourDernierPassageFVDBralimba) {
+        this.jourDernierPassageFVDBralimba = jourDernierPassageFVDBralimba;
+    }
+
+    public ReponseValue getSrdBralimba() {
+        return srdBralimba;
+    }
+
+    public void setSrdBralimba(ReponseValue srdBralimba) {
+        this.srdBralimba = srdBralimba;
+    }
+
+    public Date getHeurePassageSrdBralimba() {
+        return heurePassageSrdBralimba;
+    }
+
+    public void setHeurePassageSrdBralimba(Date heurePassageSrdBralimba) {
+        this.heurePassageSrdBralimba = heurePassageSrdBralimba;
+    }
+
+    public int getNombrePHN() {
+        return nombrePHN;
+    }
+
+    public void setNombrePHN(int nombrePHN) {
+        this.nombrePHN = nombrePHN;
+    }
+
+    public ReponseValue getVerificationFifo() {
+        return verificationFifo;
+    }
+
+    public void setVerificationFifo(ReponseValue verificationFifo) {
+        this.verificationFifo = verificationFifo;
+    }
+
+    public EtatMateriel getEtatMateriel() {
+        return etatMateriel;
+    }
+
+    public void setEtatMateriel(EtatMateriel etatMateriel) {
+        this.etatMateriel = etatMateriel;
+    }
+
+
+    public DisponibiliteBoisson getDisponibiliteBoisson() {
+        return disponibiliteBoisson;
+    }
+
+    public void setDisponibiliteBoisson(DisponibiliteBoisson disponibiliteBoisson) {
+        this.disponibiliteBoisson = disponibiliteBoisson;
+    }
+
+    public PrixBoisson getPrixBoisson() {
+        return prixBoisson;
+    }
+
+    public void setPrixBoisson(PrixBoisson prixBoisson) {
+        this.prixBoisson = prixBoisson;
     }
 
     public Enqueteur getEnqueteur() {
@@ -99,15 +211,7 @@ public class Reponse implements Serializable{
     public void setEnqueteur(Enqueteur enqueteur) {
         this.enqueteur = enqueteur;
     }
-
-    public List<PointDeVente> getPointDeVentes() {
-        return pointDeVentes;
-    }
-
-    public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
-        this.pointDeVentes = pointDeVentes;
-    }
-
     
     
+
 }

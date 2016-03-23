@@ -1,41 +1,41 @@
 package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="question")
+@XmlRootElement(name="disponibiliteBoisson")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Question implements Serializable{
-        
+public class DisponibiliteBoisson implements Serializable{
+    @OneToOne(mappedBy = "disponibiliteBoisson")
+    private Reponse reponse;
+    
     @Version
-    @XmlTransient
     private int version;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Basic
-    private String intitule;
+    @Enumerated
+    private ReponseValue reponseValue;
     
-    @OneToMany(mappedBy = "question")
-    private List<Reponse> reponses;
+    @ManyToOne
+    private FormatBoisson formatBoisson;
 
     public int getVersion() {
         return version;
@@ -53,20 +53,28 @@ public class Question implements Serializable{
         this.id = id;
     }
 
-    public String getIntitule() {
-        return intitule;
+    public ReponseValue getReponseValue() {
+        return reponseValue;
     }
 
-    public void setIntitule(String intitule) {
-        this.intitule = intitule;
+    public void setReponseValue(ReponseValue reponseValue) {
+        this.reponseValue = reponseValue;
     }
 
-    public List<Reponse> getReponses() {
-        return reponses;
+    public FormatBoisson getFormatBoisson() {
+        return formatBoisson;
     }
 
-    public void setReponses(List<Reponse> reponses) {
-        this.reponses = reponses;
+    public void setFormatBoisson(FormatBoisson formatBoisson) {
+        this.formatBoisson = formatBoisson;
+    }
+
+    public Reponse getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(Reponse reponse) {
+        this.reponse = reponse;
     }
     
     

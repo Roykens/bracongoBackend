@@ -7,11 +7,21 @@
     <class>com.royken.bracongo.survey.entities.Planning</class>
     <class>com.royken.bracongo.survey.entities.PointDeVente</class>
     <class>com.royken.bracongo.survey.entities.Position</class>
-    <class>com.royken.bracongo.survey.entities.Question</class>
     <class>com.royken.bracongo.survey.entities.Reponse</class>
     <class>com.royken.bracongo.survey.entities.Circuit</class>
     <class>com.royken.bracongo.survey.entities.Secteur</class>
     <class>com.royken.bracongo.survey.entities.Zone</class>
+    <class>com.royken.bracongo.survey.entities.Action</class>
+    <class>com.royken.bracongo.survey.entities.Boisson</class>
+    <class>com.royken.bracongo.survey.entities.DisponibiliteBoisson</class>
+    <class>com.royken.bracongo.survey.entities.EtatMateriel</class>
+    <class>com.royken.bracongo.survey.entities.EtatPlv</class>
+    <class>com.royken.bracongo.survey.entities.Format</class>
+    <class>com.royken.bracongo.survey.entities.FormatBoisson</class>
+    <class>com.royken.bracongo.survey.entities.Materiel</class>
+    <class>com.royken.bracongo.survey.entities.PLV</class>
+    <class>com.royken.bracongo.survey.entities.PrixBoisson</class>
+    <class>com.royken.bracongo.survey.entities.Telephone</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>

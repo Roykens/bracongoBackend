@@ -1,31 +1,29 @@
 package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
+import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="planning")
+@XmlRootElement(name="prixBoisson")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Planning implements Serializable{
+public class PrixBoisson implements Serializable{
+    @OneToOne(mappedBy = "prixBoisson")
+    private Reponse reponse;
     
-    @XmlTransient
     @Version
     private int version;
     
@@ -34,13 +32,10 @@ public class Planning implements Serializable{
     private Long id;
     
     @ManyToOne
-    private Enqueteur enqueteur;
+    private FormatBoisson formatBoisson;
     
-    @OneToMany
-    private List<PointDeVente> pointDeVentes;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date datePlaning;
+    @Basic
+    private int valeur;
 
     public int getVersion() {
         return version;
@@ -58,28 +53,28 @@ public class Planning implements Serializable{
         this.id = id;
     }
 
-    public Enqueteur getEnqueteur() {
-        return enqueteur;
+    public FormatBoisson getFormatBoisson() {
+        return formatBoisson;
     }
 
-    public void setEnqueteur(Enqueteur enqueteur) {
-        this.enqueteur = enqueteur;
+    public void setFormatBoisson(FormatBoisson formatBoisson) {
+        this.formatBoisson = formatBoisson;
     }
 
-    public List<PointDeVente> getPointDeVentes() {
-        return pointDeVentes;
+    public int getValeur() {
+        return valeur;
     }
 
-    public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
-        this.pointDeVentes = pointDeVentes;
+    public void setValeur(int valeur) {
+        this.valeur = valeur;
     }
 
-    public Date getDatePlaning() {
-        return datePlaning;
+    public Reponse getReponse() {
+        return reponse;
     }
 
-    public void setDatePlaning(Date datePlaning) {
-        this.datePlaning = datePlaning;
+    public void setReponse(Reponse reponse) {
+        this.reponse = reponse;
     }
     
     

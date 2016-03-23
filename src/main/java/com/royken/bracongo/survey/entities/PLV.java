@@ -1,31 +1,29 @@
 package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="planning")
+@XmlRootElement(name="plv")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Planning implements Serializable{
+public class PLV implements Serializable{
+    @OneToMany(mappedBy = "plv")
+    private List<EtatPlv> etatPlvs;
     
-    @XmlTransient
     @Version
     private int version;
     
@@ -33,14 +31,8 @@ public class Planning implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
-    private Enqueteur enqueteur;
-    
-    @OneToMany
-    private List<PointDeVente> pointDeVentes;
-    
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date datePlaning;
+    @Column
+    private String nom;
 
     public int getVersion() {
         return version;
@@ -58,28 +50,20 @@ public class Planning implements Serializable{
         this.id = id;
     }
 
-    public Enqueteur getEnqueteur() {
-        return enqueteur;
+    public String getNom() {
+        return nom;
     }
 
-    public void setEnqueteur(Enqueteur enqueteur) {
-        this.enqueteur = enqueteur;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public List<PointDeVente> getPointDeVentes() {
-        return pointDeVentes;
+    public List<EtatPlv> getEtatPlvs() {
+        return etatPlvs;
     }
 
-    public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
-        this.pointDeVentes = pointDeVentes;
-    }
-
-    public Date getDatePlaning() {
-        return datePlaning;
-    }
-
-    public void setDatePlaning(Date datePlaning) {
-        this.datePlaning = datePlaning;
+    public void setEtatPlvs(List<EtatPlv> etatPlvs) {
+        this.etatPlvs = etatPlvs;
     }
     
     

@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -52,11 +51,16 @@ public class PointDeVente implements Serializable{
     private Double latitude;
     
     @Enumerated(EnumType.STRING)
-    private PDVType pdvt;
+    private TypePdv typePdv;
+    
+    @Enumerated(EnumType.STRING)
+    private TypeCategorie typeCategorie;
+    
+    @Enumerated(EnumType.STRING)
+    private TypeRegime typeRegime;
     
     @ManyToOne
-    private Circuit circuit;
-    
+    private Circuit circuit;    
     
     @ManyToMany
     private List<Reponse> reponses;
@@ -117,12 +121,12 @@ public class PointDeVente implements Serializable{
         this.reponses = reponses;
     }
 
-    public PDVType getPdvt() {
-        return pdvt;
+    public TypePdv getTypePdv() {
+        return typePdv;
     }
 
-    public void setPdvt(PDVType pdvt) {
-        this.pdvt = pdvt;
+    public void setTypePdv(TypePdv typePdv) {
+        this.typePdv = typePdv;
     }
 
     public Circuit getCircuit() {
@@ -139,6 +143,22 @@ public class PointDeVente implements Serializable{
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public TypeCategorie getTypeCategorie() {
+        return typeCategorie;
+    }
+
+    public void setTypeCategorie(TypeCategorie typeCategorie) {
+        this.typeCategorie = typeCategorie;
+    }
+
+    public TypeRegime getTypeRegime() {
+        return typeRegime;
+    }
+
+    public void setTypeRegime(TypeRegime typeRegime) {
+        this.typeRegime = typeRegime;
     }
     
     
