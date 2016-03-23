@@ -7,6 +7,6 @@ import com.royken.generic.dao.IGenericDao;
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
-public interface IEtatPlv extends IGenericDao<EtatPlv, Long>{
+public interface IEtatPlvDao extends IGenericDao<EtatPlv, Long>{
     
 }

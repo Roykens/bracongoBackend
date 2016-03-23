@@ -28,7 +28,7 @@ public class Zone implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
     
     @Column(unique = true)
     private String code;
@@ -47,11 +47,11 @@ public class Zone implements Serializable{
         this.version = version;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
