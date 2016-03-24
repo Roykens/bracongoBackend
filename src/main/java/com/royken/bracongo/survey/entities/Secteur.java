@@ -66,6 +66,11 @@ public class Secteur implements Serializable{
     public void setZones(List<Zone> zones) {
         this.zones = zones;
     }
+
+    @Override
+    public String toString() {
+        return "Secteur{" + "id=" + id + ", code=" + code + '}';
+    }
     
     
 }

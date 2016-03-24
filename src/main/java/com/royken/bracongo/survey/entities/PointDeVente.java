@@ -160,6 +160,11 @@ public class PointDeVente implements Serializable{
     public void setTypeRegime(TypeRegime typeRegime) {
         this.typeRegime = typeRegime;
     }
+
+    @Override
+    public String toString() {
+        return "PointDeVente{" + "version=" + version + ", id=" + id + ", nom=" + nom + ", code=" + code + ", adresse=" + adresse + ", longitude=" + longitude + ", latitude=" + latitude + '}';
+    }
     
     
     

@@ -34,6 +34,7 @@ public class SecteurServiceImpl implements ISecteurService {
     public Secteur saveOrUpdateSecteur(Secteur secteur) throws ServiceException {
         try {
             if (secteur.getId() == null) {
+                System.out.println("\n --- \n totototototot \n \n");
                 return isecteurDao.create(secteur);
             } else {
                 return isecteurDao.update(secteur);

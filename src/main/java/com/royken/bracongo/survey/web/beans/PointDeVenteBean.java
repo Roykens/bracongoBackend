@@ -4,7 +4,6 @@ import com.royken.bracongo.survey.entities.PointDeVente;
 import com.royken.bracongo.survey.service.IPointDeVenteService;
 import com.royken.bracongo.survey.service.ServiceException;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
 
@@ -23,7 +22,7 @@ import org.primefaces.model.UploadedFile;
  */
 @Named(value = "pointDeVenteBean")
 @RequestScoped
-public class PointDeVenteBean implements Serializable {
+public class PointDeVenteBean  implements Serializable{
     
     private List<PointDeVente> pointDeVntes;
     
@@ -63,9 +62,7 @@ public class PointDeVenteBean implements Serializable {
     }
 
     public PointDeVente getPointDeVente() {
-        if(pointDeVente == null){
-            pointDeVente = new PointDeVente();
-        }
+       
         return pointDeVente;
     }
 
@@ -83,7 +80,8 @@ public class PointDeVenteBean implements Serializable {
     
     
     
-    public void savePDV(){
+    public void saveOrUpdatePDV(){
+        System.out.println(pointDeVente);
         try {
             pointDeVenteService.saveOrUpdatePDV(pointDeVente);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Opération reussie", pointDeVente.getNom() + " a été enregistré "));
@@ -94,8 +92,18 @@ public class PointDeVenteBean implements Serializable {
         pointDeVente = new PointDeVente();
     }
     
+    public void deletePvd(){
+        try {
+            pointDeVenteService.deletePDV(pointDeVente.getId());
+        } catch (ServiceException ex) {
+            Logger.getLogger(PointDeVenteBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        pointDeVente = new PointDeVente();
+    }
+    
     public void importer(){
-        
+        System.out.println("J'ai clické sur ");
+        System.out.println(pointDeVente);   
     }
     
 }

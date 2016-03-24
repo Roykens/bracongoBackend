@@ -1,0 +1,100 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
+
+        <h3 class="hardblue TexAlCenter">Secteur</h3>
+        <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <p:panel>
+                    <span class="FontBold Fs18 hardblue Container100">La liste des secteur</span>
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <h:form id="form">
+                                <p:growl id="growl3" showDetail="true" autoUpdate="true"/>
+                                <p:dataTable id="singleDT" var="item" value="#{secteurBean.secteurs}"
+                                             rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="5,10,15" emptyMessage="Aucun secteur trouvé" reflow="true" paginatorPosition="bottom">
+                                    <f:facet name="header">
+                                        La liste des secteurs
+                                    </f:facet>
+                                    <p:column headerText="Code" sortBy="#{item.code}">
+                                        <h:outputText value="#{item.code}" />
+                                    </p:column>
+
+                                    <p:column headerText="Modifier" >  
+                                        <p:commandLink id="a" onclick="PF('modifierDialog').show()">
+                                            <h:outputText value="Modifier"/>
+                                            <f:setPropertyActionListener value="#{item}" target="#{secteurBean.secteur}"/>
+                                        </p:commandLink>
+
+                                        <p:tooltip for="a" value="cliquez ici pour modifier ce secteur"/>
+                                    </p:column>
+                                    <p:column headerText="Supprimer" >  
+                                        <p:commandLink id="q" onclick="PF('supprimerDialog').show()">
+                                            <h:outputText value="Supprimer"/>
+                                            <f:setPropertyActionListener value="#{item}" target="#{secteurBean.secteur}"/>
+                                        </p:commandLink>
+                                        <p:tooltip for="q" value="cliquez ici pour supprimer ce bon"/>
+                                    </p:column>
+                                    <f:facet name="footer">
+                                        <p:commandButton process="singleDT" update=":form:ajouterDetail" value="Ajouter" oncomplete="PF('ajouterDialog').show()" />
+                                    </f:facet>
+                                </p:dataTable>
+
+                                <p:dialog header="Ajouter un secteur" widgetVar="ajouterDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                    <p:outputPanel id="ajouterDetail" style="text-align:center;">
+                                        <p:panelGrid  columns="2">
+
+                                            <h:outputText value="Code" />
+                                            <p:inputText id="toto" value="#{secteurBean.secteur.code}" />
+                                           
+                                            <p:commandButton value="Ajouter" actionListener="#{secteurBean.saveOrUpdateSecteur(actionEvent)}"  oncomplete="PF('ajouterDialog').hide()" icon="ui-icon-disk" update=":form:singleDT" /> 
+                                            <p:commandButton value="Annuler" onclick="PF('ajouterDialog').hide()" />
+                                        </p:panelGrid>
+                                    </p:outputPanel>
+                                </p:dialog>
+
+                                <p:dialog header="Modifier un secteur" widgetVar="modifierDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                                    <p:outputPanel id="modifierDetail" style="text-align:center;">
+                                        <p:panelGrid  columns="2">
+
+                                            <h:outputText value="Code" />
+                                            <p:inputText id="mod" value="#{secteurBean.secteur.code}" />
+                                            <h:inputHidden id="hi" value="#{secteurBean.secteur.id}"/>                                      
+                                            <p:commandButton value="Modifier" actionListener="#{secteurBean.saveOrUpdateSecteur(actionEvent)}"  oncomplete="PF('modifierDialog').hide()" icon="ui-icon-disk" update=":form:singleDT" /> 
+                                            <p:commandButton value="Annuler" onclick="PF('modifierDialog').hide()" />
+                                        </p:panelGrid>
+                                    </p:outputPanel>
+                                </p:dialog>
+                                <p:confirmDialog message="voulez-vous vraiment supprimer ce secteur ?"
+                                                 header="Initialisation de la suppression" severity="alert"
+                                                 widgetVar="supprimerDialog" showEffect="explode" hideEffect="explode"> 
+                                    <div id="center_content_div">
+                                        <p:commandButton id="confirm" value="OUI" action="#{secteurBean.deleteSecteur(actionEvent)}" oncomplete="PF('supprimerDialog').hide()" update=":form:singleDT"/>
+                                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('supprimerDialog').hide();"  />
+                                    </div>
+                                </p:confirmDialog>
+
+
+
+                                <div class="EmptyBox20"></div>
+
+                            </h:form>
+                        </div>
+                    </div>
+                </p:panel>
+
+                <div class="EmptyBox20"></div>
+
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

@@ -10,97 +10,142 @@
 
         <h3 class="hardblue TexAlCenter">Empty Page</h3>
         <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
-        <f:view>
 
-            <div class="Container100">
-                <div class="ContainerIndent">
-                    <h:form id="form">
-                        <h:form> <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /></h:form>
-                        <h1><h:outputText value="List"/></h1>
+        <div class="Container100">
+            <div class="ContainerIndent">
 
-                        <p:dataTable value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table" selection="#{pointDeVenteBean.pointDeVente}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
+                <h:form id="form">
+                    <h1><h:outputText value="List"/></h1>
+
+                    <p:dataTable value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table" selection="#{pointDeVenteBean.pointDeVente}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
+                        <p:ajax event="rowSelect" listener="#{pointDeVenteBean.importer}" />
+                        <f:facet name="header">
+                            La liste des points de vente
+                        </f:facet>
+                        <p:column sortable="true" filterBy="#{item.nom}" sortBy="#{item.nom}">
                             <f:facet name="header">
-                                La liste des points de vente
+                                <h:outputText value="Nom"/>
                             </f:facet>
-                            <p:column sortable="true" filterBy="#{item.nom}" sortBy="#{item.nom}">
-                                <f:facet name="header">
-                                    <h:outputText value="Nom"/>
-                                </f:facet>
-                                <h:outputText value="#{item.nom}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Adresse"/>
-                                </f:facet>
-                                <h:outputText value="#{item.adresse}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Longitude"/>
-                                </f:facet>
-                                <h:outputText value="#{item.longitude}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Latitude"/>
-                                </f:facet>
-                                <h:outputText value="#{item.latitude}"/>
-                            </p:column>
+                            <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column sortable="true" filterBy="#{item.code}" sortBy="#{item.code}">
+                            <f:facet name="header">
+                                <h:outputText value="Compte"/>
+                            </f:facet>
+                            <h:outputText value="#{item.code}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Adresse"/>
+                            </f:facet>
+                            <h:outputText value="#{item.adresse}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Longitude"/>
+                            </f:facet>
+                            <h:outputText value="#{item.longitude}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Latitude"/>
+                            </f:facet>
+                            <h:outputText value="#{item.latitude}"/>
+                        </p:column>
+                        <f:facet name="footer">  
+
+                            <p:commandButton value="Ajouter un Point de Vente" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton value="Modifier un Point de Vente" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                            <p:commandButton value="Supprimer un Point de Vente" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                        </f:facet> 
+                    </p:dataTable>
+                </h:form>
+                <p:dialog id="ajout" header="Ajouter un PDV" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                    <h:form id ="saveform">
+                        <h:panelGrid id="display" columns="2" >  
+                            <h:outputText value="Nom"/> 
+                            <p:inputText  id="en" value="#{pointDeVenteBean.pointDeVente.nom}"/> 
+                            <h:outputText value="Compte"/> 
+                            <p:inputText  id="cp" value="#{pointDeVenteBean.pointDeVente.code}"/> 
+                            <h:outputText value="Adresse"/> 
+                            <p:inputText  id="fr" value="#{pointDeVenteBean.pointDeVente.adresse}"/> 
+                            <h:outputText value="Latitude"/> 
+                            <p:inputText  id="lat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
+                            <h:outputText value="Longitude"/> 
+                            <p:inputText  id="long" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
+                            <f:facet name="footer"> <br/> 
+                                <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                            </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Ajouter un Point de Vente" onclick="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" /> 
-                                <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            </f:facet> 
-                        </p:dataTable>
+                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
+                            </f:facet>
+                        </h:panelGrid> 
                     </h:form>
-                </div>
-            </div>                   
-            <div class="Container100">
-                <div class="ContainerIndent">
-                    <p:dialog id="ajout" header="Ajouter un PDV" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
-                        <h:form id ="saveform">
-                            <h:panelGrid id="display" columns="2" >  
-                                <h:outputText value="Nom"/> 
-                                <p:inputText  id="en" value="#{pointDeVenteBean.pointDeVente.nom}"/> 
-                                <h:outputText value="Adresse"/> 
-                                <p:inputText  id="fr" value="#{pointDeVenteBean.pointDeVente.adresse}"/> 
-                                <h:outputText value="Latitude"/> 
-                                <p:inputText  id="lat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
-                                <h:outputText value="Longitude"/> 
-                                <p:inputText  id="long" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
-                                <f:facet name="footer"> <br/> 
-                                    <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.savePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
-                                </f:facet>
-                                <f:facet name="footer">  
-                                    <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
-                                </f:facet>
-                            </h:panelGrid> 
-                        </h:form>
-                    </p:dialog>
+                </p:dialog>
+
+
+
+                <p:dialog id="modifier" header="Modifier un PDV" widgetVar="modifier_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                    <h:form id ="updateform">
+                        <h:panelGrid id="updatedisplay" columns="2" rendered="#{not empty pointDeVenteBean.pointDeVente}">  
+                            <h:outputText value="Nom"/> 
+                            <p:inputText  id="uen" value="#{pointDeVenteBean.pointDeVente.nom}"/> 
+                            <h:outputText value="Compte"/> 
+                            <p:inputText  id="ucp" value="#{pointDeVenteBean.pointDeVente.code}"/> 
+                            <h:outputText value="Adresse"/> 
+                            <p:inputText  id="ufr" value="#{pointDeVenteBean.pointDeVente.adresse}"/> 
+                            <h:outputText value="Latitude"/> 
+                            <p:inputText id="ulat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
+                            <h:outputText value="Longitude"/> 
+                            <p:inputText  id="ulong" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
+                            <h:inputHidden value="#{pointDeVenteBean.pointDeVente.id}"/>
+                            <h:inputHidden value="#{pointDeVenteBean.pointDeVente.version}"/>
+                            <f:facet name="footer"> <br/> 
+                                <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" />  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+                </p:dialog>
+
+                <p:confirmDialog id="delete" message="voulez-vous vraiment supprimer ce PDV ?"
+                                 header="Initialisation de la suppression" severity="alert"
+                                 widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
+                    <div id="center_content_div">
+                        <p:commandButton id="confirm" value="OUI" action="#{pointDeVenteBean.deletePvd()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
+                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
                     </div>
-                        </div>
-                    <p:dialog id="import" header="Importer des PDV" widgetVar="importer_dialog"  width="500" showEffect="clip" hideEffect="explode" modal="true"> 
-                        <h:form id ="importform"  enctype="multipart/form-data">
-                            <h:panelGrid id="display" columns="2" >
-                                <h:outputText  value="Selectionner le fichier excel " />  
-                                <p:fileUpload required="true"  value="#{pointDeVenteBean.file}" mode="simple"
-                                              auto="true"  
-                                              sizeLimit="100000"   
-                                              allowTypes="/(\.|\/)(xslx|xsl)$/" class="syntaxe_content" update="feuille" process="@this" invalidFileMessage="fichier invalide" requiredMessage="chargez le fichier" > 
-                                    <!--                                    <p:ajax listener="" event="change" update="cities" process="@this"/>-->
-                                </p:fileUpload>
+                </p:confirmDialog>
+
+                <p:dialog id="import" header="Importer des PDV" widgetVar="importer_dialog"  width="500" showEffect="clip" hideEffect="explode" modal="true"> 
+                    <h:form id ="importform"  enctype="multipart/form-data">
+                        <h:panelGrid id="display" columns="2" >
+                            <h:outputText  value="Selectionner le fichier excel " />  
+                            <p:fileUpload required="true"  value="#{pointDeVenteBean.file}" mode="simple"
+                                          auto="true"  
+                                          sizeLimit="100000"   
+                                          allowTypes="/(\.|\/)(xslx|xsl)$/" class="syntaxe_content" update="feuille" process="@this" invalidFileMessage="fichier invalide" requiredMessage="chargez le fichier" > 
+                                <!--                                    <p:ajax listener="" event="change" update="cities" process="@this"/>-->
+                            </p:fileUpload>
 
 
-                                <f:facet name="footer"> <br/>  
-                                    <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
-                                </f:facet>
-                                <f:facet name="footer">  
-                                    <p:commandButton value="Effacer" type="reset"/>  
-                                </f:facet>
-                            </h:panelGrid> 
-                        </h:form>
-                    </p:dialog>
-                    </f:view>
+                            <f:facet name="footer"> <br/>  
+                                <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Effacer" type="reset"/>  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+                </p:dialog>
 
-                    </ui:define>
 
-                    </ui:composition>
+
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
