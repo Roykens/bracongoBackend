@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.service.impl;
 
 import com.royken.bracongo.survey.dao.IFormatDao;
 import com.royken.bracongo.survey.entities.Format;
+import com.royken.bracongo.survey.entities.TypeBoisson;
 import com.royken.bracongo.survey.service.IFormatService;
 import com.royken.bracongo.survey.service.ServiceException;
 import com.royken.generic.dao.DataAccessException;
@@ -9,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -76,5 +76,7 @@ public class FormatServiceImpl implements IFormatService{
             Logger.getLogger(FormatServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+   
     
 }

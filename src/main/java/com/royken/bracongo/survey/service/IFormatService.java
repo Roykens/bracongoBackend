@@ -1,6 +1,7 @@
 package com.royken.bracongo.survey.service;
 
 import com.royken.bracongo.survey.entities.Format;
+import com.royken.bracongo.survey.entities.TypeBoisson;
 import java.util.List;
 import javax.ejb.Local;
 

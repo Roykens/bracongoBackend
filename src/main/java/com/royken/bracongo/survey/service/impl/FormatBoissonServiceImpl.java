@@ -2,9 +2,11 @@ package com.royken.bracongo.survey.service.impl;
 
 import com.royken.bracongo.survey.dao.IFormatBoissonDao;
 import com.royken.bracongo.survey.entities.FormatBoisson;
+import com.royken.bracongo.survey.entities.TypeBoisson;
 import com.royken.bracongo.survey.service.IFormatBoissonService;
 import com.royken.bracongo.survey.service.ServiceException;
 import com.royken.generic.dao.DataAccessException;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,6 +76,16 @@ public class FormatBoissonServiceImpl implements IFormatBoissonService{
             Logger.getLogger(FormatBoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+     @Override
+    public List<FormatBoisson> findAllByEnterprise(boolean bracongo, TypeBoisson typeBoisson) throws ServiceException {
+        try {
+            return formatBoissonDao.findAllByTypeForEnterprise(bracongo, typeBoisson);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(FormatBoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
     }
     
 }
