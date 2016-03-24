@@ -78,6 +78,11 @@ public class Zone implements Serializable{
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
     }
+
+    @Override
+    public String toString() {
+        return "Zone{" + "version=" + version + ", id=" + id + ", code=" + code + ", secteur=" + secteur + '}';
+    }
     
     
 }

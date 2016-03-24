@@ -7,9 +7,121 @@
 
     <ui:define name="content">
         <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
-        
-        <h3 class="hardblue TexAlCenter">Zone</h3>
+
+        <h3 class="hardblue TexAlCenter">Empty Page</h3>
         <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
+
+        <div class="Container100">
+            <div class="ContainerIndent">
+
+                <h:form id="form">
+                    <h1><h:outputText value="List"/></h1>
+
+                    <p:dataTable value="#{zoneBean.zones}" var="item" id="table" selection="#{zoneBean.zone}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucune Zone enregistré" reflow="true">
+                        <p:ajax event="rowSelect" listener="#{zoneBean.test()}" />
+                        <f:facet name="header">
+                            La liste des zones
+                        </f:facet>
+                        <p:column sortable="true" filterBy="#{item.secteur.code}" sortBy="#{item.secteur.code}">
+                            <f:facet name="header">
+                                <h:outputText value="Secteur"/>
+                            </f:facet>
+                            <h:outputText value="#{item.secteur.code}"/>
+                        </p:column>
+
+                        <p:column sortable="true" filterBy="#{item.code}" sortBy="#{item.code}">
+                            <f:facet name="header">
+                                <h:outputText value="Code"/>
+                            </f:facet>
+                            <h:outputText value="#{item.code}"/>
+                        </p:column>
+
+                        <f:facet name="footer">  
+
+                            <p:commandButton value="Ajouter un Secteur" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton value="Modifier un Secteur" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                            <p:commandButton value="Supprimer un Secteur" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                        </f:facet> 
+                    </p:dataTable>
+                </h:form>
+                <p:dialog id="ajout" header="Ajouter un Secteur" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                    <h:form id ="saveform">
+                        <h:panelGrid id="display" columns="2" >  
+                            <h:outputText value="Code"/> 
+                            <p:inputText  id="en" value="#{zoneBean.zone.code}"/>
+                            <h:outputText value="Secteur"/> 
+                            <h:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire">
+                                <f:selectItems value="#{zoneBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
+                            </h:selectOneMenu> 
+                            <f:facet name="footer"> <br/> 
+                                <p:commandButton value="Enregistrer" action="#{zoneBean.saveOrUpdateZone()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+                </p:dialog>
+
+
+
+                <p:dialog id="modifier" header="Modifier un Secteur" widgetVar="modifier_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                    <h:form id ="updateform">
+                        <h:panelGrid id="updatedisplay" columns="2" rendered="#{not empty secteurBean.secteur}">  
+                            <h:outputText value="Code"/> 
+                            <p:inputText  id="en" value="#{zoneBean.zone.code}"/>
+                            <h:outputText value="Secteur"/> 
+                            <h:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire">
+                                <f:selectItems value="#{zoneBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
+                            </h:selectOneMenu>  
+                            <h:inputHidden value="#{zoneBean.zone.id}"/>
+                            <h:inputHidden value="#{zoneBean.zone.version}"/>
+                            <f:facet name="footer"> <br/> 
+                                <p:commandButton value="Enregistrer" action="#{zoneBean.saveOrUpdateZone()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" />  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+                </p:dialog>
+
+                <p:confirmDialog id="delete" message="voulez-vous vraiment supprimer ce secteur ?"
+                                 header="Initialisation de la suppression" severity="alert"
+                                 widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
+                    <div id="center_content_div">
+                        <p:commandButton id="confirm" value="OUI" action="#{zoneBean.deleteZone()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
+                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
+                    </div>
+                </p:confirmDialog>
+
+                <p:dialog id="import" header="Importer des PDV" widgetVar="importer_dialog"  width="500" showEffect="clip" hideEffect="explode" modal="true"> 
+                    <h:form id ="importform"  enctype="multipart/form-data">
+                        <h:panelGrid id="display" columns="2" >
+                            <h:outputText  value="Selectionner le fichier excel " />  
+                            <p:fileUpload required="true"  value="#{pointDeVenteBean.file}" mode="simple"
+                                          auto="true"  
+                                          sizeLimit="100000"   
+                                          allowTypes="/(\.|\/)(xslx|xsl)$/" class="syntaxe_content" update="feuille" process="@this" invalidFileMessage="fichier invalide" requiredMessage="chargez le fichier" > 
+                                <!--                                    <p:ajax listener="" event="change" update="cities" process="@this"/>-->
+                            </p:fileUpload>
+
+
+                            <f:facet name="footer"> <br/>  
+                                <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Effacer" type="reset"/>  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+                </p:dialog>
+
+
+
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

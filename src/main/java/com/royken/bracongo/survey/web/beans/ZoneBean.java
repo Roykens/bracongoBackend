@@ -1,8 +1,11 @@
 package com.royken.bracongo.survey.web.beans;
 
+import com.royken.bracongo.survey.entities.Secteur;
 import com.royken.bracongo.survey.entities.Zone;
+import com.royken.bracongo.survey.service.ISecteurService;
 import com.royken.bracongo.survey.service.IZoneService;
 import com.royken.bracongo.survey.service.ServiceException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,14 +25,21 @@ import org.primefaces.context.RequestContext;
  */
 @Named(value = "zoneBean")
 @RequestScoped
-public class ZoneBean {
+public class ZoneBean implements Serializable{
 
     @EJB
     private IZoneService zoneService;
     
+    @EJB
+    private ISecteurService secteurService;
+    
     private Zone zone = new Zone();
     
-    private List<Zone> zones = new ArrayList<Zone>();
+    private List<Zone> zones ;
+    
+    private List<Secteur> secteurs;
+    
+    private String id;
     /**
      * Creates a new instance of ZoneBean
      */
@@ -65,19 +75,49 @@ public class ZoneBean {
     public void setZoneService(IZoneService zoneService) {
         this.zoneService = zoneService;
     }
+
+    public ISecteurService getSecteurService() {
+        return secteurService;
+    }
+
+    public void setSecteurService(ISecteurService secteurService) {
+        this.secteurService = secteurService;
+    }
+
+    public List<Secteur> getSecteurs() {
+        try {
+            secteurs = secteurService.findAllSecteur();
+            return secteurs;
+        } catch (ServiceException ex) {
+            Logger.getLogger(ZoneBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+               
+    }
+
+    public void setSecteurs(List<Secteur> secteurs) {
+        this.secteurs = secteurs;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     
     public void saveOrUpdateZone() throws ServiceException{
         if (zone != null && zone.getCode() != null) {
+            zone.setSecteur(secteurService.findSecteurById(Long.valueOf(id)));
             zoneService.saveOrUpdateZone(zone);
             if (zone.getId() == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operation reussie", zone.getCode() + " a été mis à jour "));
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Operation reussie", zone.getCode()+ " a été enregistré"));
             }
-
             zone = new Zone();
-        }
-        
+        }       
     }
     
     public void deleteZone() throws ServiceException{
@@ -102,6 +142,11 @@ public class ZoneBean {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Attention", "selectionner une zone avant de supprimer "));
         }
+    }
+    
+    public void test(){
+        System.out.println("J'ai cliqué sur : ");
+        System.out.println(zone);
     }
     
 }
