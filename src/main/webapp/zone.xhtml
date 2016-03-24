@@ -51,9 +51,9 @@
                             <h:outputText value="Code"/> 
                             <p:inputText  id="en" value="#{zoneBean.zone.code}"/>
                             <h:outputText value="Secteur"/> 
-                            <h:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire">
+                            <p:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{zoneBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
-                            </h:selectOneMenu> 
+                            </p:selectOneMenu> 
                             <f:facet name="footer"> <br/> 
                                 <p:commandButton value="Enregistrer" action="#{zoneBean.saveOrUpdateZone()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
@@ -72,9 +72,9 @@
                             <h:outputText value="Code"/> 
                             <p:inputText  id="en" value="#{zoneBean.zone.code}"/>
                             <h:outputText value="Secteur"/> 
-                            <h:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire">
+                            <p:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{zoneBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
-                            </h:selectOneMenu>  
+                            </p:selectOneMenu>  
                             <h:inputHidden value="#{zoneBean.zone.id}"/>
                             <h:inputHidden value="#{zoneBean.zone.version}"/>
                             <f:facet name="footer"> <br/> 

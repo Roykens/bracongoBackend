@@ -81,6 +81,11 @@ public class Circuit implements Serializable{
     public void setZone(Zone zone) {
         this.zone = zone;
     }
+
+    @Override
+    public String toString() {
+        return "Circuit{" + "version=" + version + ", id=" + id + ", code=" + code + ", zone=" + zone + '}';
+    }
     
     
 }
