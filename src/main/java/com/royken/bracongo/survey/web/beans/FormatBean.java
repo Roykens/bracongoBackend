@@ -3,6 +3,7 @@ package com.royken.bracongo.survey.web.beans;
 import com.royken.bracongo.survey.entities.Format;
 import com.royken.bracongo.survey.service.IFormatService;
 import com.royken.bracongo.survey.service.ServiceException;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ import org.primefaces.context.RequestContext;
  */
 @Named(value = "formatBean")
 @RequestScoped
-public class FormatBean {
+public class FormatBean implements Serializable{
     
     @EJB
     private IFormatService formatService;
@@ -80,7 +81,7 @@ public class FormatBean {
         
     }
     
-    public void deleteZone() throws ServiceException{
+    public void deleteFormat() throws ServiceException{
         if (format != null && format.getId() != null) {
             formatService.deleteFormat(format.getId());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Operation reussie", format.getVolume() + "cl a été supprimé"));
@@ -104,5 +105,8 @@ public class FormatBean {
         }
     }
     
-    
+    public void test(){
+        System.out.println("J'ai cliqué sur : ");
+        System.out.println(format);
+    }
 }

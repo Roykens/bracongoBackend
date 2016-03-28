@@ -1,6 +1,8 @@
 package com.royken.bracongo.survey.web.beans;
 
+import com.royken.bracongo.survey.entities.Circuit;
 import com.royken.bracongo.survey.entities.PointDeVente;
+import com.royken.bracongo.survey.service.ICircuitService;
 import com.royken.bracongo.survey.service.IPointDeVenteService;
 import com.royken.bracongo.survey.service.ServiceException;
 import javax.inject.Named;
@@ -11,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
@@ -29,9 +30,16 @@ public class PointDeVenteBean  implements Serializable{
     private UploadedFile file;
     
     private PointDeVente pointDeVente = new PointDeVente();
+    
+    private List<Circuit> circuits;
+    
+    private String id;
 
     @EJB
     private IPointDeVenteService pointDeVenteService;
+    
+    @EJB
+    private ICircuitService circuitService;
     
     /**
      * Creates a new instance of PointDeVenteBean
@@ -47,6 +55,20 @@ public class PointDeVenteBean  implements Serializable{
             Logger.getLogger(PointDeVenteBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Collections.EMPTY_LIST;
+    }
+
+    public List<Circuit> getCircuits() {
+        try {
+            circuits = circuitService.findAllCircuit();
+            return circuits;
+        } catch (ServiceException ex) {
+            Logger.getLogger(PointDeVenteBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    public void setCircuits(List<Circuit> circuits) {
+        this.circuits = circuits;
     }
 
     public void setPointDeVntes(List<PointDeVente> pointDeVntes) {
@@ -70,6 +92,16 @@ public class PointDeVenteBean  implements Serializable{
         this.pointDeVente = pointDeVente;
     }
 
+    public ICircuitService getCircuitService() {
+        return circuitService;
+    }
+
+    public void setCircuitService(ICircuitService circuitService) {
+        this.circuitService = circuitService;
+    }
+    
+    
+
     public UploadedFile getFile() {
         return file;
     }
@@ -77,12 +109,19 @@ public class PointDeVenteBean  implements Serializable{
     public void setFile(UploadedFile file) {
         this.file = file;
     }
-    
-    
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     
     public void saveOrUpdatePDV(){
         System.out.println(pointDeVente);
         try {
+            pointDeVente.setCircuit(circuitService.findCircuitById(Long.valueOf(id)));
             pointDeVenteService.saveOrUpdatePDV(pointDeVente);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Opération reussie", pointDeVente.getNom() + " a été enregistré "));
         } catch (ServiceException ex) {

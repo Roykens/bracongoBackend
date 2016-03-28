@@ -17,11 +17,23 @@
                 <h:form id="form">
                     <h1><h:outputText value="List"/></h1>
 
-                    <p:dataTable value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table" selection="#{pointDeVenteBean.pointDeVente}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
+                    <p:dataTable rowIndexVar="index" value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table" selection="#{pointDeVenteBean.pointDeVente}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
                         <p:ajax event="rowSelect" listener="#{pointDeVenteBean.importer}" />
                         <f:facet name="header">
                             La liste des points de vente
                         </f:facet>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="No"/>
+                            </f:facet>
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
+                        <p:column sortable="true" filterBy="#{item.circuit.code}" sortBy="#{item.circuit.code}">
+                            <f:facet name="header">
+                                <h:outputText value="Zone"/>
+                            </f:facet>
+                            <h:outputText value="#{item.circuit.zone.code}-#{item.circuit.code}"/>
+                        </p:column>
                         <p:column sortable="true" filterBy="#{item.nom}" sortBy="#{item.nom}">
                             <f:facet name="header">
                                 <h:outputText value="Nom"/>
@@ -39,18 +51,6 @@
                                 <h:outputText value="Adresse"/>
                             </f:facet>
                             <h:outputText value="#{item.adresse}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Longitude"/>
-                            </f:facet>
-                            <h:outputText value="#{item.longitude}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Latitude"/>
-                            </f:facet>
-                            <h:outputText value="#{item.latitude}"/>
                         </p:column>
                         <f:facet name="footer">  
 
@@ -74,6 +74,9 @@
                             <p:inputText  id="lat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
                             <h:outputText value="Longitude"/> 
                             <p:inputText  id="long" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
+                            <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
+                            </p:selectOneMenu> 
                             <f:facet name="footer"> <br/> 
                                 <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
@@ -83,9 +86,7 @@
                         </h:panelGrid> 
                     </h:form>
                 </p:dialog>
-
-
-
+                
                 <p:dialog id="modifier" header="Modifier un PDV" widgetVar="modifier_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
                     <h:form id ="updateform">
                         <h:panelGrid id="updatedisplay" columns="2" rendered="#{not empty pointDeVenteBean.pointDeVente}">  
@@ -99,6 +100,9 @@
                             <p:inputText id="ulat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
                             <h:outputText value="Longitude"/> 
                             <p:inputText  id="ulong" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
+                             <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
+                            </p:selectOneMenu> 
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.id}"/>
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.version}"/>
                             <f:facet name="footer"> <br/> 
@@ -141,9 +145,6 @@
                         </h:panelGrid> 
                     </h:form>
                 </p:dialog>
-
-
-
             </div>
         </div>
     </ui:define>
