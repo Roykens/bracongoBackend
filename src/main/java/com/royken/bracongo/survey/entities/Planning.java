@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -24,6 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="planning")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Planning implements Serializable{
+    @OneToOne(mappedBy = "planning")
+    private Reponse reponse;
     
     @XmlTransient
     @Version
@@ -80,6 +83,14 @@ public class Planning implements Serializable{
 
     public void setDatePlaning(Date datePlaning) {
         this.datePlaning = datePlaning;
+    }
+
+    public Reponse getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(Reponse reponse) {
+        this.reponse = reponse;
     }
     
     

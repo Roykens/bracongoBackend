@@ -2,7 +2,6 @@ package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,6 +44,9 @@ public class Enqueteur implements Serializable{
     @Column(unique = true)
     private String matricule;
     
+    @Column(unique = true)
+    private String codeSecret;
+    
     @OneToMany(mappedBy = "enqueteur")
     private List<Reponse> reponses;
 
@@ -86,6 +88,38 @@ public class Enqueteur implements Serializable{
 
     public void setReponses(List<Reponse> reponses) {
         this.reponses = reponses;
+    }
+
+    public Telephone getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(Telephone telephone) {
+        this.telephone = telephone;
+    }
+
+    public List<Planning> getPlannings() {
+        return plannings;
+    }
+
+    public void setPlannings(List<Planning> plannings) {
+        this.plannings = plannings;
+    }
+
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public void setPositions(List<Position> positions) {
+        this.positions = positions;
+    }
+
+    public String getCodeSecret() {
+        return codeSecret;
+    }
+
+    public void setCodeSecret(String codeSecret) {
+        this.codeSecret = codeSecret;
     }
     
 }

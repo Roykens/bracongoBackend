@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -62,7 +63,7 @@ public class PointDeVente implements Serializable{
     @ManyToOne
     private Circuit circuit;    
     
-    @ManyToMany
+    @OneToMany(mappedBy = "pointDeVente")
     private List<Reponse> reponses;
 
     public int getVersion() {
