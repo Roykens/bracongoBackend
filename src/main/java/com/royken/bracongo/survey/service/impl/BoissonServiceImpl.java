@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.service.impl;
 
 import com.royken.bracongo.survey.dao.IBoissonDao;
 import com.royken.bracongo.survey.entities.Boisson;
+import com.royken.bracongo.survey.entities.TypeBoisson;
 import com.royken.bracongo.survey.service.IBoissonService;
 import com.royken.bracongo.survey.service.ServiceException;
 import com.royken.generic.dao.DataAccessException;
@@ -70,6 +71,16 @@ public class BoissonServiceImpl implements IBoissonService {
     public List<Boisson> findAllBoisson() throws ServiceException {
         try {
             return boissonDao.findAll();
+        } catch (DataAccessException ex) {
+            Logger.getLogger(BoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public List<Boisson> findBoissonByEnterpriseAndType(boolean isBracongo, TypeBoisson typeBoisson) throws ServiceException {
+        try {
+            return boissonDao.findAllByEnterpriseAndType(isBracongo, typeBoisson);
         } catch (DataAccessException ex) {
             Logger.getLogger(BoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

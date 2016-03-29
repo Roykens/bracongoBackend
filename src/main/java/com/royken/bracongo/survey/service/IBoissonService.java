@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.service;
 
 import com.royken.bracongo.survey.dao.IBoissonDao;
 import com.royken.bracongo.survey.entities.Boisson;
+import com.royken.bracongo.survey.entities.TypeBoisson;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -20,4 +21,6 @@ public interface IBoissonService {
     public void deleteBoisson(Long id) throws ServiceException;
     
     public List<Boisson> findAllBoisson() throws ServiceException;
+    
+    public List<Boisson> findBoissonByEnterpriseAndType(boolean isBracongo, TypeBoisson typeBoisson) throws ServiceException;
 }

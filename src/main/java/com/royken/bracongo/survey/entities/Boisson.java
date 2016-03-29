@@ -80,6 +80,11 @@ public class Boisson implements Serializable{
     public void setIsBracongo(boolean isBracongo) {
         this.isBracongo = isBracongo;
     }
+
+    @Override
+    public String toString() {
+        return "Boisson{" + "version=" + version + ", id=" + id + ", nom=" + nom + ", typeBoisson=" + typeBoisson + ", isBracongo=" + isBracongo + '}';
+    }
     
     
     

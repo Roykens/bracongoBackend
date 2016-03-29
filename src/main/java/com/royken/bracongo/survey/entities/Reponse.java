@@ -78,6 +78,9 @@ public class Reponse implements Serializable{
     
     @OneToOne
     private PrixBoisson prixBoisson;
+    
+    @OneToOne
+    private StockChaud stockChaud;
    
     @ManyToOne
     private Enqueteur enqueteur;
@@ -232,4 +235,14 @@ public class Reponse implements Serializable{
     public void setPlanning(Planning planning) {
         this.planning = planning;
     }
+
+    public StockChaud getStockChaud() {
+        return stockChaud;
+    }
+
+    public void setStockChaud(StockChaud stockChaud) {
+        this.stockChaud = stockChaud;
+    }
+    
+    
 }

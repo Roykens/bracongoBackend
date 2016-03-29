@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="formatBoisson")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FormatBoisson implements Serializable{
+    @OneToMany(mappedBy = "formatBoisson")
+    private List<StockChaud> stockChauds;
     
     @OneToMany(mappedBy = "formatBoisson")
     private List<PrixBoisson> prixBoissons;
@@ -86,6 +88,14 @@ public class FormatBoisson implements Serializable{
 
     public void setDisponibiliteBoissons(List<DisponibiliteBoisson> disponibiliteBoissons) {
         this.disponibiliteBoissons = disponibiliteBoissons;
+    }
+
+    public List<StockChaud> getStockChauds() {
+        return stockChauds;
+    }
+
+    public void setStockChauds(List<StockChaud> stockChauds) {
+        this.stockChauds = stockChauds;
     }
     
     

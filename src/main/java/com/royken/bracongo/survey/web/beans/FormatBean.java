@@ -67,6 +67,7 @@ public class FormatBean implements Serializable{
         this.formats = formats;
     }
     
+    
     public void saveOrUpdateZone() throws ServiceException{
         if (format != null && format.getVolume() > 0) {
             formatService.saveOrUpdateFormat(format);
