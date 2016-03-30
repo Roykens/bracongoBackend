@@ -17,10 +17,10 @@
                 <h:form id="form">
                     <h1><h:outputText value="List"/></h1>
 
-                    <p:dataTable rowIndexVar="index" value="#{enqueteursBean.enqueteurs}" var="item" id="table" selection="#{enqueteursBean.enqueteur}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Enqueteur enregistré" reflow="true">
-                        <p:ajax event="rowSelect" listener="#{enqueteursBean.test()}" />
+                    <p:dataTable rowIndexVar="index" value="#{planningBean.plannings}" var="item" id="table" selection="#{planningBean.planning}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Planning enregistré" reflow="true">
+                        <p:ajax event="rowSelect" listener="#{planningBean.test()}" />
                         <f:facet name="header">
-                            La liste des enqueteurs
+                            La liste des Pannings
                         </f:facet>
                         <p:column >
                             <f:facet name="header">
@@ -28,37 +28,55 @@
                             </f:facet>
                             <h:outputText value="#{index + 1}"/>
                         </p:column>
-                        <p:column sortable="true" filterBy="#{item.nom}" sortBy="#{item.nom}">
+                        <p:column sortable="true" filterBy="#{item.datePlaning}" sortBy="#{item.datePlaning}">
                             <f:facet name="header">
-                                <h:outputText value="Nom"/>
+                                <h:outputText value="Date"/>
                             </f:facet>
-                            <h:outputText value="#{item.nom}"/>
+                            <h:outputText value="#{item.datePlaning}"/>
                         </p:column>
-                        <p:column sortable="true" filterBy="#{item.matricule}" sortBy="#{item.matricule}">
+                        <p:column sortable="true" filterBy="#{item.enqueteur.nom}" sortBy="#{item.enqueteur.nom}">
                             <f:facet name="header">
-                                <h:outputText value="Matricule"/>
+                                <h:outputText value="Responsable"/>
                             </f:facet>
-                            <h:outputText value="#{item.matricule}"/>
+                            <h:outputText value="#{item.enqueteur.nom}"/>
                         </p:column>
-                        
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Nombre PDV"/>
+                            </f:facet>
+                            <h:outputText value="#{planningBean.getPlanningPdvs(item).size()}"/>
+                        </p:column>
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Gérer PDV"/>
+                            </f:facet>
+                            <p:commandButton  id="q" onclick="PF('detail_dialog').show()" icon="ui-icon-arrowrefresh-1-w" class="type_cours_menuClass">
+                                <f:setPropertyActionListener value="#{item}" target="#{planningBean.planning}"/>
+                            </p:commandButton>
+                            <p:tooltip for="q" value="cliquez ici gérer les PDV de ce planning"/>
+
+                        </p:column>
+
                         <f:facet name="footer">  
 
-                            <p:commandButton value="Ajouter un Enqueteur" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton value="Ajouter un Planning" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
                             <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Modifier un Enqueteur" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
-                            <p:commandButton value="Supprimer un Enqueteur" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                            <p:commandButton value="Modifier un Planning" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                            <p:commandButton value="Supprimer un Planning" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
                         </f:facet> 
                     </p:dataTable>
                 </h:form>
-                <p:dialog id="ajout" header="Ajouter un Enqueteur" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                
+                <p:dialog id="ajout" header="Ajouter un Planning" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
                     <h:form id ="saveform">
                         <h:panelGrid id="display" columns="2" >  
-                            <h:outputText value="Nom : "/> 
-                            <p:inputText  id="en" value="#{enqueteursBean.enqueteur.nom}" required="true" requiredMessage="Le nom est obligatoire"/> 
-                            <h:outputText value="Matricule : "/> 
-                            <p:inputText  id="enm" value="#{enqueteursBean.enqueteur.matricule}" required="true" requiredMessage="Le nom est obligatoire"/> 
+                            <h:outputText value="Enqueteur : "/> 
+                            <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{planningBean.enqueteurs}" var="enqueteur" itemLabel="#{enqueteur.nom}" itemValue="#{enqueteur.id}" />
+                            </p:selectOneMenu>
+
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{enqueteursBean.saveOrUpdateEnqueteur()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton value="Enregistrer" action="#{planningBean.saveOrUpdatePlanninge()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
                                 <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
@@ -66,17 +84,19 @@
                         </h:panelGrid> 
                     </h:form>
                 </p:dialog>
-                <p:dialog id="modifier" header="Modifier un Enqueteur" widgetVar="modifier_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
-                    <h:form id ="updateform">
-                        <h:panelGrid id="updatedisplay" columns="2" rendered="#{not empty enqueteursBean.enqueteur}">  
-                            <h:outputText value="Nom :"/> 
-                            <p:inputText  id="uen" value="#{enqueteursBean.enqueteur.nom}"/> 
-                            <h:outputText value="Matricule :"/> 
-                            <p:inputText  id="uenm" value="#{enqueteursBean.enqueteur.matricule}"/> 
-                            <h:inputHidden value="#{enqueteursBean.enqueteur.id}"/>
-                            <h:inputHidden value="#{enqueteursBean.enqueteur.version}"/>
+
+
+                <p:dialog id="modifier" header="Modifier planning" widgetVar="modifier_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                    <h:form id ="modifierform">
+                        <h:panelGrid id="modifierdisplay" columns="2" rendered="#{not empty planningBean.planning}">  
+                            <h:outputText value="Enqueteur : "/> 
+                            <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{planningBean.enqueteurs}" var="enqueteur" itemLabel="#{enqueteur.nom}" itemValue="#{enqueteur.id}" />
+                            </p:selectOneMenu>
+                            <h:inputHidden  value="#{planningBean.planning.id}"/> 
+                            <h:inputHidden value="#{planningBean.planning.version}"/>
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{enqueteursBean.saveOrUpdateEnqueteur()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton value="Enregistrer" action="#{planningBean.saveOrUpdatePlanninge()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
                                 <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" />  
@@ -84,6 +104,111 @@
                         </h:panelGrid> 
                     </h:form>
                 </p:dialog>
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
+
+                <p:dialog id="detailPDV" header="Detail du planning" widgetVar="detail_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
+                    <h:form id ="detailformPDV">
+                        <p:dataTable rowIndexVar="index" value="#{planningBean.planningPdv2}" var="item" id="tablePDV" selection="#{planningBean.planningPdv}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Point de vente enregistré" reflow="true">
+                            <p:ajax event="rowSelect" listener="#{enqueteursBean.test()}" />
+                            <f:facet name="header">
+                                La liste des point de vente
+                            </f:facet>
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="No"/>
+                                </f:facet>
+                                <h:outputText value="#{index + 1}"/>
+                            </p:column>
+                            <p:column >
+                                <f:facet name="header">
+                                    <h:outputText value="Zone"/>
+                                </f:facet>
+                                <h:outputText value="#{item.pointDeVente.circuit.zone.code}-#{item.pointDeVente.circuit.code}"/>
+                            </p:column>
+                            <p:column sortable="true" filterBy="#{item.pointDeVente.nom}" sortBy="#{item.pointDeVente.nom}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nom"/>
+                                </f:facet>
+                                <h:outputText value="#{item.pointDeVente.nom}"/>
+                            </p:column>
+
+                            <f:facet name="footer">  
+
+                                <p:commandButton value="Ajouter Point de vente" oncomplete="PF('ajouterPDV_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                                <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                                <p:commandButton value="Modifier un Enqueteur" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                                <p:commandButton value="Supprimer un Enqueteur" oncomplete="PF('deletePDV_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                            </f:facet> 
+                        </p:dataTable>
+                    </h:form>
+                    <p:dialog id="ajoutPDV" header="Ajouter points de vente" widgetVar="ajouterPDV_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
+                        <h:form id ="saveformPDV">
+                            <h:panelGrid id="displayPDV" columns="2" >  
+                                <h:outputText value="choisir PDV : "/> 
+
+                                <p:selectCheckboxMenu value="#{planningBean.pdvchoisi}" label="Points de ventes" filter="true"  filterMatchMode="startsWith" >  
+                                    <f:selectItems var="player" value="#{planningBean.byEnqueteur}"   itemLabel="#{player.circuit.zone.code}-#{player.circuit.code}/ #{player.nom}" itemValue="#{player.id}" itemLabelEscaped="true" /> 
+                                </p:selectCheckboxMenu>
+
+                                <f:facet name="footer"> <br/> 
+                                    <p:commandButton value="Enregistrer" action="#{planningBean.savePointDeVente()}"  oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":detailformPDV:tablePDV" />  
+                                </f:facet>
+                                <f:facet name="footer">  
+                                    <p:commandButton value="Annuler" onclick="PF('ajouterPDV_dialog').hide()" />  
+                                </f:facet>
+                            </h:panelGrid> 
+                        </h:form>
+                    </p:dialog>
+
+                    <p:confirmDialog id="deletePDV" message="voulez-vous vraiment supprimer cet enqueteur ?"
+                                     header="Initialisation de la suppression" severity="alert"
+                                     widgetVar="deletePDV_dialog" showEffect="explode" hideEffect="explode"> 
+                        <div id="center_content_div">
+                            <p:commandButton id="confirmPDV" value="OUI" action="#{enqueteursBean.deleteSecteur()}" oncomplete="PF('delete_dialog').hide()" update=":detailformPDV:tablePDV"/>
+                            <p:commandButton id="declinePDV" value="NON" type="reset" onclick ="PF('deletePDV_dialog').hide();"  />
+                        </div>
+                    </p:confirmDialog>
+                 
+                </p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <p:confirmDialog id="delete" message="voulez-vous vraiment supprimer cet enqueteur ?"
                                  header="Initialisation de la suppression" severity="alert"

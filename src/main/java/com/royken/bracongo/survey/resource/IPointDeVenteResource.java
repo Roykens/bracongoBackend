@@ -4,6 +4,7 @@ import com.royken.bracongo.survey.entities.PointDeVente;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 /**
@@ -15,5 +16,10 @@ public interface IPointDeVenteResource {
     
     @GET
     @Produces(value = "application/json")
-    List<PointDeVente> getAllPointDeVente();
+    public List<PointDeVente> getAllPointDeVente();
+    
+    @GET
+    @Produces(value = "application/json")
+    @Path(value = "{id : \\d+}")
+    public List<PointDeVente> getAllPointDeVenteByEnqueteur(@PathParam(value = "id")long id);
 }

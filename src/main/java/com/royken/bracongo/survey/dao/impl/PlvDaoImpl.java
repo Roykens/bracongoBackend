@@ -9,5 +9,7 @@ import com.royken.generic.dao.impl.GenericDao;
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 public class PlvDaoImpl extends GenericDao<PLV, Long> implements IPlvDao{
+
+ 
     
 }

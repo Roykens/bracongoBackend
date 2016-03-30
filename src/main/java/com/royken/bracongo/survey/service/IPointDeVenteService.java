@@ -1,5 +1,6 @@
 package com.royken.bracongo.survey.service;
 
+import com.royken.bracongo.survey.entities.Enqueteur;
 import com.royken.bracongo.survey.entities.PointDeVente;
 import java.util.List;
 import javax.ejb.Local;
@@ -17,6 +18,8 @@ public interface IPointDeVenteService {
     public PointDeVente findPDVById(Long id) throws ServiceException;
     
     public List<PointDeVente> findAllPointDeVente() throws ServiceException;
+    
+    public List<PointDeVente> findAllByEnqueteur(Long idEnqueteur) throws ServiceException;
     
     public void deletePDV(Long id) throws ServiceException;
 }

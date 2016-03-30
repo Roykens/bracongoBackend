@@ -9,4 +9,6 @@ import com.royken.generic.dao.IGenericDao;
  */
 public interface IPlvDao extends IGenericDao<PLV, Long>{
     
+    
+    
 }

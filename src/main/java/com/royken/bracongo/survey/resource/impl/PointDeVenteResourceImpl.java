@@ -40,5 +40,15 @@ public class PointDeVenteResourceImpl implements IPointDeVenteResource{
         }
         return Collections.EMPTY_LIST;
     }
+
+    @Override
+    public List<PointDeVente> getAllPointDeVenteByEnqueteur(long id) {
+        try {
+            return pointDeVenteService.findAllByEnqueteur(id);
+        } catch (ServiceException ex) {
+            Logger.getLogger(PointDeVenteResourceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+    }
     
 }

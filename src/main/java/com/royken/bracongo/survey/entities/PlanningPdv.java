@@ -1,14 +1,11 @@
 package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,10 +16,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Entity
-@XmlRootElement(name="secteur")
+@XmlRootElement(name="plannindPdv")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Secteur implements Serializable{
-    
+public class PlanningPdv implements Serializable{
+ 
     @Version
     private int version;
     
@@ -30,14 +27,11 @@ public class Secteur implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(unique = true)
-    private String code;
+    @ManyToOne
+    private Planning planning;
     
-    @OneToMany(mappedBy = "secteur")
-    private List<Zone> zones;
-    
-    @OneToOne
-    private Enqueteur enqueteur;
+    @ManyToOne
+    private PointDeVente pointDeVente;
 
     public int getVersion() {
         return version;
@@ -55,33 +49,25 @@ public class Secteur implements Serializable{
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
+    public Planning getPlanning() {
+        return planning;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setPlanning(Planning planning) {
+        this.planning = planning;
     }
 
-    public List<Zone> getZones() {
-        return zones;
+    public PointDeVente getPointDeVente() {
+        return pointDeVente;
     }
 
-    public void setZones(List<Zone> zones) {
-        this.zones = zones;
+    public void setPointDeVente(PointDeVente pointDeVente) {
+        this.pointDeVente = pointDeVente;
     }
 
     @Override
     public String toString() {
-        return "Secteur{" + "id=" + id + ", code=" + code + '}';
-    }
-
-    public Enqueteur getEnqueteur() {
-        return enqueteur;
-    }
-
-    public void setEnqueteur(Enqueteur enqueteur) {
-        this.enqueteur = enqueteur;
+        return "PlanningPdv{" + "version=" + version + ", id=" + id + ", planning=" + planning + ", pointDeVente=" + pointDeVente + '}';
     }
     
     

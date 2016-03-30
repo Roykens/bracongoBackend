@@ -1,7 +1,9 @@
 package com.royken.bracongo.survey.web.beans;
 
 import com.royken.bracongo.survey.entities.Enqueteur;
+import com.royken.bracongo.survey.entities.Secteur;
 import com.royken.bracongo.survey.service.IEnqueteurService;
+import com.royken.bracongo.survey.service.ISecteurService;
 import com.royken.bracongo.survey.service.ServiceException;
 import java.io.Serializable;
 import java.util.Collections;
@@ -28,8 +30,15 @@ public class EnqueteursBean implements Serializable{
     
     private List<Enqueteur> enqueteurs; 
     
+    private List<Secteur> secteurs; 
+    
     @EJB
     private IEnqueteurService enqueteurService;
+    
+    @EJB
+    private ISecteurService secteurService;
+    
+    Long id;
     /**
      * Creates a new instance of Enqueteurs
      */
@@ -43,6 +52,38 @@ public class EnqueteursBean implements Serializable{
     public void setEnqueteur(Enqueteur enqueteur) {
         this.enqueteur = enqueteur;
     }
+
+    public List<Secteur> getSecteurs() {
+        try {
+            secteurs = secteurService.findAllSecteur();
+            return secteurs;
+        } catch (ServiceException ex) {
+            Logger.getLogger(EnqueteursBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    public void setSecteurs(List<Secteur> secteurs) {
+        this.secteurs = secteurs;
+    }
+
+    public ISecteurService getSecteurService() {
+        return secteurService;
+    }
+
+    public void setSecteurService(ISecteurService secteurService) {
+        this.secteurService = secteurService;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
+    
 
     public List<Enqueteur> getEnqueteurs() {
         try {
@@ -69,6 +110,7 @@ public class EnqueteursBean implements Serializable{
     public void saveOrUpdateEnqueteur() throws ServiceException{
       System.out.println(enqueteur);
         if (enqueteur != null && enqueteur.getMatricule() != null) {
+            enqueteur.setSecteur(secteurService.findSecteurById(id));
             enqueteurService.saveOrUpdateEnqueteur(enqueteur);
             if (enqueteur.getId() == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operation reussie", enqueteur.getNom() + " a été mis à jour "));

@@ -57,6 +57,10 @@
                             <p:inputText  id="en" value="#{enqueteursBean.enqueteur.nom}" required="true" requiredMessage="Le nom est obligatoire"/> 
                             <h:outputText value="Matricule : "/> 
                             <p:inputText  id="enm" value="#{enqueteursBean.enqueteur.matricule}" required="true" requiredMessage="Le nom est obligatoire"/> 
+                             <h:outputText value="Secteur : "/> 
+                            <p:selectOneMenu value="#{enqueteursBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{enqueteursBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
+                            </p:selectOneMenu>
                             <f:facet name="footer"> <br/> 
                                 <p:commandButton value="Enregistrer" action="#{enqueteursBean.saveOrUpdateEnqueteur()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
@@ -73,6 +77,10 @@
                             <p:inputText  id="uen" value="#{enqueteursBean.enqueteur.nom}"/> 
                             <h:outputText value="Matricule :"/> 
                             <p:inputText  id="uenm" value="#{enqueteursBean.enqueteur.matricule}"/> 
+                            <h:outputText value="Secteur : "/> 
+                            <p:selectOneMenu value="#{enqueteursBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith">
+                                <f:selectItems value="#{enqueteursBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
+                            </p:selectOneMenu>
                             <h:inputHidden value="#{enqueteursBean.enqueteur.id}"/>
                             <h:inputHidden value="#{enqueteursBean.enqueteur.version}"/>
                             <f:facet name="footer"> <br/> 

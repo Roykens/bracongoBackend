@@ -27,6 +27,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="pointDeVente")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PointDeVente implements Serializable{
+    @XmlTransient
+    @OneToMany(mappedBy = "pointDeVente")
+    private List<PlanningPdv> planningPdvs;
     
     @Version
     @XmlTransient
@@ -60,9 +63,11 @@ public class PointDeVente implements Serializable{
     @Enumerated(EnumType.STRING)
     private TypeRegime typeRegime;
     
+    @XmlTransient
     @ManyToOne
     private Circuit circuit;    
     
+    @XmlTransient
     @OneToMany(mappedBy = "pointDeVente")
     private List<Reponse> reponses;
 
@@ -161,6 +166,16 @@ public class PointDeVente implements Serializable{
     public void setTypeRegime(TypeRegime typeRegime) {
         this.typeRegime = typeRegime;
     }
+
+    public List<PlanningPdv> getPlanningPdvs() {
+        return planningPdvs;
+    }
+
+    public void setPlanningPdvs(List<PlanningPdv> planningPdvs) {
+        this.planningPdvs = planningPdvs;
+    }
+    
+    
 
     @Override
     public String toString() {

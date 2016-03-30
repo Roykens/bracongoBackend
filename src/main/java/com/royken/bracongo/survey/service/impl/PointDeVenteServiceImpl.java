@@ -1,6 +1,8 @@
 package com.royken.bracongo.survey.service.impl;
 
+import com.royken.bracongo.survey.dao.IEnqueteurDao;
 import com.royken.bracongo.survey.dao.IPointDeVenteDao;
+import com.royken.bracongo.survey.entities.Enqueteur;
 import com.royken.bracongo.survey.entities.PointDeVente;
 import com.royken.bracongo.survey.service.IPointDeVenteService;
 import com.royken.bracongo.survey.service.ServiceException;
@@ -21,6 +23,26 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
 
     @Inject
     private IPointDeVenteDao pointDeVenteDao;
+    
+    @Inject
+    private IEnqueteurDao enqueteurDao;
+
+    public IPointDeVenteDao getPointDeVenteDao() {
+        return pointDeVenteDao;
+    }
+
+    public void setPointDeVenteDao(IPointDeVenteDao pointDeVenteDao) {
+        this.pointDeVenteDao = pointDeVenteDao;
+    }
+
+    public IEnqueteurDao getEnqueteurDao() {
+        return enqueteurDao;
+    }
+
+    public void setEnqueteurDao(IEnqueteurDao enqueteurDao) {
+        this.enqueteurDao = enqueteurDao;
+    }
+    
 
     @Override
     public PointDeVente saveOrUpdatePDV(PointDeVente pointDeVente) throws ServiceException {
@@ -68,6 +90,21 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
         } catch (DataAccessException ex) {
             Logger.getLogger(PointDeVenteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public List<PointDeVente> findAllByEnqueteur(Long idEnqueteur) throws ServiceException {
+        try {
+            Enqueteur enqueteur = enqueteurDao.findById(idEnqueteur);
+            if(enqueteur != null){
+                System.out.println("Le secteur");
+                System.out.println(enqueteur.getSecteur());
+                return pointDeVenteDao.findByEnqueteur(enqueteur);
+            }
+        } catch (DataAccessException ex) {
+            Logger.getLogger(PointDeVenteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
     }
 
 }

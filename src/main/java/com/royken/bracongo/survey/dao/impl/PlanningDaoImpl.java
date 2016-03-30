@@ -6,6 +6,7 @@ import com.royken.bracongo.survey.entities.Planning;
 import com.royken.bracongo.survey.entities.Planning_;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.impl.GenericDao;
+import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -23,5 +24,16 @@ public class PlanningDaoImpl extends GenericDao<Planning, Long> implements IPlan
         cq.where(cb.equal(planRoot.get(Planning_.enqueteur), enqueteur));
         return getManager().createQuery(cq).getSingleResult();
     }
+
+    @Override
+    public List<Planning> findAll() throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<Planning> cq = cb.createQuery(Planning.class);
+        Root<Planning> pRoot = cq.from(Planning.class);
+        cq.orderBy(cb.desc(pRoot.get(Planning_.datePlaning)));
+        return getManager().createQuery(cq).getResultList();
+    }
+    
+    
     
 }

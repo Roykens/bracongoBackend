@@ -25,6 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="planning")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Planning implements Serializable{
+    @OneToMany(mappedBy = "planning")
+    private List<PlanningPdv> planningPdvs;
     @OneToOne(mappedBy = "planning")
     private Reponse reponse;
     
@@ -91,6 +93,19 @@ public class Planning implements Serializable{
 
     public void setReponse(Reponse reponse) {
         this.reponse = reponse;
+    }
+
+    public List<PlanningPdv> getPlanningPdvs() {
+        return planningPdvs;
+    }
+
+    public void setPlanningPdvs(List<PlanningPdv> planningPdvs) {
+        this.planningPdvs = planningPdvs;
+    }
+
+    @Override
+    public String toString() {
+        return "Planning{" + "version=" + version + ", id=" + id + ", enqueteur=" + enqueteur + ", datePlaning=" + datePlaning + '}';
     }
     
     
