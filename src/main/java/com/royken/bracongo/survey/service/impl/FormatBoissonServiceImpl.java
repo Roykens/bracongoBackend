@@ -122,7 +122,7 @@ public class FormatBoissonServiceImpl implements IFormatBoissonService{
             for (FormatBoisson boisson : boissons) {
                 NomBoisson nomBoisson = new NomBoisson();
                 nomBoisson.setIdFormatBoisson(boisson.getId());
-                nomBoisson.setNomFormat(boisson.getBoisson().getNom() + boisson.getFormat().getVolume() + "cl");
+                nomBoisson.setNomFormat(boisson.getBoisson().getNom() + " "+boisson.getFormat().getVolume() + " cl");
                 nomBoissons.add(nomBoisson);
             }
             return nomBoissons;
