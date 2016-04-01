@@ -31,7 +31,7 @@ import org.primefaces.context.RequestContext;
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Named(value = "planningBean")
-@SessionScoped
+@RequestScoped
 public class PlanningBean implements Serializable {
 
     @EJB
@@ -71,6 +71,18 @@ public class PlanningBean implements Serializable {
      */
     public PlanningBean() {
     }
+
+    public List<PointDeVente> getPointDeVentes() {
+        try {
+            pointDeVentes = pointDeVenteService.findAllPointDeVente();
+            return pointDeVentes;
+        } catch (ServiceException ex) {
+            Logger.getLogger(PlanningBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+    }
+    
+    
 
     public List<String> getPdvchoisi() {
         return pdvchoisi;
@@ -136,17 +148,17 @@ public class PlanningBean implements Serializable {
         this.pointDeVenteService = pointDeVenteService;
     }
 
-    public List<PointDeVente> getPointDeVentes() {
-        try {
-            System.out.println("Le planning");
-            System.out.println(planning);
-            pointDeVentes = pointDeVenteService.findAllByEnqueteur(planning.getEnqueteur().getId());
-            return pointDeVentes;
-        } catch (ServiceException ex) {
-            Logger.getLogger(PlanningBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return Collections.EMPTY_LIST;
-    }
+//    public List<PointDeVente> getPointDeVentes() {
+//        try {
+//            System.out.println("Le planning");
+//            System.out.println(planning);
+//            pointDeVentes = pointDeVenteService.findAllByEnqueteur(planning.getEnqueteur().getId());
+//            return pointDeVentes;
+//        } catch (ServiceException ex) {
+//            Logger.getLogger(PlanningBean.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return Collections.EMPTY_LIST;
+//    }
 
     public List<Long> getIdPointDeVente() {
         return idPointDeVente;
@@ -184,11 +196,11 @@ public class PlanningBean implements Serializable {
         this.planning = planning;
     }
 
-    public List<PlanningPdv> getPlanningPdvs(Planning planning) {
+    public List<PlanningPdv> getPlanningPdvs(Planning planning2) {
         try {
-            System.out.println("Le planning");
-            System.out.println(planning);
-            planningPdvs = planningPdvService.findByPlanning(planning.getId());
+            System.out.println("Le planning pour la liste des pdvs");
+            System.out.println(planning2);
+            planningPdvs = planningPdvService.findByPlanning(planning2.getId());
             return planningPdvs;
         } catch (ServiceException ex) {
             Logger.getLogger(PlanningBean.class.getName()).log(Level.SEVERE, null, ex);
@@ -197,15 +209,17 @@ public class PlanningBean implements Serializable {
     }
 
     public List<PlanningPdv> getPlanningPdv2() {
+        if(planning != null && planning.getId()!= null){   
         try {
-            if (planning.getId() != null) {
-                System.out.println("Le planning");
+            
+                System.out.println("Le planning pour la lsite des pdv2");
                 System.out.println(planning);
                 planningPdvs = planningPdvService.findByPlanning(planning.getId());
                 return planningPdvs;
-            }
+            
         } catch (ServiceException ex) {
             Logger.getLogger(PlanningBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
         return Collections.EMPTY_LIST;
     }
@@ -229,7 +243,7 @@ public class PlanningBean implements Serializable {
     }
 
     public void saveOrUpdatePlanninge() throws ServiceException {
-        System.out.println("Le planning");
+        System.out.println("Le planning de save");
         System.out.println(planning);
         if (planning != null) {
             planning.setDatePlaning(new Date());
@@ -256,7 +270,7 @@ public class PlanningBean implements Serializable {
 
     public void savePointDeVente() throws ServiceException {
         System.out.println(pdvchoisi);
-        System.out.println("Le planning");
+        System.out.println("Le planning du pdv");
         System.out.println(planning);
         System.out.println("J'ai choisi");
         System.out.println(pdvchoisi);
@@ -272,6 +286,13 @@ public class PlanningBean implements Serializable {
     }
 
     public List<PointDeVente> getByEnqueteur() {
+        Enqueteur enqueteur = planning.getEnqueteur();
+        System.out.println(enqueteur);
+        if(planning == null){
+            System.out.println("JE SUIS NULLLLLL");
+        }
+        
+        
         System.out.println("Le planning de l'enqueteur");
         System.out.println(planning);
         try {
@@ -279,6 +300,7 @@ public class PlanningBean implements Serializable {
         } catch (ServiceException ex) {
             Logger.getLogger(PlanningBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+      
         return Collections.EMPTY_LIST;
     }
 
@@ -301,6 +323,10 @@ public class PlanningBean implements Serializable {
     public void test() {
         System.out.println("J'ai pris le planning");
         System.out.println(planning);
+    }
+    
+    public void terminerPDV(){
+        planning = new Planning();
     }
 
 }

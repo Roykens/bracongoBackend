@@ -2,12 +2,21 @@ package com.royken.bracongo.survey.web.beans;
 
 import com.royken.bracongo.survey.entities.Circuit;
 import com.royken.bracongo.survey.entities.PointDeVente;
+import com.royken.bracongo.survey.entities.Secteur;
+import com.royken.bracongo.survey.entities.TypeCategorie;
+import com.royken.bracongo.survey.entities.TypePdv;
+import com.royken.bracongo.survey.entities.TypeRegime;
+import com.royken.bracongo.survey.entities.Zone;
 import com.royken.bracongo.survey.service.ICircuitService;
 import com.royken.bracongo.survey.service.IPointDeVenteService;
+import com.royken.bracongo.survey.service.ISecteurService;
+import com.royken.bracongo.survey.service.IZoneService;
 import com.royken.bracongo.survey.service.ServiceException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +25,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.MapModel;
 
 /**
  *
@@ -23,38 +34,62 @@ import org.primefaces.model.UploadedFile;
  */
 @Named(value = "pointDeVenteBean")
 @RequestScoped
-public class PointDeVenteBean  implements Serializable{
-    
+public class PointDeVenteBean implements Serializable {
+
     private List<PointDeVente> pointDeVntes;
-    
+
     private UploadedFile file;
-    
+
     private PointDeVente pointDeVente = new PointDeVente();
-    
+
     private List<Circuit> circuits;
     
+    private List<Zone> zones;
+    
+    private List<Secteur> secteurs;
+
     private String id;
+
+    private List<TypeCategorie> typeCategories = new ArrayList<TypeCategorie>();
+
+    private List<TypePdv> typePdvs = new ArrayList<TypePdv>();
+
+    private List<TypeRegime> typeRegimes = new ArrayList<TypeRegime>();
 
     @EJB
     private IPointDeVenteService pointDeVenteService;
-    
+
     @EJB
     private ICircuitService circuitService;
     
+    @EJB
+    private IZoneService zoneService;
+    
+    @EJB
+    private ISecteurService secteurService;
+
+    Long idS = -1L, idZ = -1L, idC = -1L, idA = -1L;
+
+    private MapModel model = new DefaultMapModel();
+
     /**
      * Creates a new instance of PointDeVenteBean
      */
     public PointDeVenteBean() {
+        typeRegimes.add(TypeRegime.PVE);
+        typeRegimes.add(TypeRegime.Mixte);
+        typePdvs.add(TypePdv.BAR);
+        typePdvs.add(TypePdv.DEPOT);
+        typePdvs.add(TypePdv.MIXTE);
+        typeCategories.add(TypeCategorie.Di);
+        typeCategories.add(TypeCategorie.Ag);
+        typeCategories.add(TypeCategorie.Br);
+        typeCategories.add(TypeCategorie.Or);
     }
 
     public List<PointDeVente> getPointDeVntes() {
-        try {
-            pointDeVntes = pointDeVenteService.findAllPointDeVente();
-            return pointDeVntes;
-        } catch (ServiceException ex) {
-            Logger.getLogger(PointDeVenteBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return Collections.EMPTY_LIST;
+        return pointDeVntes;
+      //  return Collections.EMPTY_LIST;
     }
 
     public List<Circuit> getCircuits() {
@@ -66,6 +101,82 @@ public class PointDeVenteBean  implements Serializable{
         }
         return Collections.EMPTY_LIST;
     }
+
+    public List<Zone> getZones() throws ServiceException {
+        zones = zoneService.findAllZone();
+        return zones;
+    }
+
+    public void setZones(List<Zone> zones) {
+        this.zones = zones;
+    }
+
+    public List<Secteur> getSecteurs() throws ServiceException {
+        secteurs = secteurService.findAllSecteur();
+        return secteurs;
+    }
+
+    public void setSecteurs(List<Secteur> secteurs) {
+        this.secteurs = secteurs;
+    }
+
+    public IZoneService getZoneService() {
+        return zoneService;
+    }
+
+    public void setZoneService(IZoneService zoneService) {
+        this.zoneService = zoneService;
+    }
+
+    public ISecteurService getSecteurService() {
+        return secteurService;
+    }
+
+    public void setSecteurService(ISecteurService secteurService) {
+        this.secteurService = secteurService;
+    }
+
+    public Long getIdS() {
+        return idS;
+    }
+
+    public void setIdS(Long idS) {
+        this.idS = idS;
+    }
+
+    public Long getIdZ() {
+        return idZ;
+    }
+
+    public void setIdZ(Long idZ) {
+        this.idZ = idZ;
+    }
+
+    public Long getIdC() {
+        return idC;
+    }
+
+    public void setIdC(Long idC) {
+        this.idC = idC;
+    }
+
+    public Long getIdA() {
+        return idA;
+    }
+
+    public void setIdA(Long idA) {
+        this.idA = idA;
+    }
+
+    public MapModel getModel() {
+        return model;
+    }
+
+    public void setModel(MapModel model) {
+        this.model = model;
+    }
+    
+    
 
     public void setCircuits(List<Circuit> circuits) {
         this.circuits = circuits;
@@ -84,7 +195,7 @@ public class PointDeVenteBean  implements Serializable{
     }
 
     public PointDeVente getPointDeVente() {
-       
+
         return pointDeVente;
     }
 
@@ -99,8 +210,6 @@ public class PointDeVenteBean  implements Serializable{
     public void setCircuitService(ICircuitService circuitService) {
         this.circuitService = circuitService;
     }
-    
-    
 
     public UploadedFile getFile() {
         return file;
@@ -117,8 +226,8 @@ public class PointDeVenteBean  implements Serializable{
     public void setId(String id) {
         this.id = id;
     }
-    
-    public void saveOrUpdatePDV(){
+
+    public void saveOrUpdatePDV() {
         System.out.println(pointDeVente);
         try {
             pointDeVente.setCircuit(circuitService.findCircuitById(Long.valueOf(id)));
@@ -130,8 +239,8 @@ public class PointDeVenteBean  implements Serializable{
         }
         pointDeVente = new PointDeVente();
     }
-    
-    public void deletePvd(){
+
+    public void deletePvd() {
         try {
             pointDeVenteService.deletePDV(pointDeVente.getId());
         } catch (ServiceException ex) {
@@ -139,10 +248,43 @@ public class PointDeVenteBean  implements Serializable{
         }
         pointDeVente = new PointDeVente();
     }
-    
-    public void importer(){
-        System.out.println("J'ai clické sur ");
-        System.out.println(pointDeVente);   
+
+    public List<TypeCategorie> getTypeCategories() {
+        return typeCategories;
     }
-    
+
+    public void setTypeCategories(List<TypeCategorie> typeCategories) {
+        this.typeCategories = typeCategories;
+    }
+
+    public List<TypePdv> getTypePdvs() {
+        return typePdvs;
+    }
+
+    public void setTypePdvs(List<TypePdv> typePdvs) {
+        this.typePdvs = typePdvs;
+    }
+
+    public List<TypeRegime> getTypeRegimes() {
+        return typeRegimes;
+    }
+
+    public void setTypeRegimes(List<TypeRegime> typeRegimes) {
+        this.typeRegimes = typeRegimes;
+    }
+
+    public void filtrer() throws ServiceException {
+        System.out.println("Je filtre");
+        System.out.println("");
+        pointDeVntes = new ArrayList<PointDeVente>();
+        pointDeVntes = pointDeVenteService.findByCriteria((idS == null) ? -1 : idS,
+                (idZ == null) ? -1 : idZ,
+                (idC == null) ? -1 : idC);
+    }
+
+    public void importer() {
+        System.out.println("J'ai clické sur ");
+        System.out.println(pointDeVente);
+    }
+
 }

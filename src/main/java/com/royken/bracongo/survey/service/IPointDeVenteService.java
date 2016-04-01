@@ -22,4 +22,6 @@ public interface IPointDeVenteService {
     public List<PointDeVente> findAllByEnqueteur(Long idEnqueteur) throws ServiceException;
     
     public void deletePDV(Long id) throws ServiceException;
+    
+    public List<PointDeVente> findByCriteria(Long idSecteur, Long idZone, Long idCircuit) throws ServiceException;
 }

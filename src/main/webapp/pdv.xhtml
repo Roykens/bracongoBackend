@@ -8,14 +8,38 @@
     <ui:define name="content">
         <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
 
+
         <h3 class="hardblue TexAlCenter">Empty Page</h3>
         <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
-
+        <p:commandButton id = "carte" value="Carte" style="float: right" oncomplete="PF('carte_dialog').show()"/>
+        <p:sticky target="carte" />
+        <p:dialog id="carteDialog" header="PDV SUR CARTE" widgetVar="carte_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+            <p:gmap center="-4.3257419, 15.3384682" zoom="27" type="hybrid"
+                    style="width:500px;height:300px" />               
+        </p:dialog>
         <div class="Container100">
             <div class="ContainerIndent">
 
                 <h:form id="form">
                     <h1><h:outputText value="List"/></h1>
+                    
+                    <p:outputLabel value="Secteur"  />
+                    <h:selectOneMenu value="#{pointDeVenteBean.idS}"  style="margin-top:10px; height: 30px; width: 100px;"  id="secteur">
+                        <f:selectItem value="#{null}" itemLabel=""/>
+                        <f:selectItems value="#{pointDeVenteBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
+                    </h:selectOneMenu>
+                    <p:outputLabel value="Zone"  />
+                    <h:selectOneMenu value="#{pointDeVenteBean.idZ}" style="margin-top:10px; height: 30px; width: 100px;"  id="zone">
+                        <f:selectItem value="#{null}" itemLabel=""/>
+                        <f:selectItems value="#{pointDeVenteBean.zones}" var="zone" itemLabel="#{zone.code}" itemValue="#{zone.id}" />
+                    </h:selectOneMenu>
+                    <p:outputLabel value="Circuit"  />
+                    <h:selectOneMenu value="#{pointDeVenteBean.idC}" style="margin-top:10px; height: 30px; width: 100px;"  id="niveau">
+                        <f:selectItem value="#{null}" itemLabel=""/>
+                        <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
+                    </h:selectOneMenu>
+                    <p:commandButton type="submit" action="#{pointDeVenteBean.filtrer()}"  update=":form:table"  value="Filtrer"/>
+                    
 
                     <p:dataTable rowIndexVar="index" value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table" selection="#{pointDeVenteBean.pointDeVente}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
                         <p:ajax event="rowSelect" listener="#{pointDeVenteBean.importer}" />
@@ -77,6 +101,25 @@
                             <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                             </p:selectOneMenu> 
+                            
+                            <h:outputText  value="Regime: "  class="syntaxe_content" />                   
+                            <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeRegime}" style="width: 100%;">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
+                                <f:selectItems  value="#{pointDeVenteBean.typeRegimes}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+                            </p:selectOneMenu>
+                            
+                            <h:outputText  value="Type: "  class="syntaxe_content" />                   
+                            <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typePdv}" style="width: 100%;">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
+                                <f:selectItems  value="#{pointDeVenteBean.typePdvs}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+                            </p:selectOneMenu>
+                            
+                            <h:outputText  value="Type: "  class="syntaxe_content" />                   
+                            <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeCategorie}" style="width: 100%;">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
+                                <f:selectItems  value="#{pointDeVenteBean.typeCategories}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+                            </p:selectOneMenu>
+                           
                             <f:facet name="footer"> <br/> 
                                 <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
@@ -86,7 +129,7 @@
                         </h:panelGrid> 
                     </h:form>
                 </p:dialog>
-                
+
                 <p:dialog id="modifier" header="Modifier un PDV" widgetVar="modifier_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
                     <h:form id ="updateform">
                         <h:panelGrid id="updatedisplay" columns="2" rendered="#{not empty pointDeVenteBean.pointDeVente}">  
@@ -100,9 +143,27 @@
                             <p:inputText id="ulat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
                             <h:outputText value="Longitude"/> 
                             <p:inputText  id="ulong" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
-                             <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                             </p:selectOneMenu> 
+                                                       <h:outputText  value="Regime: "  class="syntaxe_content" />                   
+                            <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeRegime}" style="width: 100%;">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
+                                <f:selectItems  value="#{pointDeVenteBean.typeRegimes}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+                            </p:selectOneMenu>
+                            
+                            <h:outputText  value="Type: "  class="syntaxe_content" />                   
+                            <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typePdv}" style="width: 100%;">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
+                                <f:selectItems  value="#{pointDeVenteBean.typePdvs}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+                            </p:selectOneMenu>
+                            
+                            <h:outputText  value="Type: "  class="syntaxe_content" />                   
+                            <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeCategorie}" style="width: 100%;">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
+                                <f:selectItems  value="#{pointDeVenteBean.typeCategories}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+                            </p:selectOneMenu>
+                           
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.id}"/>
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.version}"/>
                             <f:facet name="footer"> <br/> 
@@ -147,6 +208,8 @@
                 </p:dialog>
             </div>
         </div>
+        <script src="http://maps.google.com/maps/api/js?sensor=false"
+        type="text/javascript"></script>
     </ui:define>
 
 </ui:composition>

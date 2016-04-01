@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Enqueteur implements Serializable{
     
-    @OneToOne(mappedBy = "enqueteur")
+    @OneToOne
     private Secteur secteur;
     @OneToOne(mappedBy = "enqueteur")
     private Telephone telephone;
@@ -131,6 +131,11 @@ public class Enqueteur implements Serializable{
 
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
+    }
+
+    @Override
+    public String toString() {
+        return "Enqueteur{" + "secteur=" + secteur + ", version=" + version + ", id=" + id + ", nom=" + nom + ", matricule=" + matricule + ", codeSecret=" + codeSecret + '}';
     }
     
     

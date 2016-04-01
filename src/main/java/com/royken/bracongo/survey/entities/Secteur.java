@@ -36,7 +36,7 @@ public class Secteur implements Serializable{
     @OneToMany(mappedBy = "secteur")
     private List<Zone> zones;
     
-    @OneToOne
+    @OneToOne(mappedBy = "secteur")
     private Enqueteur enqueteur;
 
     public int getVersion() {
