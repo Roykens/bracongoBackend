@@ -16,7 +16,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +25,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.map.DefaultMapModel;
+import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
+import org.primefaces.model.map.Marker;
 
 /**
  *
@@ -35,17 +36,25 @@ import org.primefaces.model.map.MapModel;
 @Named(value = "pointDeVenteBean")
 @RequestScoped
 public class PointDeVenteBean implements Serializable {
+    
+    private Secteur secteur;
+    
+    private Zone zone;
+    
+    private Circuit circuit;
+    
+    private PointDeVente[] pointDeVenteChoisis;
 
-    private List<PointDeVente> pointDeVntes;
+    private List<PointDeVente> pointDeVntes = new ArrayList<PointDeVente>();
 
     private UploadedFile file;
 
     private PointDeVente pointDeVente = new PointDeVente();
 
     private List<Circuit> circuits;
-    
+
     private List<Zone> zones;
-    
+
     private List<Secteur> secteurs;
 
     private String id;
@@ -61,10 +70,10 @@ public class PointDeVenteBean implements Serializable {
 
     @EJB
     private ICircuitService circuitService;
-    
+
     @EJB
     private IZoneService zoneService;
-    
+
     @EJB
     private ISecteurService secteurService;
 
@@ -76,6 +85,7 @@ public class PointDeVenteBean implements Serializable {
      * Creates a new instance of PointDeVenteBean
      */
     public PointDeVenteBean() {
+        model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
         typeRegimes.add(TypeRegime.PVE);
         typeRegimes.add(TypeRegime.Mixte);
         typePdvs.add(TypePdv.BAR);
@@ -87,9 +97,50 @@ public class PointDeVenteBean implements Serializable {
         typeCategories.add(TypeCategorie.Or);
     }
 
+    public Secteur getSecteur() {
+        return secteur;
+    }
+
+    public void setSecteur(Secteur secteur) {
+        this.secteur = secteur;
+    }
+
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public Circuit getCircuit() {
+        return circuit;
+    }
+
+    public void setCircuit(Circuit circuit) {
+        this.circuit = circuit;
+    }
+
+    public PointDeVente[] getPointDeVenteChoisis() {
+        return pointDeVenteChoisis;
+    }
+
+    public void setPointDeVenteChoisis(PointDeVente[] pointDeVenteChoisis) {
+        this.pointDeVenteChoisis = pointDeVenteChoisis;
+    }
+
+   
+
     public List<PointDeVente> getPointDeVntes() {
-        return pointDeVntes;
-      //  return Collections.EMPTY_LIST;
+        try {
+          //  pointDeVntes = pointDeVenteService.findAllPointDeVente();
+            filtrer();
+            return pointDeVntes;
+            //  
+        } catch (ServiceException ex) {
+            Logger.getLogger(PointDeVenteBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
     }
 
     public List<Circuit> getCircuits() {
@@ -169,14 +220,33 @@ public class PointDeVenteBean implements Serializable {
     }
 
     public MapModel getModel() {
+        
+        // model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
+        if (pointDeVntes.size() > 0) {
+            for (PointDeVente pointDeVnte : pointDeVntes) {
+                model.addOverlay(new Marker(new LatLng(pointDeVnte.getLatitude(), pointDeVnte.getLongitude()), pointDeVnte.getNom()));
+            }
+            System.out.println("J'ai mis  "+ pointDeVntes.size() + "points");
+        }
+        return model;
+    }
+    
+      public MapModel getModel2() {
+          System.out.println("J'entre");
+          System.out.println(pointDeVntes.size());
+        // model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
+        if (pointDeVntes.size() > 0) {
+            for (PointDeVente pointDeVnte : pointDeVntes) {
+                model.addOverlay(new Marker(new LatLng(pointDeVnte.getLatitude(), pointDeVnte.getLongitude()), pointDeVnte.getNom()));
+            }
+            System.out.println("J'ai mis  "+ pointDeVntes.size() + "points");
+        }
         return model;
     }
 
     public void setModel(MapModel model) {
         this.model = model;
     }
-    
-    
 
     public void setCircuits(List<Circuit> circuits) {
         this.circuits = circuits;
@@ -280,11 +350,19 @@ public class PointDeVenteBean implements Serializable {
         pointDeVntes = pointDeVenteService.findByCriteria((idS == null) ? -1 : idS,
                 (idZ == null) ? -1 : idZ,
                 (idC == null) ? -1 : idC);
+        getModel2();
     }
 
     public void importer() {
         System.out.println("J'ai clické sur ");
         System.out.println(pointDeVente);
+    }
+    
+    public void toto(){
+        System.out.println("J'ai pris ");
+        for (PointDeVente pointDeVenteChoisi : pointDeVenteChoisis) {
+            System.out.println(pointDeVenteChoisi);
+        }
     }
 
 }

@@ -11,18 +11,19 @@
 
         <h3 class="hardblue TexAlCenter">Empty Page</h3>
         <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
-        <p:commandButton id = "carte" value="Carte" style="float: right" oncomplete="PF('carte_dialog').show()"/>
-        <p:sticky target="carte" />
-        <p:dialog id="carteDialog" header="PDV SUR CARTE" widgetVar="carte_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
-            <p:gmap center="-4.3257419, 15.3384682" zoom="27" type="hybrid"
-                    style="width:500px;height:300px" />               
-        </p:dialog>
+
         <div class="Container100">
             <div class="ContainerIndent">
+                <p:commandButton id = "carte" value="Carte" style="float: right; w" oncomplete="PF('carte_dialog').show()"/>
+                <p:sticky target="carte" />
+                <p:dialog id="carteDialog" header="PDV SUR CARTE" widgetVar="carte_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                    <p:gmap center="41.381542, 2.122893" zoom="15" type="hybrid"
+                            style="width:500px;height:300px" model="#{pointDeVenteBean.model}"/>               
+                </p:dialog>
 
                 <h:form id="form">
                     <h1><h:outputText value="List"/></h1>
-                    
+
                     <p:outputLabel value="Secteur"  />
                     <h:selectOneMenu value="#{pointDeVenteBean.idS}"  style="margin-top:10px; height: 30px; width: 100px;"  id="secteur">
                         <f:selectItem value="#{null}" itemLabel=""/>
@@ -39,20 +40,20 @@
                         <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                     </h:selectOneMenu>
                     <p:commandButton type="submit" action="#{pointDeVenteBean.filtrer()}"  update=":form:table"  value="Filtrer"/>
-                    
 
-                    <p:dataTable rowIndexVar="index" value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table" selection="#{pointDeVenteBean.pointDeVente}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
+
+                    <p:dataTable rowIndexVar="index" value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table"  rowKey="#{item.id}" selection="#{pointDeVenteBean.pointDeVenteChoisis}" selectionMode="multiple" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
                         <p:ajax event="rowSelect" listener="#{pointDeVenteBean.importer}" />
                         <f:facet name="header">
                             La liste des points de vente
                         </f:facet>
-                        <p:column >
+                        <p:column style="width: 35px">
                             <f:facet name="header">
                                 <h:outputText value="No"/>
                             </f:facet>
                             <h:outputText value="#{index + 1}"/>
                         </p:column>
-                        <p:column sortable="true" filterBy="#{item.circuit.code}" sortBy="#{item.circuit.code}">
+                        <p:column sortable="true" filterBy="#{item.circuit.code}" sortBy="#{item.circuit.code}" style="width: 70px">
                             <f:facet name="header">
                                 <h:outputText value="Zone"/>
                             </f:facet>
@@ -76,11 +77,19 @@
                             </f:facet>
                             <h:outputText value="#{item.adresse}"/>
                         </p:column>
+                        <p:column headerText="Action" >
+                            <p:commandLink id="delete" value="Supprimer"  onclick="PF('delete_dialog').show()" update=":formDelete:displayDelete" >
+                                <f:setPropertyActionListener value="#{item}" target="#{pointDeVenteBean.pointDeVente}"/>                                    
+                            </p:commandLink>
+                            <p:commandLink id="modifier" value="|Modifier" update=":updateform" onclick="PF('modifier_dialog').show()">
+                                <f:setPropertyActionListener value="#{item}" target="#{pointDeVenteBean.pointDeVente}"/>
+                            </p:commandLink> 
+                        </p:column>
                         <f:facet name="footer">  
 
                             <p:commandButton value="Ajouter un Point de Vente" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
                             <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Modifier un Point de Vente" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                            <p:commandButton value="Modifier un Point de Vente" action="#{pointDeVenteBean.toto()}" icon="ui-icon-disk" />
                             <p:commandButton value="Supprimer un Point de Vente" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
                         </f:facet> 
                     </p:dataTable>
@@ -101,25 +110,25 @@
                             <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                             </p:selectOneMenu> 
-                            
+
                             <h:outputText  value="Regime: "  class="syntaxe_content" />                   
                             <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeRegime}" style="width: 100%;">
                                 <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
                                 <f:selectItems  value="#{pointDeVenteBean.typeRegimes}" var="item" itemLabel="#{item}" itemValue="#{item}" />
                             </p:selectOneMenu>
-                            
+
                             <h:outputText  value="Type: "  class="syntaxe_content" />                   
                             <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typePdv}" style="width: 100%;">
                                 <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
                                 <f:selectItems  value="#{pointDeVenteBean.typePdvs}" var="item" itemLabel="#{item}" itemValue="#{item}" />
                             </p:selectOneMenu>
-                            
+
                             <h:outputText  value="Type: "  class="syntaxe_content" />                   
                             <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeCategorie}" style="width: 100%;">
                                 <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
                                 <f:selectItems  value="#{pointDeVenteBean.typeCategories}" var="item" itemLabel="#{item}" itemValue="#{item}" />
                             </p:selectOneMenu>
-                           
+
                             <f:facet name="footer"> <br/> 
                                 <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
@@ -146,24 +155,24 @@
                             <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                             </p:selectOneMenu> 
-                                                       <h:outputText  value="Regime: "  class="syntaxe_content" />                   
+                            <h:outputText  value="Regime: "  class="syntaxe_content" />                   
                             <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeRegime}" style="width: 100%;">
                                 <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
                                 <f:selectItems  value="#{pointDeVenteBean.typeRegimes}" var="item" itemLabel="#{item}" itemValue="#{item}" />
                             </p:selectOneMenu>
-                            
+
                             <h:outputText  value="Type: "  class="syntaxe_content" />                   
                             <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typePdv}" style="width: 100%;">
                                 <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
                                 <f:selectItems  value="#{pointDeVenteBean.typePdvs}" var="item" itemLabel="#{item}" itemValue="#{item}" />
                             </p:selectOneMenu>
-                            
+
                             <h:outputText  value="Type: "  class="syntaxe_content" />                   
                             <p:selectOneMenu value="#{pointDeVenteBean.pointDeVente.typeCategorie}" style="width: 100%;">
                                 <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>                    
                                 <f:selectItems  value="#{pointDeVenteBean.typeCategories}" var="item" itemLabel="#{item}" itemValue="#{item}" />
                             </p:selectOneMenu>
-                           
+
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.id}"/>
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.version}"/>
                             <f:facet name="footer"> <br/> 
@@ -184,6 +193,34 @@
                         <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
                     </div>
                 </p:confirmDialog>
+
+
+
+                <p:dialog header="Initialisation de la suppression" widgetVar="dlgDelete" hideEffect="explode" showEffect="explode">
+                    <h:form id="formDelete">    
+                        <p:growl  showDetail="true" /> 
+                        <p:panel >
+                            <h:panelGroup >
+                                <h:panelGrid id="displayDelete" columns="2">                                                                                                                              
+                                    <h:inputHidden value="#{pointDeVenteBean.pointDeVente.id}"/>                                        
+                                    <h:inputHidden value="#{pointDeVenteBean.pointDeVente.typeCategorie}"/>
+                                    <h:inputHidden value="#{pointDeVenteBean.pointDeVente.version}"/>
+                                    <h:inputHidden value="#{pointDeVenteBean.pointDeVente.code}"/>                                
+                                    <h:outputText value="voulez-vous vraiment supprimer ce PDV ?"/>
+                                </h:panelGrid>                                      
+                            </h:panelGroup>
+                            <p:separator/>
+                            <div id="center_content_div">
+                                <p:commandButton class="cmd_button" value="OUI"  actionListener="#{pointDeVenteBean.deletePvd()}" update=":formDelete,:form:table" icon="ui-icon-check" oncomplete="PF('dlgDelete').hide()" /> 
+                                <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete').hide()" update=":formDelete" icon="ui-icon-close"/> 
+                            </div>                     
+                        </p:panel>
+                    </h:form>  
+                </p:dialog> 
+
+
+
+
 
                 <p:dialog id="import" header="Importer des PDV" widgetVar="importer_dialog"  width="500" showEffect="clip" hideEffect="explode" modal="true"> 
                     <h:form id ="importform"  enctype="multipart/form-data">
