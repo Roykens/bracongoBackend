@@ -67,7 +67,7 @@ public class MaterielBean {
         this.materiels = materiels;
     }
     
-    public void saveOrUpdateZone() throws ServiceException{
+    public void saveOrUpdateMateriel() throws ServiceException{
         if (materiel != null && materiel.getNom() != null) {
             materielService.saveOrUpdateMateriel(materiel);
             if (materiel.getId() == null) {
@@ -81,7 +81,7 @@ public class MaterielBean {
         
     }
     
-    public void deleteZone() throws ServiceException{
+    public void deleteMateriel() throws ServiceException{
         if (materiel != null && materiel.getId() != null) {
             materielService.deleteMateriel(materiel.getId());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Operation reussie", materiel.getNom() + " a été supprimé"));

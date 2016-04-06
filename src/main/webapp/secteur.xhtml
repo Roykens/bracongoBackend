@@ -17,11 +17,17 @@
                 <h:form id="form">
                     <h1><h:outputText value="List"/></h1>
 
-                    <p:dataTable value="#{secteurBean.secteurs}" var="item" id="table" selection="#{secteurBean.secteur}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Secteur enregistré" reflow="true">
+                    <p:dataTable rowIndexVar="index" value="#{secteurBean.secteurs}" var="item" id="table" selection="#{secteurBean.secteur}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Secteur enregistré" reflow="true">
                         <p:ajax event="rowSelect" listener="#{secteurBean.test()}" />
                         <f:facet name="header">
                             La liste des secteurs
                         </f:facet>
+                        <p:column style="width: 35px">
+                            <f:facet name="header">
+                                <h:outputText value="No"/>
+                            </f:facet>
+                            <h:outputText value="#{index + 1}"/>
+                        </p:column>
                         <p:column sortable="true" filterBy="#{item.code}" sortBy="#{item.code}">
                             <f:facet name="header">
                                 <h:outputText value="Code"/>

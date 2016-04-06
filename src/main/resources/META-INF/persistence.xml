@@ -24,6 +24,8 @@
     <class>com.royken.bracongo.survey.entities.Telephone</class>
     <class>com.royken.bracongo.survey.entities.StockChaud</class>
     <class>com.royken.bracongo.survey.entities.PlanningPdv</class>
+    <class>com.royken.bracongo.survey.entities.Commentaire</class>
+    <class>com.royken.bracongo.survey.entities.Images</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
