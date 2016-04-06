@@ -1,10 +1,12 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 >
-<!-- SECTION 1 -->
+
+
+         <!-- SECTION 1 -->
 
         <div class="Container100 BorBotLeaden">
             <div class="ContainerIndent">
@@ -12,12 +14,12 @@
 
 
                 <p:panel style="min-height:400px;">
-                    <p:dialog modal="true" header="ATTRIBUER UN FORMAT A CETTE BOISSON " widgetVar="dlgSaveEVbgbra" hideEffect="explode" showEffect="explode" >
-                        <h:form id="formSaveEVbgbra">                                
-                            <p:growl id="growl9" showDetail="true" /> 
+                    <p:dialog modal="true" header="ATTRIBUER UN FORMAT A CETTE BOISSON " widgetVar="dlgSaveEVBgBra" hideEffect="explode" showEffect="explode" >
+                        <h:form id="formSaveEVBgBra">                                
+                            
                             <p:panel >
                                 <h:panelGroup >
-                                    <h:panelGrid  class="rightPosition"  id="displaySaveEV" columns="2">
+                                    <h:panelGrid  class="rightPosition"  id="displaySaveEVBgBra" columns="2">
                                         <h:outputText  value="Format : " class="syntaxe_content"/> 
                                         <h:selectOneMenu value="#{boissonBean.idFormat}" class="syntaxe_content" >
                                             <f:selectItems value="#{boissonBean.formats}" var="frmb" itemLabel="#{frmb.volume} cl" itemValue="#{frmb.id}" />
@@ -31,36 +33,36 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"   actionListener ="#{boissonBean.saveFormatBoisson()}" update="formSaveEVbgbra,:fbgbra:d" icon="ui-icon-check" oncomplete="PF('dlgSaveEVbgbra').hide()" styleClass="ui-priority-primary"/> 
-                                    <p:commandButton class="cmd_button" value="Annuler"  type="reset" onclick="PF('dlgSaveEVbgbra').hide()" update="formSaveEVbgbra" icon="ui-icon-close"/> 
+                                    <p:commandButton class="cmd_button" value="Soumettre"   actionListener ="#{boissonBean.saveFormatBoisson()}" update="formSaveEVBgBra,tabview:fBgBra:dBgBra" icon="ui-icon-check" oncomplete="PF('dlgSaveEVBgBra').hide()" styleClass="ui-priority-primary"/> 
+                                    <p:commandButton class="cmd_button" value="Annuler"  type="reset" onclick="PF('dlgSaveEVBgBra').hide()" update="formSaveEVBgBra" icon="ui-icon-close"/> 
                                 </div>                     
                             </p:panel>
                         </h:form>  
                     </p:dialog>
-                    <p:dialog modal="true" header="AJOUTER UNE BOISSON" widgetVar="dlgSavebgbra" hideEffect="explode" showEffect="explode">
-                        <h:form id="formSavebgbra">                                
-                            <p:growl id="growl" showDetail="true" /> 
+                    <p:dialog modal="true" header="AJOUTER UNE BOISSON" widgetVar="dlgSaveBgBra" hideEffect="explode" showEffect="explode">
+                        <h:form id="formSaveBgBra">                                
+                           
                             <p:panel >
                                 <h:panelGroup >
-                                    <h:panelGrid  class="rightPosition"  id="displaySave" columns="2">
+                                    <h:panelGrid  class="rightPosition"  id="displaySaveBgBra" columns="2">
                                         <h:outputText  value="Nom: "  class="syntaxe_content" />  
                                         <p:inputText value="#{boissonBean.boisson.nom}"   class="syntaxe_content" />  
                                     </h:panelGrid>  
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax1" actionListener ="#{boissonBean.saveOrUpdateBgBralima()}" update="formSavebgbra,fbgbra:d" icon="ui-icon-check" oncomplete="PF('dlgSavebgbra').hide()" styleClass="ui-priority-primary"/> 
-                                    <p:commandButton class="cmd_button" value="Annuler"  id="annule1" type="reset" onclick="PF('dlgSavebgbra').hide()" update="formSavebgbra" icon="ui-icon-close"/> 
+                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax11" actionListener ="#{boissonBean.saveOrUpdateBgBralima()}" update="formSaveBgBra,tabview:fBgBra:dBgBra" icon="ui-icon-check" oncomplete="PF('dlgSaveBgBra').hide()" styleClass="ui-priority-primary"/> 
+                                    <p:commandButton class="cmd_button" value="Annuler"  id="annule11" type="reset" onclick="PF('dlgSaveBgBra').hide()" update="formSaveBgBra" icon="ui-icon-close"/> 
                                 </div>                     
                             </p:panel>
                         </h:form>  
                     </p:dialog>                    
-                    <p:dialog modal="true" header="MODIFIER LA Boisson" widgetVar="dlgUpdatebgbra" hideEffect="explode" showEffect="explode">
-                        <h:form id="formUpdtebgbra">    
-                            <p:growl id="growl1" showDetail="true" /> 
+                    <p:dialog modal="true" header="MODIFIER LA Boisson" widgetVar="dlgUpdateBgBra" hideEffect="explode" showEffect="explode">
+                        <h:form id="formUpdateBgBra">    
+                           
                             <p:panel >
                                 <h:panelGroup >
-                                    <h:panelGrid  class="rightPosition"  id="displayUpdate" columns="2">                                        
+                                    <h:panelGrid  class="rightPosition"  id="displayUpdateBgBra" columns="2">                                        
                                         <h:outputText  value="Nom: "  class="syntaxe_content" />  
                                         <p:inputText value="#{boissonBean.boisson.nom}"   class="syntaxe_content"  />  
                                         <h:inputHidden value="#{boissonBean.boisson.id}"  />
@@ -71,18 +73,18 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax2" actionListener="#{boissonBean.saveOrUpdateBgBralima()}" update="formUpdtebgbra,fbgbra:d" icon="ui-icon-check" oncomplete="PF('dlgUpdatebgbra').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="Annuler" type="reset"  id="annule2" onclick="PF('dlgUpdatebgbra').hide()" update="formUpdtebgbra" icon="ui-icon-close"/> 
+                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax21" actionListener="#{boissonBean.saveOrUpdateBgBralima()}" update="formUpdateBgBra,tabview:fBgBra:dBgBra" icon="ui-icon-check" oncomplete="PF('dlgUpdateBgBra').hide()" /> 
+                                    <p:commandButton class="cmd_button" value="Annuler" type="reset"  id="annule21" onclick="PF('dlgUpdateBgBra').hide()" update="formUpdateBgBra" icon="ui-icon-close"/> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
                     </p:dialog>
-                    <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDelete" hideEffect="explode" showEffect="explode">
-                        <h:form id="fsbgbra">    
-                            <p:growl showDetail="true" /> 
+                    <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDeleteBgBra" hideEffect="explode" showEffect="explode">
+                        <h:form id="fsBgBra">    
+                            
                             <p:panel >
                                 <h:panelGroup >
-                                    <h:panelGrid  class="rightPosition"  id="ds" columns="1">   
+                                    <h:panelGrid  class="rightPosition"  id="dsBgBra" columns="1">   
                                         <h:outputLabel value="voulez-vous vraiment supprimer cette boisson ?"/>
                                         <h:inputHidden value="#{boissonBean.boisson.id}"  />
                                         <h:inputHidden value="#{boissonBean.boisson.version}"  />
@@ -92,18 +94,18 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{typeCoursBean.deleteTypeCours(actionEvent)}" update="fsbgbra,:f:d" icon="ui-icon-check" oncomplete="PF('dlgDelete').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete').hide()" update="fsbgbra" icon="ui-icon-close" /> 
+                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteBoisson()}" update="fsBgBra,tabview:fBgBra:dBgBra" icon="ui-icon-check" oncomplete="PF('dlgDeleteBgBra').hide()" /> 
+                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDeleteBgBra').hide()" update="fsBgBra" icon="ui-icon-close" /> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
                     </p:dialog>
-                    <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDelete1" hideEffect="explode" showEffect="explode">
-                        <h:form id="fs1bgbra">    
-                            <p:growl showDetail="true" /> 
+                    <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDelete1BgBra" hideEffect="explode" showEffect="explode">
+                        <h:form id="fs1BgBra">    
+                            
                             <p:panel >
                                 <h:panelGroup >
-                                    <h:panelGrid   class="rightPosition"  id="ds1" columns="1">   
+                                    <h:panelGrid   class="rightPosition"  id="ds1BgBra" columns="1">   
                                         <h:outputLabel value="voulez-vous vraiment supprimer ce format?"/>
                                         <h:inputHidden value="#{boissonBean.boisson.id}"  />
                                         <h:inputHidden value="#{boissonBean.boisson.version}"  />
@@ -115,39 +117,39 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteFormatBoisson()}" update="fs1bgbra,fbgbra:d" icon="ui-icon-check" oncomplete="PF('dlgDelete1').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete1').hide()" update="fs1bgbra" icon="ui-icon-close" /> 
+                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteFormatBoisson()}" update="fs1BgBra,tabview:fBgBra:dBgBra" icon="ui-icon-check" oncomplete="PF('dlgDelete1BgBra').hide()" /> 
+                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete1BgBra').hide()" update="fs1BgBra" icon="ui-icon-close" /> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
                     </p:dialog>
-                    <h:form id="fbgbra" class="syntaxe_content" >                        
+                    <h:form id="fBgBra" class="syntaxe_content" >                        
                         <p:growl id="growl3" showDetail="true" autoUpdate="true"/> 
-                        <p:confirmDialog id="h" message="voulez-vous vraiment supprimer la boisson #{boissonBean.boisson.nom}?"
+                        <p:confirmDialog id="hBgBra" message="voulez-vous vraiment supprimer la boisson #{boissonBean.boisson.nom}?"
                                          header="Initialisation de la suppression" severity="alert"
-                                         widgetVar="confirmation" showEffect="explode" hideEffect="explode"> 
-                            <p:commandButton class="cmd_button"   value="OUI" action="#{boissonBean.deleteBoisson()}" oncomplete="PF('confirmation').hide()" update="fbgbra:d" />
-                            <p:commandButton class="cmd_button" value="NON" type="reset" onclick ="PF('confirmation').hide();" />
+                                         widgetVar="confirmationBgBra" showEffect="explode" hideEffect="explode"> 
+                            <p:commandButton class="cmd_button"   value="OUI" action="#{boissonBean.deleteBoisson()}" oncomplete="PF('confirmationBgBra').hide()" update="tabview:fBgBra:dBgBra" />
+                            <p:commandButton class="cmd_button" value="NON" type="reset" onclick ="PF('confirmationBgBra').hide();" />
                         </p:confirmDialog>
-                        <p:confirmDialog id="g" 
+                        <p:confirmDialog id="gBgBra" 
                                          message="voulez-vous vraiment supprimer cette boisson ?"
                                          header="Initialisation de la suppression" severity="alert"
-                                         widgetVar="c" 
+                                         widgetVar="cBgBra" 
                                          showEffect="explode" 
                                          hideEffect="explode"> 
                             <div id="center_content_div">
                                 <p:commandButton class="cmd_button" value="OUI" 
                                                  action="#{boissonBean.deleteFormatBoisson()}" 
-                                                 oncomplete="PF('c').hide()" 
-                                                 update=":fbgbra:d:e" 
+                                                 oncomplete="PF('cBgBra').hide()" 
+                                                 update="fBgBra:dBgBra:eBgBra" 
                                                  />
                                 <p:commandButton class="cmd_button" value="NON" 
                                                  type="reset" 
-                                                 onclick ="PF('c').hide();" 
+                                                 onclick ="PF('cBgBra').hide();" 
                                                  />
                             </div>
                         </p:confirmDialog>
-                        <p:dataGrid id = "d" var="car"  
+                        <p:dataGrid id = "dBgBra" var="bgBral"  
                                     emptyMessage="Aucune Boisson trouvée" 
                                     value="#{boissonBean.bgBralima}" 
                                     columns="3" 
@@ -160,28 +162,28 @@
                                 LA LISTE DES BG BRALIMA
                             </f:facet>
                             <f:facet name="footer" >  
-                                <p:commandButton  icon="ui-icon-disk" value="Nouvelle Bière" type="button" onclick="PF('dlgSavebgbra').show()"/>
+                                <p:commandButton  icon="ui-icon-disk" value="Nouvelle Bière" type="button" onclick="PF('dlgSaveBgBra').show()"/>
                             </f:facet>
                             <p:column >                               
-                                <p:dataTable  id="e"  
+                                <p:dataTable  id="eBgBra"  
                                               emptyMessage="Aucune Evaluation n'est enregistrée" 
                                               var="formatBoisson" 
-                                              value="#{boissonBean.getFormatBoissons(car)}" 
+                                              value="#{boissonBean.getFormatBoissons(bgBral)}" 
                                               rowKey="#{formatBoisson.id}" 
                                               rows="10"
                                               sortOrder="ascending" class="type_cours_datatable_in_datadgrid" >  
                                     <f:facet name="header" >  
                                         <table class="type_cours">
                                             <tr >
-                                                <td><h:outputText value="#{car.nom}"  /> </td>
-                                                <td><p:commandButton id="a" onclick="PF('dlgDelete').show()" update=":fsbgbra:ds" icon="ui-icon-trash" class="type_cours_menuClass">
-                                                        <f:setPropertyActionListener  value="#{car}" target="#{boissonBean.boisson}"/>
+                                                <td><h:outputText value="#{bgBral.nom}"  /> </td>
+                                                <td><p:commandButton id="aBgBra" onclick="PF('dlgDeleteBgBra').show()" update="tabview:fsBgBra:dsBgBra" icon="ui-icon-trash" class="type_cours_menuClass">
+                                                        <f:setPropertyActionListener  value="#{bgBral}" target="#{boissonBean.boisson}"/>
                                                     </p:commandButton>
-                                                    <p:tooltip for="a" value="cliquez ici pour supprimer ce type de cours"/>
-                                                    <p:commandButton  id="q" onclick="PF('dlgUpdatebgbra').show()" icon="ui-icon-arrowrefresh-1-w"  update=":formUpdtebgbra:displayUpdate" class="type_cours_menuClass">
-                                                        <f:setPropertyActionListener value="#{car}" target="#{boissonBean.boisson}"/>
+                                                    <p:tooltip for="aBgBra" value="cliquez ici pour supprimer ce type de cours"/>
+                                                    <p:commandButton  id="qBgBra" onclick="PF('dlgUpdateBgBra').show()" icon="ui-icon-arrowrefresh-1-w"  update="tabview:formUpdateBgBra:displayUpdateBgBra" class="type_cours_menuClass">
+                                                        <f:setPropertyActionListener value="#{bgBral}" target="#{boissonBean.boisson}"/>
                                                     </p:commandButton>
-                                                    <p:tooltip for="q" value="cliquez ici pour modifier cette boisson"/>
+                                                    <p:tooltip for="qBgBra" value="cliquez ici pour modifier cette boisson"/>
                                                 </td>
                                             </tr>
                                         </table>
@@ -190,15 +192,15 @@
                                         #{formatBoisson.format.volume} cl   
                                     </p:column>                                                                          
                                     <p:column headerText="Action">
-                                        <p:commandLink id="delete" value="|Supprimer" onclick="PF('dlgDelete1').show()"  update=":fs1bgbra:ds1" >  
-                                            <f:setPropertyActionListener  value="#{car}" target="#{boissonBean.boisson}"/>
+                                        <p:commandLink id="deleteBgBra" value="|Supprimer" onclick="PF('dlgDelete1BgBra').show()"  update="tabview:fs1BgBra:ds1BgBra" >  
+                                            <f:setPropertyActionListener  value="#{bgBral}" target="#{boissonBean.boisson}"/>
                                             <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>
                                         </p:commandLink> 
 
                                     </p:column>        
                                     <f:facet name="footer" >  
-                                        <p:commandLink  id="ajouter" value="Nouveau Format" type="button" onclick="PF('dlgSaveEVbgbra').show()" update=":formSaveEVbgbra:displaySaveEV" >
-                                            <f:setPropertyActionListener  value="#{car}" target="#{boissonBean.boisson}"/>
+                                        <p:commandLink  id="ajouterBgBra" value="Nouveau Format" type="button" onclick="PF('dlgSaveEVBgBra').show()" update="tabview:formSaveEVBgBra:displaySaveEVBgBra" >
+                                            <f:setPropertyActionListener  value="#{bgBral}" target="#{boissonBean.boisson}"/>
                                         </p:commandLink>
                                     </f:facet>                                         
                                 </p:dataTable>                                    
@@ -211,4 +213,4 @@
                 <div class="EmptyBox20"></div>
             </div>
         </div>
-</html>
+</ui:composition>

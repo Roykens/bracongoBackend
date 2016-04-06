@@ -9,6 +9,7 @@ import com.royken.bracongo.survey.service.IFormatBoissonService;
 import com.royken.bracongo.survey.service.IFormatService;
 import com.royken.bracongo.survey.service.ServiceException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
@@ -26,7 +28,7 @@ import org.primefaces.context.RequestContext;
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Named(value = "boissonBean")
-@RequestScoped
+@SessionScoped
 public class BoissonBean implements Serializable {
 
     @EJB
@@ -40,10 +42,16 @@ public class BoissonBean implements Serializable {
 
     private Boisson boisson = new Boisson();
 
-    private List<FormatBoisson> formatBoissons;
+    private List<FormatBoisson> formatBoissonsBiBrac;
+    
+    private List<FormatBoisson> formatBoissonBgBrac;
+    
+    private List<FormatBoisson> formatBoisonBiBral;
+    
+    private List<FormatBoisson> formatBoissonBgBral;
 
     private FormatBoisson formatBoisson = new FormatBoisson();
-    
+
     private Format format = new Format();
 
     private List<Boisson> boissons;
@@ -117,7 +125,7 @@ public class BoissonBean implements Serializable {
     public void setFormat(Format format) {
         this.format = format;
     }
-    
+
     public void setFormatBoissonService(IFormatBoissonService formatBoissonService) {
         this.formatBoissonService = formatBoissonService;
     }
@@ -178,21 +186,85 @@ public class BoissonBean implements Serializable {
         this.biBralima = biBralima;
     }
 
-    public List<FormatBoisson> getFormatBoissons(Boisson boisson) {
+    public List<FormatBoisson> getFormatBoissonBgBrac(Boisson boisson1) {
+          formatBoissonBgBrac  = new ArrayList<FormatBoisson>();
         try {
             System.out.println("================\n==========\n=============\n");
-            System.out.println("La boisson "+boisson);
+            
             System.out.println("================\n==========\n=============\n");
-            formatBoissons = formatBoissonService.findByBoisson(701L);
-            return formatBoissons;
+            if (boisson1 != null) {
+                System.out.println("La boisson xxx" + boisson1);
+                formatBoissonBgBrac = formatBoissonService.findByBoisson(boisson1.getId());
+                System.out.println("Pour la boisson " + boisson1 + "J'ai pris " + formatBoissonBgBrac.size() + " formats");
+                return formatBoissonBgBrac;
+            }
+        } catch (ServiceException ex) {
+            Logger.getLogger(BoissonBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+        
+    }
+
+    public List<FormatBoisson> getFormatBoisonBiBral(Boisson boisson1) {
+        
+          formatBoisonBiBral  = new ArrayList<FormatBoisson>();
+        try {
+            System.out.println("================\n==========\n=============\n");
+            
+            System.out.println("================\n==========\n=============\n");
+            if (boisson1 != null) {
+                System.out.println("La boisson xxx" + boisson1);
+                formatBoisonBiBral = formatBoissonService.findByBoisson(boisson1.getId());
+                System.out.println("Pour la boisson " + boisson1 + "J'ai pris " + formatBoisonBiBral.size() + " formats");
+                return formatBoisonBiBral;
+            }
+        } catch (ServiceException ex) {
+            Logger.getLogger(BoissonBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+        
+    }
+
+    public List<FormatBoisson> getFormatBoissonBgBral(Boisson boisson1) {
+        formatBoissonBgBral  = new ArrayList<FormatBoisson>();
+        try {
+            System.out.println("================\n==========\n=============\n");
+            
+            System.out.println("================\n==========\n=============\n");
+            if (boisson1 != null) {
+                System.out.println("La boisson xxx" + boisson1);
+                formatBoissonBgBral = formatBoissonService.findByBoisson(boisson1.getId());
+                System.out.println("Pour la boisson " + boisson1 + "J'ai pris " + formatBoissonBgBral.size() + " formats");
+                return formatBoissonBgBral;
+            }
+        } catch (ServiceException ex) {
+            Logger.getLogger(BoissonBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
+    }
+    
+    
+
+    public List<FormatBoisson> getFormatBoissons(Boisson boisson1) {
+        formatBoissonsBiBrac  = new ArrayList<FormatBoisson>();
+        try {
+            System.out.println("================\n==========\n=============\n");
+            
+            System.out.println("================\n==========\n=============\n");
+            if (boisson1 != null) {
+                System.out.println("La boisson xxx" + boisson1);
+                formatBoissonsBiBrac = formatBoissonService.findByBoisson(boisson1.getId());
+                System.out.println("Pour la boisson " + boisson1 + "J'ai pris " + formatBoissonsBiBrac.size() + " formats");
+                return formatBoissonsBiBrac;
+            }
         } catch (ServiceException ex) {
             Logger.getLogger(BoissonBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Collections.EMPTY_LIST;
     }
 
-    public void setFormatBoissons(List<FormatBoisson> formatBoissons) {
-        this.formatBoissons = formatBoissons;
+    public void setFormatBoissonsBiBrac(List<FormatBoisson> formatBoissonsBiBrac) {
+        this.formatBoissonsBiBrac = formatBoissonsBiBrac;
     }
 
     public List<Format> getFormats() {
@@ -233,7 +305,7 @@ public class BoissonBean implements Serializable {
             boisson = new Boisson();
         }
     }
-    
+
     public void saveOrUpdateBgBracongo() throws ServiceException {
         System.out.println("La boisson");
         System.out.println(boisson);
@@ -250,7 +322,7 @@ public class BoissonBean implements Serializable {
             boisson = new Boisson();
         }
     }
-    
+
     public void saveOrUpdateBiBralima() throws ServiceException {
         System.out.println("La boisson");
         System.out.println(boisson);
@@ -267,7 +339,7 @@ public class BoissonBean implements Serializable {
             boisson = new Boisson();
         }
     }
-    
+
     public void saveOrUpdateBgBralima() throws ServiceException {
         System.out.println("La boisson");
         System.out.println(boisson);
@@ -316,6 +388,7 @@ public class BoissonBean implements Serializable {
             FormatBoisson formatBoisson1 = new FormatBoisson();
             formatBoisson1.setBoisson(boisson);
             formatBoisson1.setFormat(iFormatService.findFormatById(idFormat));
+            System.out.println(formatBoisson1);
             formatBoissonService.saveOrUpdateFormatBoisson(formatBoisson1);
             idFormat = 0L;
             boisson = new Boisson();
@@ -326,11 +399,9 @@ public class BoissonBean implements Serializable {
         idFormat = 0L;
         boisson = new Boisson();
     }
-    
-    public void deleteFormatBoisson(){
-        
-        
-        
+
+    public void deleteFormatBoisson() {
+
     }
 
 }

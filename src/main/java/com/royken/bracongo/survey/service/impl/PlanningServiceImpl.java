@@ -1,6 +1,8 @@
 package com.royken.bracongo.survey.service.impl;
 
+import com.royken.bracongo.survey.dao.IEnqueteurDao;
 import com.royken.bracongo.survey.dao.IPlanningDao;
+import com.royken.bracongo.survey.entities.Enqueteur;
 import com.royken.bracongo.survey.entities.Planning;
 import com.royken.bracongo.survey.service.IPlanningService;
 import com.royken.bracongo.survey.service.ServiceException;
@@ -21,6 +23,27 @@ public class PlanningServiceImpl implements IPlanningService {
 
     @Inject
     private IPlanningDao planningDao;
+    
+    @Inject
+    private IEnqueteurDao enqueteurDao;
+
+    public IPlanningDao getPlanningDao() {
+        return planningDao;
+    }
+
+    public void setPlanningDao(IPlanningDao planningDao) {
+        this.planningDao = planningDao;
+    }
+
+    public IEnqueteurDao getEnqueteurDao() {
+        return enqueteurDao;
+    }
+
+    public void setEnqueteurDao(IEnqueteurDao enqueteurDao) {
+        this.enqueteurDao = enqueteurDao;
+    }
+    
+    
 
     @Override
     public Planning saveOrUpdatePlanning(Planning planning) throws ServiceException {
@@ -57,6 +80,17 @@ public class PlanningServiceImpl implements IPlanningService {
         } catch (DataAccessException ex) {
             Logger.getLogger(PlanningServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @Override
+    public Planning findByEnqueteur(Long idEnqueteur) throws ServiceException {
+        try {
+            Enqueteur enqueteur = enqueteurDao.findById(idEnqueteur);
+            return planningDao.getByEnqueteur(enqueteur);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(PlanningServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

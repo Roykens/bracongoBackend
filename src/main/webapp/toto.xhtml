@@ -60,16 +60,18 @@
             <div class="ContainerIndent">
                 <div class="EmptyBox10"></div>
                 
-                <p:tabView dynamic="true">
-                    <p:tab title="Tab One">
-                        <h:outputText value="Lorem" />
-                          <ui:include src="biBralima.xhtml" />
+                <p:tabView dynamic="true" id="tabview" orientation="left">
+                    <p:tab title="BI Bracong" id="tab1">    
+                       <ui:include src="biBracongo.xhtml" /> 
                     </p:tab>
-                    <p:tab title="Tab Two">
-                        <h:outputText value="Ipsum" />
+                    <p:tab title="BG Bracongo" id="tab2">                      
+                        <ui:include src="bgBracongo.xhtml" />
                     </p:tab>
-                    <p:tab title="Tab Three">
-                        <h:outputText value="Dolor" />
+                    <p:tab title="BI Bralima" id="tab3">
+                       <ui:include src="biBralima.xhtml" />                        
+                    </p:tab>
+                    <p:tab title="BG Bralima" id="tab4">                       
+                        <ui:include src="bgBralima.xhtml" />
                     </p:tab>
                 </p:tabView>
                 <div class="EmptyBox20"></div>

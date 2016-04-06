@@ -97,6 +97,11 @@ public class FormatBoisson implements Serializable{
     public void setStockChauds(List<StockChaud> stockChauds) {
         this.stockChauds = stockChauds;
     }
+
+    @Override
+    public String toString() {
+        return "FormatBoisson{" + "version=" + version + ", id=" + id + ", boisson=" + boisson + ", format=" + format + '}';
+    }
     
     
 }

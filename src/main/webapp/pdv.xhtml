@@ -14,12 +14,9 @@
 
         <div class="Container100">
             <div class="ContainerIndent">
-                <p:commandButton id = "carte" value="Carte" style="float: right; w" oncomplete="PF('carte_dialog').show()"/>
-                <p:sticky target="carte" />
-                <p:dialog id="carteDialog" header="PDV SUR CARTE" widgetVar="carte_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
-                    <p:gmap center="41.381542, 2.122893" zoom="15" type="hybrid"
-                            style="width:500px;height:300px" model="#{pointDeVenteBean.model}"/>               
-                </p:dialog>
+
+
+
 
                 <h:form id="form">
                     <h1><h:outputText value="List"/></h1>
@@ -39,7 +36,7 @@
                         <f:selectItem value="#{null}" itemLabel=""/>
                         <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                     </h:selectOneMenu>
-                    <p:commandButton type="submit" action="#{pointDeVenteBean.filtrer()}"  update=":form:table"  value="Filtrer"/>
+                    <p:commandButton type="submit" action="#{pointDeVenteBean.filtrer()}"  update=":form:table,:carteDialog"  value="Filtrer"/>
 
 
                     <p:dataTable rowIndexVar="index" value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table"  rowKey="#{item.id}" selection="#{pointDeVenteBean.pointDeVenteChoisis}" selectionMode="multiple" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
@@ -91,9 +88,22 @@
                             <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
                             <p:commandButton value="Modifier un Point de Vente" action="#{pointDeVenteBean.toto()}" icon="ui-icon-disk" />
                             <p:commandButton value="Supprimer un Point de Vente" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                            <p:commandButton id = "carte" icon="ui-icon-pin-s" value="Carte" style="float: right; w" oncomplete="PF('carte_dialog').show()"/>
                         </f:facet> 
                     </p:dataTable>
                 </h:form>
+
+                <p:dialog id="carteDialog" header="PDV SUR CARTE" widgetVar="carte_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
+                    <p:gmap center="-4.327587,15.341622" zoom="15" type="HYBRID"
+                            style="width:600px;height:400px" model="#{pointDeVenteBean.model2}" >
+                        <p:ajax event="overlaySelect" listener="#{pointDeVenteBean.onMarkerSelect}" />
+                        <p:gmapInfoWindow id="infoWindow">
+                            <p:outputPanel style="text-align: center; display: block; margin: auto">                                
+                                <h:outputText value="#{pointDeVenteBean.marker.title}" />
+                            </p:outputPanel>
+                        </p:gmapInfoWindow>
+                    </p:gmap>               
+                </p:dialog>
                 <p:dialog id="ajout" header="Ajouter un PDV" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
                     <h:form id ="saveform">
                         <h:panelGrid id="display" columns="2" >  
@@ -232,6 +242,10 @@
                                           allowTypes="/(\.|\/)(xslx|xsl)$/" class="syntaxe_content" update="feuille" process="@this" invalidFileMessage="fichier invalide" requiredMessage="chargez le fichier" > 
                                 <!--                                    <p:ajax listener="" event="change" update="cities" process="@this"/>-->
                             </p:fileUpload>
+                            <h:outputText  value="Circuit : " />                                  
+                            <p:selectOneMenu     filter="true" filterMatchMode="startsWith" value="#{pointDeVenteBean.idCircuit}" class="syntaxe_content" >
+                                <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.zone.code}-#{circuit.code}" itemValue="#{circuit.id}" />                                            
+                            </p:selectOneMenu><br/><br/>
 
 
                             <f:facet name="footer"> <br/>  

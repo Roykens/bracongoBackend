@@ -1,7 +1,10 @@
 package com.royken.bracongo.survey.resource.impl;
 
+import com.royken.bracongo.survey.entities.Planning;
 import com.royken.bracongo.survey.entities.PointDeVente;
+import com.royken.bracongo.survey.entities.projection.PlanningEnquetteur;
 import com.royken.bracongo.survey.resource.IPointDeVenteResource;
+import com.royken.bracongo.survey.service.IPlanningService;
 import com.royken.bracongo.survey.service.IPointDeVenteService;
 import com.royken.bracongo.survey.service.ServiceException;
 import java.util.Collections;
@@ -20,6 +23,9 @@ public class PointDeVenteResourceImpl implements IPointDeVenteResource{
     
     @EJB
     private IPointDeVenteService pointDeVenteService;
+    
+    @EJB
+    private IPlanningService planningService;
 
     public IPointDeVenteService getPointDeVenteService() {
         return pointDeVenteService;
@@ -42,13 +48,21 @@ public class PointDeVenteResourceImpl implements IPointDeVenteResource{
     }
 
     @Override
-    public List<PointDeVente> getAllPointDeVenteByEnqueteur(long id) {
+    public PlanningEnquetteur getAllPointDeVenteByEnqueteur(long id) {
+        PlanningEnquetteur planningEnquetteur = new PlanningEnquetteur();
         try {
-            return pointDeVenteService.findAllByEnqueteur(id);
+            Planning planning = planningService.findByEnqueteur(id);
+            if(planning != null){
+                planningEnquetteur.setIdPlanning(planning.getId());
+                List<PointDeVente> pointDeVentes = pointDeVenteService.findByPlanningAndEnqueteur(id);
+                planningEnquetteur.setPointDeVentes(pointDeVentes);
+                return planningEnquetteur;
+            }
+            //return pointDeVenteService.findAllByEnqueteur(id);
         } catch (ServiceException ex) {
             Logger.getLogger(PointDeVenteResourceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return Collections.EMPTY_LIST;
+        return planningEnquetteur;
     }
     
 }

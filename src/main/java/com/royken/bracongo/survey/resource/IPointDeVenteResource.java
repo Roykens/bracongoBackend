@@ -1,6 +1,7 @@
 package com.royken.bracongo.survey.resource;
 
 import com.royken.bracongo.survey.entities.PointDeVente;
+import com.royken.bracongo.survey.entities.projection.PlanningEnquetteur;
 import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,5 +22,5 @@ public interface IPointDeVenteResource {
     @GET
     @Produces(value = "application/json")
     @Path(value = "{id : \\d+}")
-    public List<PointDeVente> getAllPointDeVenteByEnqueteur(@PathParam(value = "id")long id);
+    public PlanningEnquetteur getAllPointDeVenteByEnqueteur(@PathParam(value = "id")long id);
 }

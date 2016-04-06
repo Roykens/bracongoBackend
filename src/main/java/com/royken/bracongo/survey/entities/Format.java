@@ -58,6 +58,19 @@ public class Format implements Serializable{
     public void setVolume(int volume) {
         this.volume = volume;
     }
+
+    public List<FormatBoisson> getFormatBoissons() {
+        return formatBoissons;
+    }
+
+    public void setFormatBoissons(List<FormatBoisson> formatBoissons) {
+        this.formatBoissons = formatBoissons;
+    }
+
+    @Override
+    public String toString() {
+        return "Format{" + "version=" + version + ", id=" + id + ", volume=" + volume + '}';
+    }
     
     
 }

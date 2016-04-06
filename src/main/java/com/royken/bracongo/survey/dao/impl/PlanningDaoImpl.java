@@ -6,6 +6,7 @@ import com.royken.bracongo.survey.entities.Planning;
 import com.royken.bracongo.survey.entities.Planning_;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.impl.GenericDao;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,7 +23,9 @@ public class PlanningDaoImpl extends GenericDao<Planning, Long> implements IPlan
         CriteriaQuery<Planning> cq = cb.createQuery(Planning.class);
         Root<Planning> planRoot = cq.from(Planning.class);
         cq.where(cb.equal(planRoot.get(Planning_.enqueteur), enqueteur));
-        return getManager().createQuery(cq).getSingleResult();
+        cq.select(planRoot);
+        cq.orderBy(cb.desc(planRoot.get(Planning_.datePlaning)));
+        return getManager().createQuery(cq).setMaxResults(1).getSingleResult();
     }
 
     @Override
@@ -32,6 +35,15 @@ public class PlanningDaoImpl extends GenericDao<Planning, Long> implements IPlan
         Root<Planning> pRoot = cq.from(Planning.class);
         cq.orderBy(cb.desc(pRoot.get(Planning_.datePlaning)));
         return getManager().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public Planning getByEnqueteurDate(Date date, Enqueteur enqueteur) throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<Planning> cq = cb.createQuery(Planning.class);
+        Root<Planning> plRoot = cq.from(Planning.class);
+        cq.where(cb.and(cb.equal(plRoot.get(Planning_.datePlaning), date), cb.equal(plRoot.get(Planning_.enqueteur), enqueteur)));
+        return getManager().createQuery(cq).getSingleResult();
     }
     
     

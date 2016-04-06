@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FormatReponse {
     
-    private Long pdv;
+    private Long idPdv;
 
     private TypePdv typePdv;
 
@@ -41,13 +41,16 @@ public class FormatReponse {
     private EtatMateriel etatMateriel;
 
     private Long idPlanning;
+    
+    
+    
 
-    public Long getPdv() {
-        return pdv;
+    public Long getIdPdv() {
+        return idPdv;
     }
 
-    public void setPdv(Long pdv) {
-        this.pdv = pdv;
+    public void setIdPdv(Long idPdv) {
+        this.idPdv = idPdv;
     }
 
     public TypePdv getTypePdv() {

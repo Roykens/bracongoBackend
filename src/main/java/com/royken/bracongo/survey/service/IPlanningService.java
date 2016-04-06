@@ -16,4 +16,6 @@ public interface IPlanningService {
     public List<Planning> findAllPlanning() throws ServiceException;
     
     public void deletePlanning(Long id) throws ServiceException;
+    
+    public Planning findByEnqueteur(Long idEnqueteur) throws ServiceException;
 }

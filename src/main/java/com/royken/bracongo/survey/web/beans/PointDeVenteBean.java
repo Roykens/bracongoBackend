@@ -12,6 +12,8 @@ import com.royken.bracongo.survey.service.IPointDeVenteService;
 import com.royken.bracongo.survey.service.ISecteurService;
 import com.royken.bracongo.survey.service.IZoneService;
 import com.royken.bracongo.survey.service.ServiceException;
+import com.royken.bracongo.survey.service.util.ImportationResult;
+import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,10 +21,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.UploadedFile;
 import org.primefaces.model.map.DefaultMapModel;
 import org.primefaces.model.map.LatLng;
@@ -34,7 +39,7 @@ import org.primefaces.model.map.Marker;
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 @Named(value = "pointDeVenteBean")
-@RequestScoped
+@SessionScoped
 public class PointDeVenteBean implements Serializable {
     
     private Secteur secteur;
@@ -78,14 +83,22 @@ public class PointDeVenteBean implements Serializable {
     private ISecteurService secteurService;
 
     Long idS = -1L, idZ = -1L, idC = -1L, idA = -1L;
+    
+    private ImportationResult importationResult = new ImportationResult();
 
     private MapModel model = new DefaultMapModel();
+    
+    private Long idCircuit;
+    
+    private MapModel simpleModel;
+    
+    private Marker marker;
 
     /**
      * Creates a new instance of PointDeVenteBean
      */
     public PointDeVenteBean() {
-        model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
+        //model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
         typeRegimes.add(TypeRegime.PVE);
         typeRegimes.add(TypeRegime.Mixte);
         typePdvs.add(TypePdv.BAR);
@@ -95,6 +108,27 @@ public class PointDeVenteBean implements Serializable {
         typeCategories.add(TypeCategorie.Ag);
         typeCategories.add(TypeCategorie.Br);
         typeCategories.add(TypeCategorie.Or);
+    }
+    
+    @PostConstruct
+    public void init() {
+        simpleModel = new DefaultMapModel();
+          
+        //Shared coordinates
+        LatLng coord1 = new LatLng(36.879466, 30.667648);
+        LatLng coord2 = new LatLng(36.883707, 30.689216);
+        LatLng coord3 = new LatLng(36.879703, 30.706707);
+        LatLng coord4 = new LatLng(36.885233, 30.702323);
+          
+        //Basic marker
+        simpleModel.addOverlay(new Marker(coord1, "Konyaalti"));
+        simpleModel.addOverlay(new Marker(coord2, "Ataturk Parki"));
+        simpleModel.addOverlay(new Marker(coord3, "Karaalioglu Parki"));
+        simpleModel.addOverlay(new Marker(coord4, "Kaleici"));
+    }
+  
+    public MapModel getSimpleModel() {
+        return simpleModel;
     }
 
     public Secteur getSecteur() {
@@ -221,13 +255,13 @@ public class PointDeVenteBean implements Serializable {
 
     public MapModel getModel() {
         
-        // model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
-        if (pointDeVntes.size() > 0) {
-            for (PointDeVente pointDeVnte : pointDeVntes) {
-                model.addOverlay(new Marker(new LatLng(pointDeVnte.getLatitude(), pointDeVnte.getLongitude()), pointDeVnte.getNom()));
-            }
-            System.out.println("J'ai mis  "+ pointDeVntes.size() + "points");
-        }
+         model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
+//        if (pointDeVntes.size() > 0) {
+//            for (PointDeVente pointDeVnte : pointDeVntes) {
+//                model.addOverlay(new Marker(new LatLng(pointDeVnte.getLatitude(), pointDeVnte.getLongitude()), pointDeVnte.getNom()));
+//            }
+//            System.out.println("J'ai mis  "+ pointDeVntes.size() + "points");
+//        }
         return model;
     }
     
@@ -235,9 +269,11 @@ public class PointDeVenteBean implements Serializable {
           System.out.println("J'entre");
           System.out.println(pointDeVntes.size());
         // model.addOverlay(new Marker(new LatLng(36.879466, 30.667648), "M1"));
+          //model.addOverlay(new Marker(new LatLng(-4.328993, 15.340236), "M1"));
         if (pointDeVntes.size() > 0) {
             for (PointDeVente pointDeVnte : pointDeVntes) {
                 model.addOverlay(new Marker(new LatLng(pointDeVnte.getLatitude(), pointDeVnte.getLongitude()), pointDeVnte.getNom()));
+             //   model.addOverlay(new Marker);
             }
             System.out.println("J'ai mis  "+ pointDeVntes.size() + "points");
         }
@@ -353,9 +389,36 @@ public class PointDeVenteBean implements Serializable {
         getModel2();
     }
 
-    public void importer() {
-        System.out.println("J'ai clické sur ");
-        System.out.println(pointDeVente);
+    public ImportationResult getImportationResult() {
+        return importationResult;
+    }
+
+    public void setImportationResult(ImportationResult importationResult) {
+        this.importationResult = importationResult;
+    }
+
+    public Long getIdCircuit() {
+        return idCircuit;
+    }
+
+    public void setIdCircuit(Long idCircuit) {
+        this.idCircuit = idCircuit;
+    }
+
+    
+    public ImportationResult importer() throws IOException {
+        try {
+            //  noteService.importNotes(file.getInputstream(),idC,idE, idAca,session.ordinal());
+            System.out.println("Le circuit");
+            System.out.println(idCircuit);
+            importationResult = new ImportationResult();
+            importationResult =  pointDeVenteService.importPdv(file.getInputstream(), idCircuit);
+            System.out.println(importationResult);
+            return importationResult;
+        } catch (ServiceException ex) {
+            Logger.getLogger(PointDeVenteBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public void toto(){
@@ -364,5 +427,15 @@ public class PointDeVenteBean implements Serializable {
             System.out.println(pointDeVenteChoisi);
         }
     }
+    
+    public void onMarkerSelect(OverlaySelectEvent event) {
+        marker = (Marker) event.getOverlay();
+    }
+      
+    public Marker getMarker() {
+        return marker;
+    }
+    
+    
 
 }
