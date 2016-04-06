@@ -67,7 +67,7 @@ public class PlvBean {
         this.plvs = plvs;
     }
     
-    public void saveOrUpdateZone() throws ServiceException{
+    public void saveOrUpdatePlv() throws ServiceException{
         if (plv != null && plv.getNom() != null) {
             plvService.saveOrUpdatePlv(plv);
             if (plv.getId() == null) {
@@ -81,7 +81,7 @@ public class PlvBean {
         
     }
     
-    public void deleteZone() throws ServiceException{
+    public void deletePlv() throws ServiceException{
         if (plv != null && plv.getId() != null) {
             plvService.deletePlv(plv.getId());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Operation reussie", plv.getNom() + " a été supprimé"));
