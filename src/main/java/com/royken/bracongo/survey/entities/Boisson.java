@@ -13,6 +13,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="boisson")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Boisson implements Serializable{
+    @XmlTransient
     @OneToMany(mappedBy = "boisson")
     private List<FormatBoisson> formatBoissons;
     
@@ -80,6 +82,16 @@ public class Boisson implements Serializable{
     public void setIsBracongo(boolean isBracongo) {
         this.isBracongo = isBracongo;
     }
+
+    public List<FormatBoisson> getFormatBoissons() {
+        return formatBoissons;
+    }
+
+    public void setFormatBoissons(List<FormatBoisson> formatBoissons) {
+        this.formatBoissons = formatBoissons;
+    }
+    
+    
 
     @Override
     public String toString() {

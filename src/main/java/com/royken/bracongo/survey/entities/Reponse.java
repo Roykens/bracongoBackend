@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.Version;
@@ -26,6 +28,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="reponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Reponse implements Serializable{
+    @OneToOne(mappedBy = "reponse")
+    private Action action;
+    @OneToMany(mappedBy = "reponse")
+    private List<BoissonInfos> boissonInfoss;
+    @OneToOne(mappedBy = "reponse")
+    private EtatPlv etatPlv;
     
     
     @Version
@@ -48,7 +56,6 @@ public class Reponse implements Serializable{
     
     @Enumerated
     private ReponseValue srdBracongo;
-    
     
     @Temporal(javax.persistence.TemporalType.TIME)
     private Date heurePassageSrdBracongo;
@@ -242,6 +249,30 @@ public class Reponse implements Serializable{
 
     public void setStockChaud(StockChaud stockChaud) {
         this.stockChaud = stockChaud;
+    }
+
+    public EtatPlv getEtatPlv() {
+        return etatPlv;
+    }
+
+    public void setEtatPlv(EtatPlv etatPlv) {
+        this.etatPlv = etatPlv;
+    }
+
+    public List<BoissonInfos> getBoissonInfoss() {
+        return boissonInfoss;
+    }
+
+    public void setBoissonInfoss(List<BoissonInfos> boissonInfoss) {
+        this.boissonInfoss = boissonInfoss;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
     }
     
     

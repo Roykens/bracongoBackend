@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,10 +24,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FormatBoisson implements Serializable{
     @OneToMany(mappedBy = "formatBoisson")
+    private List<BoissonInfos> boissonInfoss;
+    @XmlTransient
+    @OneToMany(mappedBy = "formatBoisson")
     private List<StockChaud> stockChauds;
     
+    @XmlTransient
     @OneToMany(mappedBy = "formatBoisson")
     private List<PrixBoisson> prixBoissons;
+    
+    @XmlTransient
     @OneToMany(mappedBy = "formatBoisson")
     private List<DisponibiliteBoisson> disponibiliteBoissons;
     
@@ -35,6 +43,9 @@ public class FormatBoisson implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Basic
+    private int prix;
     
     @ManyToOne
     private Boisson boisson;
@@ -98,10 +109,51 @@ public class FormatBoisson implements Serializable{
         this.stockChauds = stockChauds;
     }
 
+    public int getPrix() {
+        return prix;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+
+    public List<BoissonInfos> getBoissonInfoss() {
+        return boissonInfoss;
+    }
+
+    public void setBoissonInfoss(List<BoissonInfos> boissonInfoss) {
+        this.boissonInfoss = boissonInfoss;
+    }
+    
     @Override
     public String toString() {
         return "FormatBoisson{" + "version=" + version + ", id=" + id + ", boisson=" + boisson + ", format=" + format + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 13 * hash + this.prix;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FormatBoisson other = (FormatBoisson) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
     
 }

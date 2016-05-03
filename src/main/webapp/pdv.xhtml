@@ -7,11 +7,6 @@
 
     <ui:define name="content">
         <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
-
-
-        <h3 class="hardblue TexAlCenter">Empty Page</h3>
-        <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
-
         <div class="Container100">
             <div class="ContainerIndent">
 
@@ -22,21 +17,21 @@
                     <h1><h:outputText value="List"/></h1>
 
                     <p:outputLabel value="Secteur"  />
-                    <h:selectOneMenu value="#{pointDeVenteBean.idS}"  style="margin-top:10px; height: 30px; width: 100px;"  id="secteur">
+                    <p:selectOneMenu value="#{pointDeVenteBean.idS}"  style="margin:10px; height: 30px; width: 200px;"  id="secteur" filter="true">
                         <f:selectItem value="#{null}" itemLabel=""/>
                         <f:selectItems value="#{pointDeVenteBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
                     <p:outputLabel value="Zone"  />
-                    <h:selectOneMenu value="#{pointDeVenteBean.idZ}" style="margin-top:10px; height: 30px; width: 100px;"  id="zone">
+                    <p:selectOneMenu value="#{pointDeVenteBean.idZ}" style="margin-top:10px; height: 30px; width: 200px;"  id="zone" filter="true">
                         <f:selectItem value="#{null}" itemLabel=""/>
                         <f:selectItems value="#{pointDeVenteBean.zones}" var="zone" itemLabel="#{zone.code}" itemValue="#{zone.id}" />
-                    </h:selectOneMenu>
+                    </p:selectOneMenu>
                     <p:outputLabel value="Circuit"  />
-                    <h:selectOneMenu value="#{pointDeVenteBean.idC}" style="margin-top:10px; height: 30px; width: 100px;"  id="niveau">
+                    <p:selectOneMenu value="#{pointDeVenteBean.idC}" style="margin-top:10px; height: 30px; width: 200px;"  id="niveau" filter="true">
                         <f:selectItem value="#{null}" itemLabel=""/>
                         <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
-                    </h:selectOneMenu>
-                    <p:commandButton type="submit" action="#{pointDeVenteBean.filtrer()}"  update=":form:table,:carteDialog"  value="Filtrer"/>
+                    </p:selectOneMenu>
+                    <p:commandButton styleClass="RedButton" type="submit" action="#{pointDeVenteBean.filtrer()}"  style="margin:10px; height: 30px;"  update=":form:table,:carteDialog"  value="Filtrer"/>
 
 
                     <p:dataTable rowIndexVar="index" value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table"  rowKey="#{item.id}" selection="#{pointDeVenteBean.pointDeVenteChoisis}" selectionMode="multiple" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
@@ -84,11 +79,11 @@
                         </p:column>
                         <f:facet name="footer">  
 
-                            <p:commandButton value="Ajouter un Point de Vente" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Modifier un Point de Vente" action="#{pointDeVenteBean.toto()}" icon="ui-icon-disk" />
-                            <p:commandButton value="Supprimer un Point de Vente" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
-                            <p:commandButton id = "carte" icon="ui-icon-pin-s" value="Carte" style="float: right; w" oncomplete="PF('carte_dialog').show()"/>
+                            <p:commandButton value="Ajouter un Point de Vente" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" styleClass="RedButton"/>
+                            <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" styleClass="RedButton"/>
+                            <p:commandButton value="Modifier un Point de Vente" action="#{pointDeVenteBean.toto()}" icon="ui-icon-disk" styleClass="RedButton"/>
+                            <p:commandButton value="Supprimer un Point de Vente" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete" styleClass="RedButton"/>
+                            <p:commandButton id = "carte" icon="ui-icon-pin-s" value="Carte" style="float: right; w" oncomplete="PF('carte_dialog').show()" styleClass="RedButton"/>
                         </f:facet> 
                     </p:dataTable>
                 </h:form>

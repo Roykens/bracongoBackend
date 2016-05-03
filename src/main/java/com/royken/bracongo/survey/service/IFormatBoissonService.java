@@ -29,5 +29,5 @@ public interface IFormatBoissonService {
     
     public void deleteFormatBoisson(Long idBoisson, Long idFormat) throws ServiceException;
     
-    public List<NomBoisson> getAllbyEnterprise(boolean isBracongo, TypeBoisson typeBoisson) throws ServiceException;
+    public List<NomBoisson> getAllbyEnterprise(Boolean isBracongo, TypeBoisson typeBoisson) throws ServiceException;
 }

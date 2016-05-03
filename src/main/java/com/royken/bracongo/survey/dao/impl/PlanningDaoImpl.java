@@ -25,7 +25,7 @@ public class PlanningDaoImpl extends GenericDao<Planning, Long> implements IPlan
         cq.where(cb.equal(planRoot.get(Planning_.enqueteur), enqueteur));
         cq.select(planRoot);
         cq.orderBy(cb.desc(planRoot.get(Planning_.datePlaning)));
-        return getManager().createQuery(cq).setMaxResults(1).getSingleResult();
+        return getManager().createQuery(cq).getResultList().get(0);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.service;
 
 import com.royken.bracongo.survey.entities.Enqueteur;
 import com.royken.bracongo.survey.entities.PointDeVente;
+import com.royken.bracongo.survey.entities.projection.PlanningEnquetteur;
 import com.royken.bracongo.survey.service.util.ImportationResult;
 import java.io.InputStream;
 import java.util.List;
@@ -30,4 +31,8 @@ public interface IPointDeVenteService {
     public ImportationResult importPdv(InputStream stream, Long idCircuit) throws ServiceException;
     
     public List<PointDeVente> findByPlanningAndEnqueteur(Long idEnqueteur) throws ServiceException;
+    
+    public PlanningEnquetteur getAllPointDeVenteByEnqueteur(String login, String password) throws ServiceException;
+    
+  //  public List<PointDeVente> findByPlanningAndEnqueteur(String ) throws ServiceException;
 }

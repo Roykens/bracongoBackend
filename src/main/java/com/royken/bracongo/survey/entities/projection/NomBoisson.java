@@ -16,6 +16,12 @@ public class NomBoisson {
     private Long idFormatBoisson;
     
     private String nomFormat;
+    
+    private int prix;
+    
+    private boolean bracongo;
+    
+    private boolean biere;
 
     public Long getIdFormatBoisson() {
         return idFormatBoisson;
@@ -32,6 +38,32 @@ public class NomBoisson {
     public void setNomFormat(String nomFormat) {
         this.nomFormat = nomFormat;
     }
+
+    public int getPrix() {
+        return prix;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+
+    public boolean isBracongo() {
+        return bracongo;
+    }
+
+    public void setBracongo(boolean bracongo) {
+        this.bracongo = bracongo;
+    }
+
+    public boolean isBiere() {
+        return biere;
+    }
+
+    public void setBiere(boolean biere) {
+        this.biere = biere;
+    }
+    
+    
     
     
 }

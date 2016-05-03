@@ -77,4 +77,14 @@ public class EnqueteurServiceImpl implements IEnqueteurService {
         }
     }
 
+    @Override
+    public Enqueteur findByLoginAndPassord(String login, String password) throws ServiceException {
+        try {
+            return enqueteurDao.findEnqueteurByUsernameAndPassword(login, password);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(EnqueteurServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

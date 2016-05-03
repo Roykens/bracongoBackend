@@ -10,4 +10,6 @@ import com.royken.generic.dao.IGenericDao;
 public interface IEnqueteurDao extends IGenericDao<Enqueteur, Long>{
     
     public Enqueteur findEnqueteurByMatricule(String matricule) throws DataAccessException;
+    
+    public Enqueteur findEnqueteurByUsernameAndPassword(String username, String password) throws DataAccessException;
 }

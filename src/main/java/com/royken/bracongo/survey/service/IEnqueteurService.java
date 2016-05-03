@@ -19,4 +19,6 @@ public interface IEnqueteurService {
     
     public void deleteEnqueteur(Long id) throws ServiceException;
     
+    public Enqueteur findByLoginAndPassord(String login, String password) throws ServiceException;
+    
 }

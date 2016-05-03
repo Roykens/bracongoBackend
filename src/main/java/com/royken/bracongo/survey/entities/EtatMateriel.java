@@ -38,8 +38,14 @@ public class EtatMateriel implements Serializable{
     @Enumerated
     private TypeEtat typeEtat;
     
+    
+    private TypeEtat typeEtatConc;
+    
     @Basic
     private int nombreDefecteux;
+    
+    @Basic
+    private int nombreDefectueuxConc;
     
     @Basic
     private int nombreBralima;
@@ -109,6 +115,22 @@ public class EtatMateriel implements Serializable{
 
     public void setReponse(Reponse reponse) {
         this.reponse = reponse;
+    }
+
+    public TypeEtat getTypeEtatConc() {
+        return typeEtatConc;
+    }
+
+    public void setTypeEtatConc(TypeEtat typeEtatConc) {
+        this.typeEtatConc = typeEtatConc;
+    }
+
+    public int getNombreDefectueuxConc() {
+        return nombreDefectueuxConc;
+    }
+
+    public void setNombreDefectueuxConc(int nombreDefectueuxConc) {
+        this.nombreDefectueuxConc = nombreDefectueuxConc;
     }
     
     

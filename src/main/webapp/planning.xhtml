@@ -66,7 +66,7 @@
                         </f:facet> 
                     </p:dataTable>
                 </h:form>
-                
+
                 <p:dialog id="ajout" header="Ajouter un Planning" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
                     <h:form id ="saveform">
                         <h:panelGrid id="display" columns="2" >  
@@ -104,26 +104,26 @@
                         </h:panelGrid> 
                     </h:form>
                 </p:dialog>
-                
-                    <p:dialog id="toto" header="toto" widgetVar="toto_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
-                        <h:form id ="totoPDV">
-                            <h:panelGrid id="totoPDV" columns="2" >  
-                                <h:outputText value="choisir PDV : "/> 
 
-                                <p:inputText value="#{planningBean.planning.datePlaning}"/>
+                <p:dialog id="toto" header="toto" widgetVar="toto_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
+                    <h:form id ="totoPDV">
+                        <h:panelGrid id="totoPDV" columns="2" >  
+                            <h:outputText value="choisir PDV : "/> 
 
-                                <f:facet name="footer"> <br/> 
-                                    <p:commandButton value="Enregistrer" action="#{planningBean.savePointDeVente()}"  oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":detailformPDV:tablePDV" />  
-                                </f:facet>
-                                <f:facet name="footer">  
-                                    <p:commandButton value="Annuler" onclick="PF('toto_dialog').hide()" />  
-                                </f:facet>
-                            </h:panelGrid> 
-                        </h:form>
-                    </p:dialog>
+                            <p:inputText value="#{planningBean.planning.datePlaning}"/>
+
+                            <f:facet name="footer"> <br/> 
+                                <p:commandButton value="Enregistrer" action="#{planningBean.savePointDeVente()}"  oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":detailformPDV:tablePDV" />  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Annuler" onclick="PF('toto_dialog').hide()" />  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+                </p:dialog>
 
 
-                
+
 
 
 
@@ -138,10 +138,10 @@
 
                 <p:dialog id="detailPDV" header="Detail du planning" widgetVar="detail_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
                     <h:form id ="detailformPDV">
-                         <h:outputText value="choisir PDV : "/> 
+                        <h:outputText value="choisir PDV : "/> 
 
-                                <p:inputText value="#{planningBean.planning.datePlaning}"/>
-                               <p:dataTable rowIndexVar="index" value="#{planningBean.planningPdv2}" var="item" id="tablePDV" selection="#{planningBean.planningPdv}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Point de vente enregistré" reflow="true">
+                        <p:inputText value="#{planningBean.planning.datePlaning}"/>
+                        <p:dataTable rowIndexVar="index" value="#{planningBean.planningPdv2}" var="item" id="tablePDV" selection="#{planningBean.planningPdv}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Point de vente enregistré" reflow="true">
                             <f:facet name="header">
                                 La liste des point de vente
                             </f:facet>
@@ -171,65 +171,38 @@
                                 <p:commandButton value="Terminer" onclick="#{planningBean.terminerPDV()}" oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":form:table"/>
                             </f:facet> 
                         </p:dataTable>
-                                
+
                     </h:form>
-                  </p:dialog>
-                    <p:dialog id="ajoutPDV" header="Ajouter points de vente" widgetVar="ajouterPDV_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
-                        <h:form id ="saveformPDV">
-                            <h:panelGrid id="displayPDV" columns="2" >  
-                                <h:outputText value="choisir PDV : "/> 
+                </p:dialog>
+                <p:dialog id="ajoutPDV" header="Ajouter points de vente" widgetVar="ajouterPDV_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
+                    <h:form id ="saveformPDV">
+                        <h:panelGrid id="displayPDV" columns="2" >  
+                            <h:outputText value="choisir PDV : "/> 
 
-                                <p:selectCheckboxMenu value="#{planningBean.pdvchoisi}" label="Points de ventes" filter="true"  filterMatchMode="startsWith" >  
-                                    <f:selectItems var="player" value="#{planningBean.byEnqueteur}"   itemLabel="#{player.circuit.zone.code}-#{player.circuit.code}/ #{player.nom}" itemValue="#{player.id}" itemLabelEscaped="true" /> 
-                                </p:selectCheckboxMenu>
-                                <h:inputHidden value="#{planningBean.planning.id}"/>
-                                <h:inputHidden value="#{planningBean.planning.version}"/>
-                                
-                                <f:facet name="footer"> <br/> 
-                                    <p:commandButton value="Enregistrer" action="#{planningBean.savePointDeVente()}"  oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":detailformPDV:tablePDV" />  
-                                </f:facet>
-                                <f:facet name="footer">  
-                                    <p:commandButton value="Annuler" onclick="PF('ajouterPDV_dialog').hide()" />  
-                                </f:facet>
-                            </h:panelGrid> 
-                        </h:form>
-                    </p:dialog>
+                            <p:selectCheckboxMenu value="#{planningBean.pdvchoisi}" label="Points de ventes" filter="true"  filterMatchMode="startsWith" >  
+                                <f:selectItems var="player" value="#{planningBean.byEnqueteur}"   itemLabel="#{player.circuit.zone.code}-#{player.circuit.code}/ #{player.nom}" itemValue="#{player.id}" itemLabelEscaped="true" /> 
+                            </p:selectCheckboxMenu>
+                            <h:inputHidden value="#{planningBean.planning.id}"/>
+                            <h:inputHidden value="#{planningBean.planning.version}"/>
 
-                    <p:confirmDialog id="deletePDV" message="voulez-vous vraiment supprimer cet enqueteur ?"
-                                     header="Initialisation de la suppression" severity="alert"
-                                     widgetVar="deletePDV_dialog" showEffect="explode" hideEffect="explode"> 
-                        <div id="center_content_div">
-                            <p:commandButton id="confirmPDV" value="OUI" action="#{enqueteursBean.deleteSecteur()}" oncomplete="PF('delete_dialog').hide()" update=":detailformPDV:tablePDV"/>
-                            <p:commandButton id="declinePDV" value="NON" type="reset" onclick ="PF('deletePDV_dialog').hide();"  />
-                        </div>
-                    </p:confirmDialog>
+                            <f:facet name="footer"> <br/> 
+                                <p:commandButton value="Enregistrer" action="#{planningBean.savePointDeVente()}"  oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":detailformPDV:tablePDV" />  
+                            </f:facet>
+                            <f:facet name="footer">  
+                                <p:commandButton value="Annuler" onclick="PF('ajouterPDV_dialog').hide()" />  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </h:form>
+                </p:dialog>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                <p:confirmDialog id="deletePDV" message="voulez-vous vraiment supprimer cet enqueteur ?"
+                                 header="Initialisation de la suppression" severity="alert"
+                                 widgetVar="deletePDV_dialog" showEffect="explode" hideEffect="explode"> 
+                    <div id="center_content_div">
+                        <p:commandButton id="confirmPDV" value="OUI" action="#{enqueteursBean.deleteSecteur()}" oncomplete="PF('delete_dialog').hide()" update=":detailformPDV:tablePDV"/>
+                        <p:commandButton id="declinePDV" value="NON" type="reset" onclick ="PF('deletePDV_dialog').hide();"  />
+                    </div>
+                </p:confirmDialog>
                 <p:confirmDialog id="delete" message="voulez-vous vraiment supprimer cet enqueteur ?"
                                  header="Initialisation de la suppression" severity="alert"
                                  widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
@@ -239,7 +212,7 @@
                     </div>
                 </p:confirmDialog>
 
-                
+
             </div>
         </div>
     </ui:define>

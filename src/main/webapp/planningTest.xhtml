@@ -8,8 +8,8 @@
     <ui:define name="content">
         <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
 
-        <h3 class="hardblue TexAlCenter">Empty Page</h3>
-        <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
+        <h3 class="hardblue TexAlCenter">Planning</h3>
+        <span class="TexAlCenter DispBlock Wid100">Page de gestion des plannings</span>
 
         <!-- SECTION 1 -->
 
@@ -173,18 +173,19 @@
                                               var="planingPvd" 
                                               value="#{planningBean.getPlanningPdvs(car)}" 
                                               rowKey="#{planingPvd.id}" 
-                                              rows="10"
+                                              rows="5"
                                               sortOrder="ascending" class="type_cours_datatable_in_datadgrid" >  
                                     <f:facet name="header" >  
                                         <table class="type_cours">
                                             <tr >
                                                 <td><h:outputText value="#{car.datePlaning}" style="font:white">
                                                         <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                                                    </h:outputText> </td>
+                                                    </h:outputText><h:outputText value=" / #{car.enqueteur.nom}" style="font:white"/>
+                                                         </td>
                                                 <td><p:commandButton id="a" onclick="PF('dlgDelete').show()" update=":fs:ds" icon="ui-icon-trash" class="type_cours_menuClass">
                                                         <f:setPropertyActionListener  value="#{car}" target="#{planningBean.planning}"/>
                                                     </p:commandButton>
-                                                    <p:tooltip for="a" value="cliquez ici pour supprimer ce type de cours"/>
+                                                    <p:tooltip for="a" value="cliquez ici pour supprimer ce planning"/>
                                                     <p:commandButton  id="q" onclick="PF('dlgUpdate').show()" icon="ui-icon-arrowrefresh-1-w"  update=":formUpdate:displayUpdate" class="type_cours_menuClass">
                                                         <f:setPropertyActionListener value="#{car}" target="#{planningBean.planning}"/>
                                                     </p:commandButton>

@@ -79,6 +79,34 @@
                             </p:panel>
                         </h:form>  
                     </p:dialog>
+                    
+                    
+                    <p:dialog modal="true" header="MODIFIER UN FORMAT DE BOISSON" widgetVar="dlgUpdate1BgBra" hideEffect="explode" showEffect="explode">
+                        <h:form id="formUpdateFBgBra">    
+                            <p:growl id="growl10" showDetail="true" /> 
+                            <p:panel >
+                                <h:panelGroup >
+                                    <h:panelGrid  class="rightPosition"  id="displayUpdateFBgBra" columns="2">                                    
+                                        <h:outputText  value="Prix : " class="syntaxe_content" />
+                                       
+                                        <p:inputText value="#{boissonBean.formatBoisson1.prix}" required="true" requiredMessage="Le prix est obligatoire"/>                                        
+                                        <h:inputHidden value="#{boissonBean.boisson.id}"  />
+                                        <h:inputHidden value="#{boissonBean.boisson.version}"  />
+                                        <h:inputHidden value="#{boissonBean.boisson.isBracongo}" />
+                                        <h:inputHidden value="#{boissonBean.boisson.typeBoisson}"  />
+                                        <h:inputHidden value="#{boissonBean.formatBoisson1.id}"  />
+                                        <h:inputHidden value="#{boissonBean.formatBoisson1.version}"  />
+                                    </h:panelGrid>  
+                                </h:panelGroup>
+                                <p:separator/>
+                                <div id="center_content_div">
+                                    <p:commandButton class="cmd_button" value="Soumettre"   actionListener="#{boissonBean.updateFormatBoisson()}" update="formUpdateFBgBra,tabview:fBgBra:dBgBra" icon="ui-icon-check" oncomplete="PF('dlgUpdate1BgBra').hide()" /> 
+                                    <p:commandButton class="cmd_button" value="Annuler" type="reset"  onclick="PF('dlgUpdate1BgBra').hide()" update="formUpdateFBgBra" icon="ui-icon-close" /> 
+                                </div>                    
+                            </p:panel>
+                        </h:form>  
+                    </p:dialog>
+                    
                     <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDeleteBgBra" hideEffect="explode" showEffect="explode">
                         <h:form id="fsBgBra">    
                             
@@ -190,8 +218,15 @@
                                     </f:facet>
                                     <p:column headerText="Format " id="code" >  
                                         #{formatBoisson.format.volume} cl   
-                                    </p:column>                                                                          
+                                    </p:column>      
+                                    <p:column headerText="Prix " id="code1" >  
+                                        #{formatBoisson.prix}    
+                                    </p:column>
                                     <p:column headerText="Action">
+                                        <p:commandLink id="updateBgBra" value="|Modifier" onclick="PF('dlgUpdate1BgBra').show()"  update="tabview:formUpdateFBgBra:displayUpdateFBgBra" >  
+                                            <f:setPropertyActionListener  value="#{bgBral}" target="#{boissonBean.boisson}"/>
+                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson1}"/>
+                                        </p:commandLink> 
                                         <p:commandLink id="deleteBgBra" value="|Supprimer" onclick="PF('dlgDelete1BgBra').show()"  update="tabview:fs1BgBra:ds1BgBra" >  
                                             <f:setPropertyActionListener  value="#{bgBral}" target="#{boissonBean.boisson}"/>
                                             <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>

@@ -1,0 +1,29 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 29 avr. 2016, 09:40:46
+    Author     : Kenfack Valmy-Roi <roykenvalmy@gmail.com>
+*/
+
+th {
+  color: #ffffff !important;
+}
+
+
+.ui-datatable .ui-datagrid-header, .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-subtable-header, .ui-datatable .ui-datatable-summaryrow{
+   
+    background-color: #3D3D3D !important;
+   background: #3D3D3D !important;
+   color: #ffffff !important;
+   
+   
+}
+
+.ui-widget-header{
+    color: #ffffff !important;
+    background-color: #b2b2b2 !important; 
+    background: #b2b2b2 !important;
+}

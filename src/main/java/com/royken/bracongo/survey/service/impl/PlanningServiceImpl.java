@@ -93,4 +93,15 @@ public class PlanningServiceImpl implements IPlanningService {
         return null;
     }
 
+    @Override
+    public Planning findByEnqueteurCredential(String login, String password) throws ServiceException {
+        try {
+            Enqueteur enqueteur = enqueteurDao.findEnqueteurByUsernameAndPassword(login, password);
+            return planningDao.getByEnqueteur(enqueteur);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(PlanningServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

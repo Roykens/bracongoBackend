@@ -12,6 +12,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="plv")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PLV implements Serializable{
+    @XmlTransient
     @OneToMany(mappedBy = "plv")
     private List<EtatPlv> etatPlvs;
     

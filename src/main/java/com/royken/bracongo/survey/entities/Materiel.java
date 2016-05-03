@@ -12,6 +12,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -21,6 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="materiel")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Materiel implements Serializable{
+    
+    @XmlTransient
     @OneToMany(mappedBy = "materiel")
     private List<EtatMateriel> etatMateriels;
     
@@ -56,6 +59,14 @@ public class Materiel implements Serializable{
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public List<EtatMateriel> getEtatMateriels() {
+        return etatMateriels;
+    }
+
+    public void setEtatMateriels(List<EtatMateriel> etatMateriels) {
+        this.etatMateriels = etatMateriels;
     }
     
     

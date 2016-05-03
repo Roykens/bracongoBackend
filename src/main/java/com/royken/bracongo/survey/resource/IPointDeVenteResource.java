@@ -23,4 +23,9 @@ public interface IPointDeVenteResource {
     @Produces(value = "application/json")
     @Path(value = "{id : \\d+}")
     public PlanningEnquetteur getAllPointDeVenteByEnqueteur(@PathParam(value = "id")long id);
+    
+    @GET
+    @Produces(value = "application/json")
+    @Path(value = "planning/{login}/{password}")
+    public PlanningEnquetteur getAllPointDeVenteByEnqueteur(@PathParam(value = "login")String login, @PathParam(value = "password") String password);
 }

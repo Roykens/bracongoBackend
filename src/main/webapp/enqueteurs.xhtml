@@ -17,7 +17,7 @@
                 <h:form id="form">
                     <h1><h:outputText value="List"/></h1>
 
-                    <p:dataTable rowIndexVar="index" value="#{enqueteursBean.enqueteurs}" var="item" id="table" selection="#{enqueteursBean.enqueteur}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Enqueteur enregistré" reflow="true">
+                    <p:dataTable rowIndexVar="index" value="#{enqueteursBean.enqueteurs}" var="item" id="table" selection="#{enqueteursBean.enqueteur}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Enqueteur enregistré" reflow="true" >
                         <p:ajax event="rowSelect" listener="#{enqueteursBean.test()}" />
                         <f:facet name="header">
                             La liste des enqueteurs
@@ -33,6 +33,12 @@
                                 <h:outputText value="Nom"/>
                             </f:facet>
                             <h:outputText value="#{item.nom}"/>
+                        </p:column>
+                        <p:column sortable="true" filterBy="#{item.secteur.code}" sortBy="#{item.secteur.code}">
+                            <f:facet name="header">
+                                <h:outputText value="Secteur"/>
+                            </f:facet>
+                            <h:outputText value="#{item.secteur.code}"/>
                         </p:column>
                         <p:column sortable="true" filterBy="#{item.matricule}" sortBy="#{item.matricule}">
                             <f:facet name="header">
@@ -55,8 +61,10 @@
                         <h:panelGrid id="display" columns="2" >  
                             <h:outputText value="Nom : "/> 
                             <p:inputText  id="en" value="#{enqueteursBean.enqueteur.nom}" required="true" requiredMessage="Le nom est obligatoire"/> 
-                            <h:outputText value="Matricule : "/> 
-                            <p:inputText  id="enm" value="#{enqueteursBean.enqueteur.matricule}" required="true" requiredMessage="Le nom est obligatoire"/> 
+                            <h:outputText value="Nom utilisateur : "/> 
+                            <p:inputText  id="enm" value="#{enqueteursBean.enqueteur.username}" required="true" requiredMessage="Le nom d'utilisateur est obligatoire"/>
+                            <h:outputText value="Mot de Passe : "/> 
+                            <p:inputText  id="pass" value="#{enqueteursBean.enqueteur.codeSecret}" required="true" requiredMessage="Le mot de passe est obligatoire"/>
                              <h:outputText value="Secteur : "/> 
                             <p:selectOneMenu value="#{enqueteursBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItems value="#{enqueteursBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
@@ -75,6 +83,10 @@
                         <h:panelGrid id="updatedisplay" columns="2" rendered="#{not empty enqueteursBean.enqueteur}">  
                             <h:outputText value="Nom :"/> 
                             <p:inputText  id="uen" value="#{enqueteursBean.enqueteur.nom}"/> 
+                            <h:outputText value="Nom utilisateur : "/> 
+                            <p:inputText  id="enm1" value="#{enqueteursBean.enqueteur.username}" required="true" requiredMessage="Le nom d'utilisateur est obligatoire"/>
+                            <h:outputText value="Mot de Passe : "/> 
+                            <p:inputText  id="pass1" value="#{enqueteursBean.enqueteur.codeSecret}" required="true" requiredMessage="Le mot de passe est obligatoire"/>
                             <h:outputText value="Matricule :"/> 
                             <p:inputText  id="uenm" value="#{enqueteursBean.enqueteur.matricule}"/> 
                             <h:outputText value="Secteur : "/> 

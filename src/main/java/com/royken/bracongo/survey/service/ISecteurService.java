@@ -19,4 +19,6 @@ public interface ISecteurService {
     public void deleteSecteur(Long id) throws ServiceException;
     
     public List<Secteur> findAllSecteur() throws ServiceException;
+    
+    public Secteur findSecteurByCode(String code) throws ServiceException;
 }

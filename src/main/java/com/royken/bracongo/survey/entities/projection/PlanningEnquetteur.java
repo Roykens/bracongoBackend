@@ -33,5 +33,11 @@ public class PlanningEnquetteur {
     public void setPointDeVentes(List<PointDeVente> pointDeVentes) {
         this.pointDeVentes = pointDeVentes;
     }
+
+    @Override
+    public String toString() {
+        return "PlanningEnquetteur{" + "idPlanning=" + idPlanning + ", pointDeVentes=" + pointDeVentes + '}';
+    }
+    
     
 }

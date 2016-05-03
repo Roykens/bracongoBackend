@@ -46,6 +46,9 @@ public class EtatPlv implements Serializable{
     @ManyToOne
     private PLV plv;
     
+    @OneToOne
+    private Reponse reponse;
+    
 
     public int getVersion() {
         return version;
@@ -102,5 +105,15 @@ public class EtatPlv implements Serializable{
     public void setPlv(PLV plv) {
         this.plv = plv;
     }
+
+    public Reponse getReponse() {
+        return reponse;
+    }
+
+    public void setReponse(Reponse reponse) {
+        this.reponse = reponse;
+    }
+    
+    
 
 }

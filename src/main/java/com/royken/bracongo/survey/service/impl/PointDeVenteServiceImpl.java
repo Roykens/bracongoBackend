@@ -17,6 +17,7 @@ import com.royken.bracongo.survey.entities.TypeCategorie;
 import com.royken.bracongo.survey.entities.TypePdv;
 import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.bracongo.survey.entities.Zone;
+import com.royken.bracongo.survey.entities.projection.PlanningEnquetteur;
 import com.royken.bracongo.survey.service.IPointDeVenteService;
 import com.royken.bracongo.survey.service.ServiceException;
 import com.royken.bracongo.survey.service.util.ImportationError;
@@ -60,10 +61,10 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
 
     @Inject
     private IsecteurDao secteurDao;
-    
+
     @Inject
     private IPlanningDao planningDao;
-    
+
     @Inject
     private IPlanningPdvDao planningPdvDao;
 
@@ -203,7 +204,7 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
         int count = 0;
         try {
             Circuit circuit = circuitDao.findById(idCircuit);
-            System.out.println("Le circuit service  "+ circuit);
+            System.out.println("Le circuit service  " + circuit);
             Workbook workbook = WorkbookFactory.create(stream);
             final Sheet sheet = workbook.getSheetAt(0);
             int index = 1;
@@ -215,7 +216,7 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
             String adresse;
             while (row != null) {
                 PointDeVente pointDeVente = new PointDeVente();
-                if(circuit != null){
+                if (circuit != null) {
                     pointDeVente.setCircuit(circuit);
                 }
                 System.out.println("Index +++++++ " + index);
@@ -315,19 +316,44 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
         List<PointDeVente> result = new ArrayList<PointDeVente>();
         try {
             Enqueteur enqueteur = enqueteurDao.findById(idEnqueteur);
-            if(enqueteur != null){
+            if (enqueteur != null) {
                 Planning planning = planningDao.getByEnqueteur(enqueteur);
                 List<PlanningPdv> planningPdvs = planningPdvDao.findByPlanning(planning);
                 for (PlanningPdv planningPdv : planningPdvs) {
-                   // PointDeVente pointDeVente = new PointDeVente();
+                    // PointDeVente pointDeVente = new PointDeVente();
                     result.add(planningPdv.getPointDeVente());
                 }
                 return result;
             }
-        } catch (DataAccessException ex) { 
+        } catch (DataAccessException ex) {
             Logger.getLogger(PointDeVenteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
+    }
+
+    @Override
+    public PlanningEnquetteur getAllPointDeVenteByEnqueteur(String login, String password) throws ServiceException {
+        PlanningEnquetteur planningEnquetteur = new PlanningEnquetteur();
+        try {
+            Enqueteur enqueteur = enqueteurDao.findEnqueteurByUsernameAndPassword(login, password);
+            if (enqueteur != null) {
+                Planning planning = planningDao.getByEnqueteur(enqueteur);
+                if (planning != null) {
+                    List<PointDeVente> result = new ArrayList<PointDeVente>();
+                    List<PlanningPdv> planningPdvs = planningPdvDao.findByPlanning(planning);
+                    for (PlanningPdv planningPdv : planningPdvs) {
+                        result.add(planningPdv.getPointDeVente());
+                    }
+                    planningEnquetteur.setPointDeVentes(result);
+                    planningEnquetteur.setIdPlanning(planning.getId());
+
+                }
+                return planningEnquetteur;
+            }
+        } catch (DataAccessException ex) {
+            Logger.getLogger(PointDeVenteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }

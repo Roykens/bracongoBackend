@@ -77,4 +77,14 @@ public class SecteurServiceImpl implements ISecteurService {
         return Collections.EMPTY_LIST;
     }
 
+    @Override
+    public Secteur findSecteurByCode(String code) throws ServiceException {
+        try {
+            return isecteurDao.findByCode(code);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(SecteurServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

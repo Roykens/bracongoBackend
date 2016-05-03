@@ -64,5 +64,17 @@ public class PointDeVenteResourceImpl implements IPointDeVenteResource{
         }
         return planningEnquetteur;
     }
+
+    @Override
+    public PlanningEnquetteur getAllPointDeVenteByEnqueteur(String login, String password) {
+        try {
+            PlanningEnquetteur pe = pointDeVenteService.getAllPointDeVenteByEnqueteur(login, password);
+            System.out.println(pe);
+            return pe;
+        } catch (ServiceException ex) {
+            Logger.getLogger(PointDeVenteResourceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new PlanningEnquetteur();
+    }
     
 }

@@ -18,4 +18,6 @@ public interface IPlanningService {
     public void deletePlanning(Long id) throws ServiceException;
     
     public Planning findByEnqueteur(Long idEnqueteur) throws ServiceException;
+    
+    public Planning findByEnqueteurCredential(String login, String password) throws ServiceException;
 }

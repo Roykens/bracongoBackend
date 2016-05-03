@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -65,6 +64,8 @@ public class BoissonBean implements Serializable {
     private List<Boisson> biBralima;
 
     private List<Format> formats;
+    
+    private FormatBoisson formatBoisson1 = new FormatBoisson();
 
     private Long idFormat;
 
@@ -129,6 +130,16 @@ public class BoissonBean implements Serializable {
     public void setFormatBoissonService(IFormatBoissonService formatBoissonService) {
         this.formatBoissonService = formatBoissonService;
     }
+
+    public FormatBoisson getFormatBoisson1() {
+        return formatBoisson1;
+    }
+
+    public void setFormatBoisson1(FormatBoisson formatBoisson1) {
+        this.formatBoisson1 = formatBoisson1;
+    }
+    
+    
 
     public List<Boisson> getBgBracongo() {
         try {
@@ -385,7 +396,8 @@ public class BoissonBean implements Serializable {
         System.out.println("Le format Boisson");
         System.out.println(boisson);
         try {
-            FormatBoisson formatBoisson1 = new FormatBoisson();
+            System.out.println("Le format");
+            System.out.println(formatBoisson1);
             formatBoisson1.setBoisson(boisson);
             formatBoisson1.setFormat(iFormatService.findFormatById(idFormat));
             System.out.println(formatBoisson1);
@@ -398,10 +410,32 @@ public class BoissonBean implements Serializable {
         }
         idFormat = 0L;
         boisson = new Boisson();
+        formatBoisson1 = new FormatBoisson();
+    }
+    
+    public void updateFormatBoisson(){
+        try {
+            System.out.println("Le format Boisson");
+            System.out.println(boisson);
+            System.out.println("Le format");
+            System.out.println(formatBoisson1);
+            formatBoisson1.setBoisson(boisson);
+            formatBoissonService.saveOrUpdateFormatBoisson(formatBoisson1);
+            idFormat = 0L;
+            boisson = new Boisson();
+        } catch (ServiceException ex) {
+            Logger.getLogger(BoissonBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        idFormat = 0L;
+        boisson = new Boisson();
+        formatBoisson1 = new FormatBoisson();
+        
     }
 
     public void deleteFormatBoisson() {
 
     }
+    
+    
 
 }

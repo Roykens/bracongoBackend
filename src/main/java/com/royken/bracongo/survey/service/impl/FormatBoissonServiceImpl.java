@@ -115,13 +115,16 @@ public class FormatBoissonServiceImpl implements IFormatBoissonService{
     }
 
     @Override
-    public List<NomBoisson> getAllbyEnterprise(boolean isBracongo, TypeBoisson typeBoisson) throws ServiceException {
+    public List<NomBoisson> getAllbyEnterprise(Boolean isBracongo, TypeBoisson typeBoisson) throws ServiceException {
         try {
             List<NomBoisson> nomBoissons = new ArrayList<NomBoisson>();
             List<FormatBoisson> boissons = formatBoissonDao.findAllByTypeForEnterprise(isBracongo, typeBoisson);
             for (FormatBoisson boisson : boissons) {
                 NomBoisson nomBoisson = new NomBoisson();
                 nomBoisson.setIdFormatBoisson(boisson.getId());
+                nomBoisson.setBiere((boisson.getBoisson().getTypeBoisson() == TypeBoisson.BI));
+                nomBoisson.setBracongo(boisson.getBoisson().isIsBracongo());
+                nomBoisson.setPrix(boisson.getPrix());
                 nomBoisson.setNomFormat(boisson.getBoisson().getNom() + " "+boisson.getFormat().getVolume() + " cl");
                 nomBoissons.add(nomBoisson);
             }

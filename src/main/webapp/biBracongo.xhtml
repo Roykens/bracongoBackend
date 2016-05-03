@@ -29,8 +29,8 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"   actionListener ="#{boissonBean.saveFormatBoisson()}" update="formSaveEVBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgSaveEVBiBCongo').hide()" styleClass="ui-priority-primary"/> 
-                                    <p:commandButton class="cmd_button" value="Annuler"  type="reset" onclick="PF('dlgSaveEVBiBCongo').hide()" update="formSaveEVBiBCongo" icon="ui-icon-close"/> 
+                                    <p:commandButton class="cmd_button" value="Soumettre"   actionListener ="#{boissonBean.saveFormatBoisson()}" update="formSaveEVBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgSaveEVBiBCongo').hide()" styleClass="RedButton"/> 
+                                    <p:commandButton class="cmd_button" value="Annuler"  type="reset" onclick="PF('dlgSaveEVBiBCongo').hide()" update="formSaveEVBiBCongo" icon="ui-icon-close" styleClass="RedButton"/> 
                                 </div>                     
                             </p:panel>
                         </h:form>  
@@ -47,8 +47,8 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax11" actionListener ="#{boissonBean.saveOrUpdateBoisson()}" update="formSaveBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgSaveBiBCongo').hide()" styleClass="ui-priority-primary"/> 
-                                    <p:commandButton class="cmd_button" value="Annuler"  id="annule11" type="reset" onclick="PF('dlgSaveBiBCongo').hide()" update="formSaveBiBCongo" icon="ui-icon-close"/> 
+                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax11" actionListener ="#{boissonBean.saveOrUpdateBoisson()}" update="formSaveBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgSaveBiBCongo').hide()" styleClass="RedButton"/> 
+                                    <p:commandButton class="cmd_button" value="Annuler"  id="annule11" type="reset" onclick="PF('dlgSaveBiBCongo').hide()" update="formSaveBiBCongo" icon="ui-icon-close" styleClass="RedButton"/> 
                                 </div>                     
                             </p:panel>
                         </h:form>  
@@ -69,12 +69,40 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax21" actionListener="#{boissonBean.saveOrUpdateBoisson()}" update="formUpdateBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgUpdateBiBCongo').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="Annuler" type="reset"  id="annule21" onclick="PF('dlgUpdateBiBCongo').hide()" update="formUpdateBiBCongo" icon="ui-icon-close"/> 
+                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax212" actionListener="#{boissonBean.saveOrUpdateBoisson()}" update="formUpdateBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgUpdateBiBCongo').hide()" styleClass="RedButton"/> 
+                                    <p:commandButton class="cmd_button" value="Annuler" type="reset"  id="annule21" onclick="PF('dlgUpdateBiBCongo').hide()" update="formUpdateBiBCongo" icon="ui-icon-close" styleClass="RedButton"/> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
                     </p:dialog>
+                    
+                    <p:dialog modal="true" header="MODIFIER UN FORMAT DE BOISSON" widgetVar="dlgUpdate1BiBCongo" hideEffect="explode" showEffect="explode">
+                        <h:form id="formUpdateFBiBCongo">    
+                           
+                            <p:panel >
+                                <h:panelGroup >
+                                    <h:panelGrid  class="rightPosition"  id="displayUpdateFBiBCongo" columns="2">                                    
+                                        <h:outputText  value="Prix : " class="syntaxe_content" />
+                                       
+                                        <p:inputText value="#{boissonBean.formatBoisson1.prix}" required="true" requiredMessage="Le prix est obligatoire"/>                                        
+                                        <h:inputHidden value="#{boissonBean.boisson.id}"  />
+                                        <h:inputHidden value="#{boissonBean.boisson.version}"  />
+                                        <h:inputHidden value="#{boissonBean.boisson.isBracongo}" />
+                                        <h:inputHidden value="#{boissonBean.boisson.typeBoisson}"  />
+                                        <h:inputHidden value="#{boissonBean.formatBoisson1.id}"  />
+                                        <h:inputHidden value="#{boissonBean.formatBoisson1.version}"  />
+                                    </h:panelGrid>  
+                                </h:panelGroup>
+                                <p:separator/>
+                                <div id="center_content_div">
+                                    <p:commandButton class="cmd_button" value="Soumettre"   actionListener="#{boissonBean.updateFormatBoisson()}" update="formUpdateFBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgUpdate1BiBCongo').hide()" styleClass="RedButton"/> 
+                                    <p:commandButton class="cmd_button" value="Annuler" type="reset"  onclick="PF('dlgUpdate1BiBCongo').hide()" update="formUpdateFBiBCongo" icon="ui-icon-close" styleClass="RedButton" /> 
+                                </div>                    
+                            </p:panel>
+                        </h:form>  
+                    </p:dialog>
+                    
+                    
                     <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDeleteBiBCongo" hideEffect="explode" showEffect="explode">
                         <h:form id="fsBiBCongo">    
                             
@@ -90,8 +118,8 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteBoisson()}" update="fsBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgDeleteBiBCongo').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDeleteBiBCongo').hide()" update="fsBiBCongo" icon="ui-icon-close" /> 
+                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteBoisson()}" update="fsBiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgDeleteBiBCongo').hide()" styleClass="RedButton"/> 
+                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDeleteBiBCongo').hide()" update="fsBiBCongo" icon="ui-icon-close" styleClass="RedButton" /> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
@@ -113,14 +141,14 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteFormatBoisson()}" update="fs1BiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgDelete1BiBCongo').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete1BiBCongo').hide()" update="fs1BiBCongo" icon="ui-icon-close" /> 
+                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteFormatBoisson()}" update="fs1BiBCongo,tabview:fBiBCongo:dBiBCongo" icon="ui-icon-check" oncomplete="PF('dlgDelete1BiBCongo').hide()" styleClass="RedButton"/> 
+                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete1BiBCongo').hide()" update="fs1BiBCongo" icon="ui-icon-close" styleClass="RedButton"/> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
                     </p:dialog>
                     <h:form id="fBiBCongo" class="syntaxe_content" >                        
-                        <p:growl id="growl3" showDetail="true" autoUpdate="true"/> 
+                       
                         <p:confirmDialog id="hBiBCongo" message="voulez-vous vraiment supprimer la boisson #{boissonBean.boisson.nom}?"
                                          header="Initialisation de la suppression" severity="alert"
                                          widgetVar="confirmationBiBCongo" showEffect="explode" hideEffect="explode"> 
@@ -134,12 +162,12 @@
                                          showEffect="explode" 
                                          hideEffect="explode"> 
                             <div id="center_content_div">
-                                <p:commandButton class="cmd_button" value="OUI" 
+                                <p:commandButton styleClass="RedButton" class="cmd_button" value="OUI" 
                                                  action="#{boissonBean.deleteFormatBoisson()}" 
                                                  oncomplete="PF('cBiBCongo').hide()" 
                                                  update="fBiBCongo:dBiBCongo:eBiBCongo" 
                                                  />
-                                <p:commandButton class="cmd_button" value="NON" 
+                                <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" 
                                                  type="reset" 
                                                  onclick ="PF('cBiBCongo').hide();" 
                                                  />
@@ -158,7 +186,7 @@
                                 LA LISTE DES BIERES BRACONGO
                             </f:facet>
                             <f:facet name="footer" >  
-                                <p:commandButton  icon="ui-icon-disk" value="Nouvelle Bière" type="button" onclick="PF('dlgSaveBiBCongo').show()"/>
+                                <p:commandButton styleClass="RedButton" icon="ui-icon-disk" value="Nouvelle Bière" type="button" onclick="PF('dlgSaveBiBCongo').show()"/>
                             </f:facet>
                             <p:column >                               
                                 <p:dataTable  id="eBiBCongo"  
@@ -172,11 +200,11 @@
                                         <table class="type_cours">
                                             <tr >
                                                 <td><h:outputText value="#{biBracongo.nom}"  /> </td>
-                                                <td><p:commandButton id="aBiBCongo" onclick="PF('dlgDeleteBiBCongo').show()" update="tabview:fsBiBCongo:dsBiBCongo" icon="ui-icon-trash" class="type_cours_menuClass">
+                                                <td><p:commandButton id="aBiBCongo" onclick="PF('dlgDeleteBiBCongo').show()" update="tabview:fsBiBCongo:dsBiBCongo" icon="ui-icon-trash" class="type_cours_menuClass" styleClass="RedButton">
                                                         <f:setPropertyActionListener  value="#{biBracongo}" target="#{boissonBean.boisson}"/>
                                                     </p:commandButton>
                                                     <p:tooltip for="aBiBCongo" value="cliquez ici pour supprimer ce type de cours"/>
-                                                    <p:commandButton  id="qBiBCongo" onclick="PF('dlgUpdateBiBCongo').show()" icon="ui-icon-arrowrefresh-1-w"  update="tabview:formUpdateBiBCongo:displayUpdateBiBCongo" class="type_cours_menuClass">
+                                                    <p:commandButton  id="qBiBCongo" onclick="PF('dlgUpdateBiBCongo').show()" icon="ui-icon-arrowrefresh-1-w"  update="tabview:formUpdateBiBCongo:displayUpdateBiBCongo" class="type_cours_menuClass" styleClass="RedButton">
                                                         <f:setPropertyActionListener value="#{biBracongo}" target="#{boissonBean.boisson}"/>
                                                     </p:commandButton>
                                                     <p:tooltip for="qBiBCongo" value="cliquez ici pour modifier cette boisson"/>
@@ -186,8 +214,15 @@
                                     </f:facet>
                                     <p:column headerText="Format " id="code" >  
                                         #{formatBoisson.format.volume} cl   
-                                    </p:column>                                                                          
+                                    </p:column>      
+                                    <p:column headerText="Prix " id="code1" >  
+                                        #{formatBoisson.prix}    
+                                    </p:column>
                                     <p:column headerText="Action">
+                                        <p:commandLink id="updateBiBCongo" value="|Modifier" onclick="PF('dlgUpdate1BiBCongo').show()"  update="tabview:formUpdateFBiBCongo:displayUpdateFBiBCongo" >  
+                                            <f:setPropertyActionListener  value="#{biBracongo}" target="#{boissonBean.boisson}"/>
+                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson1}"/>
+                                        </p:commandLink>
                                         <p:commandLink id="deleteBiBCongo" value="|Supprimer" onclick="PF('dlgDelete1BiBCongo').show()"  update="tabview:fs1BiBCongo:ds1BiBCongo" >  
                                             <f:setPropertyActionListener  value="#{biBracongo}" target="#{boissonBean.boisson}"/>
                                             <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>

@@ -45,6 +45,9 @@ public class Enqueteur implements Serializable{
     private String nom;
     
     @Column(unique = true)
+    private String username;
+    
+    
     private String matricule;
     
     @Column(unique = true)
@@ -132,6 +135,16 @@ public class Enqueteur implements Serializable{
     public void setSecteur(Secteur secteur) {
         this.secteur = secteur;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    
+    
 
     @Override
     public String toString() {
