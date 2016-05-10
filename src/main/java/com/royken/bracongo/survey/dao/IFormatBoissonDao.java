@@ -20,4 +20,6 @@ public interface IFormatBoissonDao extends IGenericDao<FormatBoisson, Long>{
     
     public List<FormatBoisson> findByBoisson(Boisson boisson) throws DataAccessException;
     
+    public List<FormatBoisson> findAllByTypeForEnterpriseAndFormat(Boolean bracongo, TypeBoisson typeBoisson, Format format) throws DataAccessException;
+    
 }

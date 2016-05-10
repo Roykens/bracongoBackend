@@ -112,7 +112,9 @@
                             <p:inputText  id="lat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
                             <h:outputText value="Longitude"/> 
                             <p:inputText  id="long" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
-                            <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
+                            <h:outputText value="Circuit"/> 
+                            <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" style="width: 100%;" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>
                                 <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                             </p:selectOneMenu> 
 
@@ -135,10 +137,10 @@
                             </p:selectOneMenu>
 
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" styleClass="RedButton"/>  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
+                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" styleClass="RedButton"/>  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -157,7 +159,9 @@
                             <p:inputText id="ulat" value="#{pointDeVenteBean.pointDeVente.latitude}"/>
                             <h:outputText value="Longitude"/> 
                             <p:inputText  id="ulong" value="#{pointDeVenteBean.pointDeVente.longitude}"/> 
-                            <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
+                            <h:outputText value="Circuit "/> 
+                            <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith" style="width: 100%;">
+                                <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/> 
                                 <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
                             </p:selectOneMenu> 
                             <h:outputText  value="Regime: "  class="syntaxe_content" />                   
@@ -181,10 +185,10 @@
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.id}"/>
                             <h:inputHidden value="#{pointDeVenteBean.pointDeVente.version}"/>
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton value="Enregistrer" action="#{pointDeVenteBean.saveOrUpdatePDV()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" styleClass="RedButton"/>  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" />  
+                                <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" styleClass="RedButton" />  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -194,8 +198,8 @@
                                  header="Initialisation de la suppression" severity="alert"
                                  widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
                     <div id="center_content_div">
-                        <p:commandButton id="confirm" value="OUI" action="#{pointDeVenteBean.deletePvd()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
-                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
+                        <p:commandButton id="confirm" value="OUI" action="#{pointDeVenteBean.deletePvd()}" oncomplete="PF('delete_dialog').hide()" update=":form:table" styleClass="RedButton"/>
+                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  styleClass="RedButton"/>
                     </div>
                 </p:confirmDialog>
 
@@ -203,7 +207,7 @@
 
                 <p:dialog header="Initialisation de la suppression" widgetVar="dlgDelete" hideEffect="explode" showEffect="explode">
                     <h:form id="formDelete">    
-                        <p:growl  showDetail="true" /> 
+                       
                         <p:panel >
                             <h:panelGroup >
                                 <h:panelGrid id="displayDelete" columns="2">                                                                                                                              
@@ -216,8 +220,8 @@
                             </h:panelGroup>
                             <p:separator/>
                             <div id="center_content_div">
-                                <p:commandButton class="cmd_button" value="OUI"  actionListener="#{pointDeVenteBean.deletePvd()}" update=":formDelete,:form:table" icon="ui-icon-check" oncomplete="PF('dlgDelete').hide()" /> 
-                                <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete').hide()" update=":formDelete" icon="ui-icon-close"/> 
+                                <p:commandButton class="cmd_button" value="OUI"  actionListener="#{pointDeVenteBean.deletePvd()}" update=":formDelete,:form:table" icon="ui-icon-check" oncomplete="PF('dlgDelete').hide()" styleClass="RedButton"/> 
+                                <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete').hide()" update=":formDelete" icon="ui-icon-close" styleClass="RedButton"/> 
                             </div>                     
                         </p:panel>
                     </h:form>  
@@ -244,10 +248,10 @@
 
 
                             <f:facet name="footer"> <br/>  
-                                <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
+                                <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false" styleClass="RedButton"/>  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Effacer" type="reset"/>  
+                                <p:commandButton value="Effacer" type="reset" styleClass="RedButton"/>  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>

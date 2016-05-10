@@ -304,8 +304,8 @@ public class RapportBean {
             Axis yAxis = model2.getAxis(AxisType.Y);
             yAxis.setLabel("Pourcentage (%)");
             yAxis.setMin(0);
-            yAxis.setMax(3);
-            //yAxis.setMax(100);
+           // yAxis.setMax(3);
+            yAxis.setMax(100);
             return model2;
         } catch (ServiceException ex) {
             Logger.getLogger(RapportBean.class.getName()).log(Level.SEVERE, null, ex);

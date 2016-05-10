@@ -9,8 +9,7 @@
         <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
 
         <h3 class="hardblue TexAlCenter">Empty Page</h3>
-        <span class="TexAlCenter DispBlock Wid100">Use this page to start from scratch and place your custom content.</span>
-
+       
         <div class="Container100">
             <div class="ContainerIndent">
 
@@ -37,9 +36,9 @@
                         
                         <f:facet name="footer">  
 
-                            <p:commandButton value="Ajouter un PLV" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Modifier un PLV" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
-                            <p:commandButton value="Supprimer un PLV" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                            <p:commandButton styleClass="RedButton" value="Ajouter un PLV" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton styleClass="RedButton" value="Modifier un PLV" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                            <p:commandButton styleClass="RedButton" value="Supprimer un PLV" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
                         </f:facet> 
                     </p:dataTable>
                 </h:form>
@@ -49,10 +48,10 @@
                             <h:outputText value="Nom"/> 
                             <p:inputText  id="en" value="#{plvBean.plv.nom}"/> 
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{plvBean.saveOrUpdatePlv()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{plvBean.saveOrUpdatePlv()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
+                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -68,10 +67,10 @@
                             <h:inputHidden value="#{plvBean.plv.id}"/>
                             <h:inputHidden value="#{plvBean.plv.version}"/>
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{plvBean.saveOrUpdatePlv()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{plvBean.saveOrUpdatePlv()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" />  
+                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('modifier_dialog').hide()" />  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -81,8 +80,8 @@
                                  header="Initialisation de la suppression" severity="alert"
                                  widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
                     <div id="center_content_div">
-                        <p:commandButton id="confirm" value="OUI" action="#{plvBean.deletePlv()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
-                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
+                        <p:commandButton styleClass="RedButton" id="confirm" value="OUI" action="#{plvBean.deletePlv()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
+                        <p:commandButton styleClass="RedButton" id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
                     </div>
                 </p:confirmDialog>
 

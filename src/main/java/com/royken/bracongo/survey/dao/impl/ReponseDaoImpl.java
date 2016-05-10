@@ -78,11 +78,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
             }
         }
 
-        if (fin != null) {
-            predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
-        } else {
-            predicates.add(cb.equal(rpsRoot.get(Reponse_.heureDeVisite), debut));
-        }
+        
         if (planning != null) {
             predicates.add(cb.equal(rpsRoot.get(Reponse_.planning), planning));
         }
@@ -184,7 +180,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
                 predicates.add(cb.equal(boisPath.get(Boisson_.typeBoisson), TypeBoisson.BG));
             }
         }
-        if (bracongo != null) {
+        if (bracongo != null) {            
             predicates.add(cb.equal(boisPath.get(Boisson_.isBracongo), bracongo));
         }
 
@@ -214,6 +210,69 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
         }
         return getManager().createQuery(cq).getResultList().size();
+    }
+
+    @Override
+    public int dispoibiliteFormatReponse(FormatBoisson formatBoisson, Reponse reponse) throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<BoissonInfos> cq = cb.createQuery(BoissonInfos.class);
+        Root<BoissonInfos> biRoot = cq.from(BoissonInfos.class);
+        cq.where(cb.and(cb.equal(biRoot.get(BoissonInfos_.reponse), reponse), cb.equal(biRoot.get(BoissonInfos_.formatBoisson), formatBoisson)));
+        //cq.select(biRoot.get(BoissonInfos_.disponibilite));
+        BoissonInfos bi = getManager().createQuery(cq).getSingleResult();
+        return (bi.isDisponibilite() == true) ? 1:0;
+    }
+
+    @Override
+    public List<Reponse> findAllByDateTypeRegime(Date debut, Date fin, Boolean DiEtOr, Boolean pve, Boolean biere, Boolean bracongo) throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<Reponse> cq = cb.createQuery(Reponse.class);
+        Root<Reponse> rpsRoot = cq.from(Reponse.class);
+        Path<PointDeVente> pdvPath = rpsRoot.get(Reponse_.pointDeVente);
+        Join<Reponse, BoissonInfos> toto = rpsRoot.join(Reponse_.boissonInfoss);
+        Path<FormatBoisson> formatPath = toto.get(BoissonInfos_.formatBoisson);
+        Path<Boisson> boissonPath = formatPath.get(FormatBoisson_.boisson);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (debut != null) {
+            if(fin != null){
+                 predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
+            }
+        }
+        
+        if(DiEtOr != null){
+            if(DiEtOr){
+                predicates.add(cb.or(cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Di), cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Or)));
+            }
+            else{
+                predicates.add(cb.or(cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Br), cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Ag)));
+            }
+        }
+        
+        if (pve != null) {
+            if (pve) {
+                predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), TypeRegime.PVE));
+            } else {
+                predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), TypeRegime.Mixte));
+            }
+        }
+        
+        if (biere != null) {
+            if (biere) {
+                predicates.add(cb.equal(boissonPath.get(Boisson_.typeBoisson), TypeBoisson.BI));
+            } else {
+                predicates.add(cb.equal(boissonPath.get(Boisson_.typeBoisson), TypeBoisson.BG));
+            }
+        }
+        
+        if (bracongo != null) {            
+            predicates.add(cb.equal(boissonPath.get(Boisson_.isBracongo), bracongo));
+        }
+        
+        cq.select(rpsRoot);
+        if (predicates.size() > 0) {
+            cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
+        }
+        return getManager().createQuery(cq).getResultList();
     }
 
 }

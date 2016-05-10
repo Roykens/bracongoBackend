@@ -62,4 +62,30 @@ public class FormatBoissonDaoImpl extends GenericDao<FormatBoisson, Long> implem
         return getManager().createQuery(cq).getResultList();
     }
 
+    @Override
+    public List<FormatBoisson> findAllByTypeForEnterpriseAndFormat(Boolean bracongo, TypeBoisson typeBoisson, Format format) throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<FormatBoisson> cq = cb.createQuery(FormatBoisson.class);
+        Root<FormatBoisson> formRoot = cq.from(FormatBoisson.class);
+        Path<Boisson> boisPath = formRoot.get(FormatBoisson_.boisson);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(bracongo != null){
+                predicates.add(cb.equal(boisPath.get(Boisson_.isBracongo), bracongo));
+        }
+        
+        if(typeBoisson != null){
+            predicates.add(cb.equal(boisPath.get(Boisson_.typeBoisson), typeBoisson));
+        }
+        
+        if(format != null){
+            predicates.add(cb.equal(formRoot.get(FormatBoisson_.format), format));
+        }
+        
+        cq.select(formRoot);
+         if (predicates.size() > 0) {
+            cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
+        }
+        return getManager().createQuery(cq).getResultList();
+    }
+
 }

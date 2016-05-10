@@ -44,10 +44,10 @@
                         </p:column>
                         <f:facet name="footer">  
 
-                            <p:commandButton value="Ajouter un Circuit" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Modifier un Circuit" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
-                            <p:commandButton value="Supprimer un Circuit" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                            <p:commandButton styleClass="RedButton" value="Ajouter un Circuit" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton styleClass="RedButton" value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton styleClass="RedButton" value="Modifier un Circuit" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                            <p:commandButton styleClass="RedButton" value="Supprimer un Circuit" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
                         </f:facet> 
                     </p:dataTable>
                 </h:form>
@@ -61,10 +61,10 @@
                                 <f:selectItems value="#{circuitBean.zones}" var="zone" itemLabel="#{zone.code}" itemValue="#{zone.id}" />
                             </p:selectOneMenu> 
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{circuitBean.saveOrUpdateZone()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{circuitBean.saveOrUpdateZone()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
+                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -84,10 +84,10 @@
                             <h:inputHidden value="#{circuitBean.circuit.id}"/>
                             <h:inputHidden value="#{circuitBean.circuit.version}"/>
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{circuitBean.saveOrUpdateZone()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{circuitBean.saveOrUpdateZone()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" />  
+                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('modifier_dialog').hide()" />  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -97,8 +97,8 @@
                                  header="Initialisation de la suppression" severity="alert"
                                  widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
                     <div id="center_content_div">
-                        <p:commandButton id="confirm" value="OUI" action="#{circuitBean.deleteCircuit()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
-                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
+                        <p:commandButton styleClass="RedButton" id="confirm" value="OUI" action="#{circuitBean.deleteCircuit()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
+                        <p:commandButton styleClass="RedButton" id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
                     </div>
                 </p:confirmDialog>
 
@@ -115,10 +115,10 @@
 
 
                             <f:facet name="footer"> <br/>  
-                                <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
+                                <p:commandButton styleClass="RedButton" value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Effacer" type="reset"/>  
+                                <p:commandButton styleClass="RedButton" value="Effacer" type="reset"/>  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>

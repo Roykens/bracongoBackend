@@ -21,7 +21,7 @@
                 <p:panel style="min-height:400px;">
                     <p:dialog modal="true" header="ATTRIBUER DES PDV A CE PLANNING " widgetVar="dlgSaveEV" hideEffect="explode" showEffect="explode" >
                         <h:form id="formSaveEV">                                
-                            <p:growl id="growl9" showDetail="true" /> 
+                            
                             <p:panel >
                                 <h:panelGroup >
                                     <h:panelGrid  class="rightPosition"  id="displaySaveEV" columns="2">
@@ -37,15 +37,15 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"   actionListener ="#{planningBean.savePointDeVente()}" update=":formSaveEV,:f:d" icon="ui-icon-check" oncomplete="PF('dlgSaveEV').hide()" styleClass="ui-priority-primary"/> 
-                                    <p:commandButton class="cmd_button" value="Annuler"  type="reset" onclick="PF('dlgSaveEV').hide()" update=":formSaveEV" icon="ui-icon-close"/> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Soumettre"   actionListener ="#{planningBean.savePointDeVente()}" update=":formSaveEV,:f:d" icon="ui-icon-check" oncomplete="PF('dlgSaveEV').hide()"/> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Annuler"  type="reset" onclick="PF('dlgSaveEV').hide()" update=":formSaveEV" icon="ui-icon-close"/> 
                                 </div>                     
                             </p:panel>
                         </h:form>  
                     </p:dialog>
                     <p:dialog modal="true" header="AJOUTER UN PLANNING" widgetVar="dlgSave" hideEffect="explode" showEffect="explode">
                         <h:form id="formSave">                                
-                            <p:growl id="growl" showDetail="true" /> 
+                            
                             <p:panel >
                                 <h:panelGroup >
                                     <h:panelGrid  class="rightPosition"  id="displaySave" columns="2">
@@ -57,8 +57,8 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax1" actionListener ="#{planningBean.saveOrUpdatePlanninge()}" update=":formSave,:f:d" icon="ui-icon-check" oncomplete="PF('dlgSave').hide()" styleClass="ui-priority-primary"/> 
-                                    <p:commandButton class="cmd_button" value="Annuler"  id="annule1" type="reset" onclick="PF('dlgSave').hide()" update=":formSave" icon="ui-icon-close"/> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Soumettre"  id="ajax1" actionListener ="#{planningBean.saveOrUpdatePlanninge()}" update=":formSave,:f:d" icon="ui-icon-check" oncomplete="PF('dlgSave').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Annuler"  id="annule1" type="reset" onclick="PF('dlgSave').hide()" update=":formSave" icon="ui-icon-close"/> 
                                 </div>                     
                             </p:panel>
                         </h:form>  
@@ -66,7 +66,7 @@
 
                     <p:dialog modal="true" header="MODIFIER LE PLANNING" widgetVar="dlgUpdate" hideEffect="explode" showEffect="explode">
                         <h:form id="formUpdate">    
-                            <p:growl id="growl1" showDetail="true" /> 
+                            
                             <p:panel >
                                 <h:panelGroup >
                                     <h:panelGrid  class="rightPosition"  id="displayUpdate" columns="2">  
@@ -81,15 +81,15 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="Soumettre"  id="ajax2" actionListener="#{planningBean.saveOrUpdatePlanninge()}" update=":formUpdate,:f:d" icon="ui-icon-check" oncomplete="PF('dlgUpdate').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="Annuler" type="reset"  id="annule2" onclick="PF('dlgUpdate').hide()" update=":formUpdate" icon="ui-icon-close"/> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Soumettre"  id="ajax2" actionListener="#{planningBean.saveOrUpdatePlanninge()}" update=":formUpdate,:f:d" icon="ui-icon-check" oncomplete="PF('dlgUpdate').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Annuler" type="reset"  id="annule2" onclick="PF('dlgUpdate').hide()" update=":formUpdate" icon="ui-icon-close"/> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
                     </p:dialog>
                     <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDelete" hideEffect="explode" showEffect="explode">
                         <h:form id="fs">    
-                            <p:growl showDetail="true" /> 
+                            
                             <p:panel >
                                 <h:panelGroup >
                                     <h:panelGrid  class="rightPosition"  id="ds" columns="1">   
@@ -100,15 +100,15 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{planningBean.deletePlanning()}" update=":fs,:f:d" icon="ui-icon-check" oncomplete="PF('dlgDelete').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete').hide()" update=":fs" icon="ui-icon-close" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="OUI"   actionListener="#{planningBean.deletePlanning()}" update=":fs,:f:d" icon="ui-icon-check" oncomplete="PF('dlgDelete').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete').hide()" update=":fs" icon="ui-icon-close" /> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
                     </p:dialog>
                     <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDelete1" hideEffect="explode" showEffect="explode">
                         <h:form id="fs1">    
-                            <p:growl showDetail="true" /> 
+                            
                             <p:panel >
                                 <h:panelGroup >
                                     <h:panelGrid   class="rightPosition"  id="ds1" columns="1">   
@@ -119,8 +119,8 @@
                                 </h:panelGroup>
                                 <p:separator/>
                                 <div id="center_content_div">
-                                    <p:commandButton class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteFormatBoisson()}" update=":fs1,:f:d" icon="ui-icon-check" oncomplete="PF('dlgDelete1').hide()" /> 
-                                    <p:commandButton class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete1').hide()" update=":fs1" icon="ui-icon-close" /> 
+                                    <p:commandButton  styleClass="RedButton" class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteFormatBoisson()}" update=":fs1,:f:d" icon="ui-icon-check" oncomplete="PF('dlgDelete1').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete1').hide()" update=":fs1" icon="ui-icon-close" /> 
                                 </div>                    
                             </p:panel>
                         </h:form>  
@@ -128,12 +128,12 @@
 
 
                     <h:form id="f" class="syntaxe_content" >                        
-                        <p:growl id="growl3" showDetail="true" autoUpdate="true"/> 
+                         
                         <p:confirmDialog id="h" message="voulez-vous vraiment supprimer la boisson #{boissonBean.boisson.nom}?"
                                          header="Initialisation de la suppression" severity="alert"
                                          widgetVar="confirmation" showEffect="explode" hideEffect="explode"> 
-                            <p:commandButton class="cmd_button"   value="OUI" action="#{boissonBean.deleteBoisson()}" oncomplete="PF('confirmation').hide()" update=":f:d" />
-                            <p:commandButton class="cmd_button" value="NON" type="reset" onclick ="PF('confirmation').hide();" />
+                            <p:commandButton styleClass="RedButton" class="cmd_button"   value="OUI" action="#{boissonBean.deleteBoisson()}" oncomplete="PF('confirmation').hide()" update=":f:d" />
+                            <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" type="reset" onclick ="PF('confirmation').hide();" />
                         </p:confirmDialog>
                         <p:confirmDialog id="g" 
                                          message="voulez-vous vraiment supprimer cette boisson ?"
@@ -142,12 +142,12 @@
                                          showEffect="explode" 
                                          hideEffect="explode"> 
                             <div id="center_content_div">
-                                <p:commandButton class="cmd_button" value="OUI" 
+                                <p:commandButton styleClass="RedButton" class="cmd_button" value="OUI" 
                                                  action="#{boissonBean.deleteFormatBoisson()}" 
                                                  oncomplete="PF('c').hide()" 
                                                  update=":f:d:e" 
                                                  />
-                                <p:commandButton class="cmd_button" value="NON" 
+                                <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" 
                                                  type="reset" 
                                                  onclick ="PF('c').hide();" 
                                                  />
@@ -165,7 +165,7 @@
                                 LA LISTE DES PLANNINGS
                             </f:facet>
                             <f:facet name="footer" >  
-                                <p:commandButton  icon="ui-icon-disk" value="Nouveau Planning" type="button" onclick="PF('dlgSave').show()"/>
+                                <p:commandButton styleClass="RedButton" icon="ui-icon-disk" value="Nouveau Planning" type="button" onclick="PF('dlgSave').show()"/>
                             </f:facet>
                             <p:column >                               
                                 <p:dataTable  id="e"  
@@ -182,11 +182,11 @@
                                                         <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
                                                     </h:outputText><h:outputText value=" / #{car.enqueteur.nom}" style="font:white"/>
                                                          </td>
-                                                <td><p:commandButton id="a" onclick="PF('dlgDelete').show()" update=":fs:ds" icon="ui-icon-trash" class="type_cours_menuClass">
+                                                <td><p:commandButton styleClass="RedButton" id="a" onclick="PF('dlgDelete').show()" update=":fs:ds" icon="ui-icon-trash" class="type_cours_menuClass">
                                                         <f:setPropertyActionListener  value="#{car}" target="#{planningBean.planning}"/>
                                                     </p:commandButton>
                                                     <p:tooltip for="a" value="cliquez ici pour supprimer ce planning"/>
-                                                    <p:commandButton  id="q" onclick="PF('dlgUpdate').show()" icon="ui-icon-arrowrefresh-1-w"  update=":formUpdate:displayUpdate" class="type_cours_menuClass">
+                                                    <p:commandButton styleClass="RedButton"  id="q" onclick="PF('dlgUpdate').show()" icon="ui-icon-arrowrefresh-1-w"  update=":formUpdate:displayUpdate" class="type_cours_menuClass">
                                                         <f:setPropertyActionListener value="#{car}" target="#{planningBean.planning}"/>
                                                     </p:commandButton>
                                                     <p:tooltip for="q" value="cliquez ici pour modifier ce planning"/>

@@ -37,10 +37,10 @@
                         
                         <f:facet name="footer">  
 
-                            <p:commandButton value="Ajouter un Secteur" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
-                            <p:commandButton value="Modifier un Secteur" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
-                            <p:commandButton value="Supprimer un Secteur" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
+                            <p:commandButton styleClass="RedButton" value="Ajouter un Secteur" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton styleClass="RedButton" value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" />
+                            <p:commandButton styleClass="RedButton" value="Modifier un Secteur" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
+                            <p:commandButton styleClass="RedButton" value="Supprimer un Secteur" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
                         </f:facet> 
                     </p:dataTable>
                 </h:form>
@@ -50,10 +50,10 @@
                             <h:outputText value="Code"/> 
                             <p:inputText  id="en" value="#{secteurBean.secteur.code}"/> 
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{secteurBean.saveOrUpdateSecteur()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{secteurBean.saveOrUpdateSecteur()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
+                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -69,10 +69,10 @@
                             <h:inputHidden value="#{secteurBean.secteur.id}"/>
                             <h:inputHidden value="#{secteurBean.secteur.version}"/>
                             <f:facet name="footer"> <br/> 
-                                <p:commandButton value="Enregistrer" action="#{secteurBean.saveOrUpdateSecteur()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
+                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{secteurBean.saveOrUpdateSecteur()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Annuler" onclick="PF('modifier_dialog').hide()" />  
+                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('modifier_dialog').hide()" />  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>
@@ -82,8 +82,8 @@
                                  header="Initialisation de la suppression" severity="alert"
                                  widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
                     <div id="center_content_div">
-                        <p:commandButton id="confirm" value="OUI" action="#{secteurBean.deleteSecteur()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
-                        <p:commandButton id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
+                        <p:commandButton styleClass="RedButton" id="confirm" value="OUI" action="#{secteurBean.deleteSecteur()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
+                        <p:commandButton styleClass="RedButton" id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
                     </div>
                 </p:confirmDialog>
 
@@ -100,10 +100,10 @@
 
 
                             <f:facet name="footer"> <br/>  
-                                <p:commandButton value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
+                                <p:commandButton styleClass="RedButton" value="Importer" action="#{pointDeVenteBean.importer()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" ajax="false"/>  
                             </f:facet>
                             <f:facet name="footer">  
-                                <p:commandButton value="Effacer" type="reset"/>  
+                                <p:commandButton styleClass="RedButton" value="Effacer" type="reset"/>  
                             </f:facet>
                         </h:panelGrid> 
                     </h:form>

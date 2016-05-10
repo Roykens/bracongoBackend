@@ -5,6 +5,7 @@ import com.royken.bracongo.survey.entities.Secteur;
 import com.royken.bracongo.survey.entities.Secteur_;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.impl.GenericDao;
+import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,6 +15,17 @@ import javax.persistence.criteria.Root;
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
 public class SecteurDaoImpl extends GenericDao<Secteur, Long> implements IsecteurDao{
+
+    @Override
+    public List<Secteur> findAll() throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<Secteur> cq = cb.createQuery(Secteur.class);
+        Root<Secteur> secRoot = cq.from(Secteur.class);
+        cq.orderBy(cb.asc(secRoot.get(Secteur_.code)));
+        return getManager().createQuery(cq).getResultList();
+    }
+    
+    
 
     @Override
     public Secteur findByCode(String code) throws DataAccessException {

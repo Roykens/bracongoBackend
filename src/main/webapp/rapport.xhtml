@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+            function skinChart() {
+                this.cfg.shadow = false;
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#4034ae', '#ae2459', '#00908e', '#900028', '#908900', '#009030'];
+                this.cfg.grid = {
+                    background: '#f3f5f7',
+                    borderColor: '#e5ebf0',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false
+                };
+                this.cfg.axesDefaults = {
+                    rendererOptions: {
+                        textColor: '#9fadb5'
+                    }
+                };
+                this.cfg.seriesDefaults = {
+                    shadow: false,
+                    markerOptions: {
+                        shadow: false
+                    }
+                }
+            }
+
+            function skinPie() {
+                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
+                this.cfg.grid = {
+                    background: '#ffffff',
+                    borderColor: '#eaeaea',
+                    gridLineColor: '#e5ebf0',
+                    shadow: false,
+                    borderWidth: 0
+                };
+                this.cfg.seriesDefaults.shadow = false;
+            }
+        </script>
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #9fadb5;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- SECTION 1 -->   
+        <div class="EmptyBox10"></div>
+        <span class="TexAlCenter DispBlock Wid100">
+            <h:form>
+                <p:commandButton value="Mensuel"/>
+                <p:commandButton value="Custom"/>
+                <p:commandButton value="Hebdomadaire"/>
+                <div class="Fs12 Fright leaden Wid50 TexAlRight Responsive"><p:commandButton value="Exporter" ajax="false" action="#{documentBean.produceDocument()}">
+                        <p:fileDownload value="#{documentBean.fichier}" />
+                    </p:commandButton><br/></div>
+                </h:form>
+        </span>
+        
+        <div class="EmptyBox10"></div>
+
+        <!-- SECTION 1 -->
+        <p:panel id="button_panel" widgetVar="testPanel" closable="true" toggleable="true">
+
+            <div class="Container100 BorBotLeaden">
+                <div class="ContainerIndent">
+                    <div class="EmptyBox10"></div>
+
+                    <div class="Container25 Responsive">
+                        <div class="ContainerIndent">
+                            <p:panel style="min-height: 400px;">
+                                <i class=" icon-data-science-inv Fs50 Fleft Wid25 orange TexAlCenter"></i>
+                                <div class="Fs24 Fright MarTop10 leaden Wid70">Total des visites d'aujourd'hui</div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <div class="EmptyBox10"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 1<br/><span class="Fs24 orange">13.760</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 2<br/><span class="Fs24 red">2.280</span></div>
+                                <div class="EmptyBox20"></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 3<br/><span class="Fs24 hardblue">134</span></div>
+                                <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 4<br/><span class="Fs24 green" >134</span></div>
+                                <div class="EmptyBox10"></div>
+                                <p:separator styleClass="Wid100"></p:separator>
+                                <!--  <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a> -->
+                                <div class="Fs24  leaden Wid100 TexAlCenter DispInlBlock Responsive">Total<br/><span class="Fs24 blue">13.760</span></div>
+                            </p:panel>
+                        </div>
+                    </div>
+
+                    <div class="Container75 Responsive">
+                        <div class="ContainerIndent">
+                            <p:panel style="min-height:400px;">
+                                <div class="Container100 Responsive Fs20">
+                                    <i class="icon-chart-bar"></i> Repartition des visites
+                                </div>
+                                <div class="Container100">
+                                    <p:chart type="bar" model="#{rapportBean.model}" style="height:300px;margin-top:10px" responsive="true"/>
+                                </div>
+                            </p:panel>
+                        </div>
+                    </div>
+
+                    <div class="EmptyBox20"></div>
+                </div>
+            </div>
+
+            <div class="Container100 BorBotLeaden">
+                <div class="ContainerIndent">
+                    <div class="EmptyBox10"></div>
+
+                    <div class="ContainerIndent">
+                        <p:panel style="min-height:400px;">
+                            <div class="Container100 Responsive Fs20">
+                                <i class="icon-chart-bar"></i> Disponibilité Boisson
+                            </div>
+                            <div class="Container100">
+                                <p:chart type="bar" model="#{rapportBean.model2}" style="height:300px;margin-top:10px" responsive="true"/>
+                            </div>
+                        </p:panel>
+                    </div>
+
+                    <div class="EmptyBox20"></div>
+                </div>
+            </div>
+        </p:panel>
+
+    </ui:define>
+
+</ui:composition>

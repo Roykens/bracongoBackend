@@ -20,6 +20,7 @@ import java.util.List;
 public interface IReponseDao extends IGenericDao<Reponse, Long>{
     
     public Reponse findByPlanningAndPdv(Planning planning, PointDeVente pointDeVente) throws DataAccessException;
+    
     public List<Reponse> findReponseBetweenDates(Date debut, Date fin) throws DataAccessException;
     
     public List<Reponse> findReponseForDate(Date date) throws DataAccessException;
@@ -31,4 +32,8 @@ public interface IReponseDao extends IGenericDao<Reponse, Long>{
     public int countReponseGlobalStat(Planning planning, Secteur secteur, TypeRegime typeRegime, TypeCategorie categorie, Date debut, Date fin) throws DataAccessException;
     
     public int countDisponibiliteFormat(FormatBoisson formatBoisson, Boolean DiEtOr, Boolean pve, Date debut, Date fin, Boolean biere, Boolean bracongo) throws DataAccessException;
+    
+    public int dispoibiliteFormatReponse(FormatBoisson formatBoisson, Reponse reponse) throws DataAccessException;
+    
+    public List<Reponse> findAllByDateTypeRegime(Date debut, Date fin, Boolean DiEtOr, Boolean pve, Boolean biere, Boolean bracongo) throws DataAccessException;
 }

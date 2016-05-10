@@ -20,6 +20,12 @@ public class BoissonDispoStat {
     private Map<String, Integer> pvmDiEtOr;
     
     private Map<String, Integer> pvmAgEtBr;
+    
+    private Map<String, Integer> pve;
+    
+    private Map<String, Integer> pvm;
+    
+    private Map<String, Integer> pdv;
 
     public Map<String, Integer> getPveDiEtOr() {
         return pveDiEtOr;
@@ -53,11 +59,33 @@ public class BoissonDispoStat {
         this.pvmAgEtBr = pvmAgEtBr;
     }
 
+    public Map<String, Integer> getPve() {
+        return pve;
+    }
+
+    public void setPve(Map<String, Integer> pve) {
+        this.pve = pve;
+    }
+
+    public Map<String, Integer> getPvm() {
+        return pvm;
+    }
+
+    public void setPvm(Map<String, Integer> pvm) {
+        this.pvm = pvm;
+    }
+
+    public Map<String, Integer> getPdv() {
+        return pdv;
+    }
+
+    public void setPdv(Map<String, Integer> pdv) {
+        this.pdv = pdv;
+    }
+
     @Override
     public String toString() {
-        return "BoissonDispoStat{" + "pveDiEtOr=" + pveDiEtOr + ", pveAgEtBr=" + pveAgEtBr + ", pvmDiEtOr=" + pvmDiEtOr + ", pvmAgEtBr=" + pvmAgEtBr + '}';
+        return "BoissonDispoStat{" + "pveDiEtOr=" + pveDiEtOr + ", pveAgEtBr=" + pveAgEtBr + ", pvmDiEtOr=" + pvmDiEtOr + ", pvmAgEtBr=" + pvmAgEtBr + ", pve=" + pve + ", pvm=" + pvm + ", pdv=" + pdv + '}';
     }
-    
-    
     
 }
