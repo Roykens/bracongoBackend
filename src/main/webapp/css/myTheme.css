@@ -124,3 +124,5 @@ background-color:black;
     
 }
 
+.login-back{background-image:url("#{resource['sentinel-layout:images/login_back.jpeg']}"); background-position:top left; background-repeat:no-repeat; background-size: 50%;}
+

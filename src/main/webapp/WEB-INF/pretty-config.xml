@@ -1,0 +1,69 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	<url-mapping id="accueil">
+		<pattern value="/accueil" />
+		<view-id value="/myDashboard.xhtml" />
+	</url-mapping>
+        <url-mapping id="boissons">
+		<pattern value="/boissons" />
+		<view-id value="/toto.xhtml" />
+	</url-mapping>
+        <url-mapping id="reporting">
+		<pattern value="/reporting" />
+		<view-id value="/rapport2.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="pdv">
+		<pattern value="/point_de_vente" />
+		<view-id value="/pdv.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="format">
+		<pattern value="/formats" />
+		<view-id value="/format.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="mao">
+		<pattern value="/mao" />
+		<view-id value="/enqueteurs.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="planning">
+		<pattern value="/planning" />
+		<view-id value="/planningTest.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="materiels">
+		<pattern value="/materiel_plv" />
+		<view-id value="/materiels.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="plvs">
+		<pattern value="/materiel_plv" />
+		<view-id value="/plvs.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="zone">
+		<pattern value="/zones" />
+		<view-id value="/zone.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="secteur">
+		<pattern value="/secteurs" />
+		<view-id value="/secteur.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="circuit">
+		<pattern value="/circuits" />
+		<view-id value="/circuit.xhtml" />
+	</url-mapping>
+        
+        <url-mapping id="login">
+		<pattern value="/authentification" />
+		<view-id value="/login.xhtml" />
+	</url-mapping>
+
+</pretty-config>
