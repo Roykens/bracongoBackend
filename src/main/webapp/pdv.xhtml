@@ -13,8 +13,7 @@
 
 
 
-                <h:form id="form">
-                    <h1><h:outputText value="List"/></h1>
+                <h1><h:outputText value="List"/></h1>
 
                     <p:outputLabel value="Secteur"  />
                     <p:selectOneMenu value="#{pointDeVenteBean.idS}"  style="margin:10px; height: 30px; width: 200px;"  id="secteur" filter="true">
@@ -33,7 +32,8 @@
                     </p:selectOneMenu>
                     <p:commandButton styleClass="RedButton" type="submit" action="#{pointDeVenteBean.filtrer()}"  style="margin:10px; height: 30px;"  update=":form:table,:carteDialog"  value="Filtrer"/>
 
-
+                    <h:form id="form">
+                    
                     <p:dataTable rowIndexVar="index" value="#{pointDeVenteBean.pointDeVntes}" var="item" id="table"  rowKey="#{item.id}" selection="#{pointDeVenteBean.pointDeVenteChoisis}" selectionMode="multiple" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun PDV enregistré" reflow="true">
                         <p:ajax event="rowSelect" listener="#{pointDeVenteBean.importer}" />
                         <f:facet name="header">

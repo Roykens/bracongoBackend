@@ -18,9 +18,12 @@
                                 <h:panelGroup >
                                     <h:panelGrid  class="rightPosition"  id="displaySaveEVBiBra" columns="2">
                                         <h:outputText  value="Format : " class="syntaxe_content"/> 
-                                        <h:selectOneMenu value="#{boissonBean.idFormat}" class="syntaxe_content" >
+                                        <p:selectOneMenu value="#{boissonBean.idFormat}" class="syntaxe_content" style="height: 30px; width: 90%" >
                                             <f:selectItems value="#{boissonBean.formats}" var="frmb" itemLabel="#{frmb.volume} cl" itemValue="#{frmb.id}" />
-                                        </h:selectOneMenu>                                   
+                                        </p:selectOneMenu>  
+                                        <h:outputText  value="Prix : " class="syntaxe_content" />
+                                       
+                                        <p:inputText value="#{boissonBean.formatBoisson1.prix}" required="true" requiredMessage="Le prix est obligatoire"/>
                                         <h:inputHidden value="#{boissonBean.boisson.nom}" />  
                                         <h:inputHidden value="#{boissonBean.boisson.id}"  />
                                         <h:inputHidden value="#{boissonBean.boisson.version}"  />
@@ -190,7 +193,7 @@
                             </f:facet>
                             <p:column >                               
                                 <p:dataTable  id="eBiBra"  
-                                              emptyMessage="Aucun Format n'est enregistré" 
+                                              emptyMessage="Aucun Format Trouvé" 
                                               var="formatBoisson" 
                                               value="#{boissonBean.getFormatBoisonBiBral(car)}" 
                                               rowKey="#{formatBoisson.id}" 

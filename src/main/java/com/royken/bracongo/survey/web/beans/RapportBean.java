@@ -19,7 +19,6 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
-import org.primefaces.model.chart.LineChartModel;
 
 /**
  *
@@ -51,6 +50,16 @@ public class RapportBean {
 
     private BoissonDispoStat resultBgBrac;
 
+    private int secteur1;
+
+    private int secteur2;
+
+    private int secteur3;
+
+    private int secteur4;
+
+    private int secteur;
+
     private BoissonDispoStat resultBgBral;
 
     private BoissonDispoStat resultBiBral;
@@ -63,6 +72,37 @@ public class RapportBean {
 
     public void setReponseService(IReponseService reponseService) {
         this.reponseService = reponseService;
+    }
+
+    public int getSecteur1() {
+        try {
+            secteurs = secteurService.findAllSecteur();
+            secteur1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), null, null, null, null);
+                secteur2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), null, null, null, null);
+                secteur3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), null, null, null, null);
+                secteur4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), null, null, null, null);
+
+            
+        } catch (ServiceException ex) {
+            Logger.getLogger(RapportBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return secteur1;
+    }
+
+    public int getSecteur2() {
+        return secteur2;
+    }
+
+    public int getSecteur3() {
+        return secteur3;
+    }
+
+    public int getSecteur4() {
+        return secteur4;
+    }
+
+    public int getSecteur() {
+        return secteur1 + secteur2 + secteur3 + secteur4;
     }
 
     /**
@@ -79,7 +119,9 @@ public class RapportBean {
         this.secteurService = secteurService;
     }
 
+    
     public BarChartModel getModel() {
+        model = new BarChartModel();
         try {
             int pveDiS1, pveOrS1, pveAgS1, pveBrS1;
             int pveDiS2, pveOrS2, pveAgS2, pveBrS2;
@@ -90,108 +132,113 @@ public class RapportBean {
             int pvmDiS2, pvmOrS2, pvmAgS2, pvmBrS2;
             int pvmDiS3, pvmOrS3, pvmAgS3, pvmBrS3;
             int pvmDiS4, pvmOrS4, pvmAgS4, pvmBrS4;
-            secteurs = secteurService.findAllSecteur();
+            if(secteurs == null){
+                secteurs = secteurService.findAllSecteur();
+            }
+            
+            if (secteurs.size() >= 4) {
 
-            pveDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Di, null, null);
-            pveDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Di, null, null);
-            pveDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Di, null, null);
-            pveDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Di, null, null);
+                
+                pveDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Di, null, null);
+                pveDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Di, null, null);
+                pveDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Di, null, null);
+                pveDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Di, null, null);
 
-            pveBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Br, null, null);
-            pveBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Br, null, null);
-            pveBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Br, null, null);
-            pveBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Br, null, null);
+                pveBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Br, null, null);
+                pveBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Br, null, null);
+                pveBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Br, null, null);
+                pveBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Br, null, null);
 
-            pveAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Ag, null, null);
-            pveAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Ag, null, null);
-            pveAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Ag, null, null);
-            pveAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Ag, null, null);
+                pveAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Ag, null, null);
+                pveAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Ag, null, null);
+                pveAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Ag, null, null);
+                pveAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Ag, null, null);
 
-            pveOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Or, null, null);
-            pveOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Or, null, null);
-            pveOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Or, null, null);
-            pveOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Or, null, null);
+                pveOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Or, null, null);
+                pveOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Or, null, null);
+                pveOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Or, null, null);
+                pveOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Or, null, null);
 
-            pvmDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Di, null, null);
-            pvmDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Di, null, null);
-            pvmDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Di, null, null);
-            pvmDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Di, null, null);
+                pvmDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Di, null, null);
+                pvmDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Di, null, null);
+                pvmDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Di, null, null);
+                pvmDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Di, null, null);
 
-            pvmBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Br, null, null);
-            pvmBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Br, null, null);
-            pvmBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Br, null, null);
-            pvmBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Br, null, null);
+                pvmBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Br, null, null);
+                pvmBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Br, null, null);
+                pvmBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Br, null, null);
+                pvmBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Br, null, null);
 
-            pvmAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
-            pvmAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
-            pvmAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
-            pvmAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
+                pvmAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
+                pvmAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
+                pvmAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
+                pvmAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Ag, null, null);
 
-            pvmOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Or, null, null);
-            pvmOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Or, null, null);
-            pvmOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Or, null, null);
-            pvmOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Or, null, null);
+                pvmOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Or, null, null);
+                pvmOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Or, null, null);
+                pvmOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Or, null, null);
+                pvmOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Or, null, null);
 
-            ChartSeries pveDi = new ChartSeries();
-            pveDi.setLabel("Di-PVE");
-            pveDi.set(secteurs.get(0).getCode(), pveDiS1);
-            pveDi.set(secteurs.get(1).getCode(), pveDiS2);
-            pveDi.set(secteurs.get(2).getCode(), pveDiS3);
-            pveDi.set(secteurs.get(3).getCode(), pveDiS4);
-            ChartSeries pve0r = new ChartSeries();
-            pve0r.setLabel("Or-PVE");
-            pve0r.set(secteurs.get(0).getCode(), pveOrS1);
-            pve0r.set(secteurs.get(1).getCode(), pveOrS2);
-            pve0r.set(secteurs.get(2).getCode(), pveOrS3);
-            pve0r.set(secteurs.get(3).getCode(), pveOrS4);
-            ChartSeries pveAg = new ChartSeries();
-            pveAg.setLabel("AG-PVE");
-            pveAg.set(secteurs.get(0).getCode(), pveAgS1);
-            pveAg.set(secteurs.get(1).getCode(), pveAgS2);
-            pveAg.set(secteurs.get(2).getCode(), pveAgS3);
-            pveAg.set(secteurs.get(3).getCode(), pveAgS4);
-            ChartSeries pveBr = new ChartSeries();
-            pveBr.setLabel("BR-PVE");
-            pveBr.set(secteurs.get(0).getCode(), pveBrS1);
-            pveBr.set(secteurs.get(1).getCode(), pveBrS2);
-            pveBr.set(secteurs.get(2).getCode(), pveBrS3);
-            pveBr.set(secteurs.get(3).getCode(), pveBrS4);
+                ChartSeries pveDi = new ChartSeries();
+                pveDi.setLabel("Di-PVE");
+                pveDi.set(secteurs.get(0).getCode(), pveDiS1);
+                pveDi.set(secteurs.get(1).getCode(), pveDiS2);
+                pveDi.set(secteurs.get(2).getCode(), pveDiS3);
+                pveDi.set(secteurs.get(3).getCode(), pveDiS4);
+                ChartSeries pve0r = new ChartSeries();
+                pve0r.setLabel("Or-PVE");
+                pve0r.set(secteurs.get(0).getCode(), pveOrS1);
+                pve0r.set(secteurs.get(1).getCode(), pveOrS2);
+                pve0r.set(secteurs.get(2).getCode(), pveOrS3);
+                pve0r.set(secteurs.get(3).getCode(), pveOrS4);
+                ChartSeries pveAg = new ChartSeries();
+                pveAg.setLabel("AG-PVE");
+                pveAg.set(secteurs.get(0).getCode(), pveAgS1);
+                pveAg.set(secteurs.get(1).getCode(), pveAgS2);
+                pveAg.set(secteurs.get(2).getCode(), pveAgS3);
+                pveAg.set(secteurs.get(3).getCode(), pveAgS4);
+                ChartSeries pveBr = new ChartSeries();
+                pveBr.setLabel("BR-PVE");
+                pveBr.set(secteurs.get(0).getCode(), pveBrS1);
+                pveBr.set(secteurs.get(1).getCode(), pveBrS2);
+                pveBr.set(secteurs.get(2).getCode(), pveBrS3);
+                pveBr.set(secteurs.get(3).getCode(), pveBrS4);
 
-            ChartSeries pvmDi = new ChartSeries();
-            pvmDi.setLabel("Di-Mixte");
-            pvmDi.set(secteurs.get(0).getCode(), pvmDiS1);
-            pvmDi.set(secteurs.get(1).getCode(), pvmDiS2);
-            pvmDi.set(secteurs.get(2).getCode(), pvmDiS3);
-            pvmDi.set(secteurs.get(3).getCode(), pvmDiS4);
-            ChartSeries pvm0r = new ChartSeries();
-            pvm0r.setLabel("Or-Mixte");
-            pvm0r.set(secteurs.get(0).getCode(), pvmOrS1);
-            pvm0r.set(secteurs.get(1).getCode(), pvmOrS2);
-            pvm0r.set(secteurs.get(2).getCode(), pvmOrS3);
-            pvm0r.set(secteurs.get(3).getCode(), pvmOrS4);
-            ChartSeries pvmAg = new ChartSeries();
-            pvmAg.setLabel("AG-Mixte");
-            pvmAg.set(secteurs.get(0).getCode(), pvmAgS1);
-            pvmAg.set(secteurs.get(1).getCode(), pvmAgS2);
-            pvmAg.set(secteurs.get(2).getCode(), pvmAgS3);
-            pvmAg.set(secteurs.get(3).getCode(), pvmAgS4);
-            ChartSeries pvmBr = new ChartSeries();
-            pvmBr.setLabel("BR-Mixte");
-            pvmBr.set(secteurs.get(0).getCode(), pvmBrS1);
-            pvmBr.set(secteurs.get(1).getCode(), pvmBrS2);
-            pvmBr.set(secteurs.get(2).getCode(), pvmBrS3);
-            pvmBr.set(secteurs.get(3).getCode(), pvmBrS4);
+                ChartSeries pvmDi = new ChartSeries();
+                pvmDi.setLabel("Di-Mixte");
+                pvmDi.set(secteurs.get(0).getCode(), pvmDiS1);
+                pvmDi.set(secteurs.get(1).getCode(), pvmDiS2);
+                pvmDi.set(secteurs.get(2).getCode(), pvmDiS3);
+                pvmDi.set(secteurs.get(3).getCode(), pvmDiS4);
+                ChartSeries pvm0r = new ChartSeries();
+                pvm0r.setLabel("Or-Mixte");
+                pvm0r.set(secteurs.get(0).getCode(), pvmOrS1);
+                pvm0r.set(secteurs.get(1).getCode(), pvmOrS2);
+                pvm0r.set(secteurs.get(2).getCode(), pvmOrS3);
+                pvm0r.set(secteurs.get(3).getCode(), pvmOrS4);
+                ChartSeries pvmAg = new ChartSeries();
+                pvmAg.setLabel("AG-Mixte");
+                pvmAg.set(secteurs.get(0).getCode(), pvmAgS1);
+                pvmAg.set(secteurs.get(1).getCode(), pvmAgS2);
+                pvmAg.set(secteurs.get(2).getCode(), pvmAgS3);
+                pvmAg.set(secteurs.get(3).getCode(), pvmAgS4);
+                ChartSeries pvmBr = new ChartSeries();
+                pvmBr.setLabel("BR-Mixte");
+                pvmBr.set(secteurs.get(0).getCode(), pvmBrS1);
+                pvmBr.set(secteurs.get(1).getCode(), pvmBrS2);
+                pvmBr.set(secteurs.get(2).getCode(), pvmBrS3);
+                pvmBr.set(secteurs.get(3).getCode(), pvmBrS4);
 
-            model = new BarChartModel();
-            model.addSeries(pveDi);
-            model.addSeries(pve0r);
-            model.addSeries(pveAg);
-            model.addSeries(pveBr);
+                model.addSeries(pveDi);
+                model.addSeries(pve0r);
+                model.addSeries(pveAg);
+                model.addSeries(pveBr);
 
-            model.addSeries(pvmDi);
-            model.addSeries(pvm0r);
-            model.addSeries(pvmAg);
-            model.addSeries(pvmBr);
+                model.addSeries(pvmDi);
+                model.addSeries(pvm0r);
+                model.addSeries(pvmAg);
+                model.addSeries(pvmBr);
+            }
             model.setTitle("Répartition des visites");
             model.setLegendPosition("ne");
             Axis xAxis = model.getAxis(AxisType.X);
@@ -264,7 +311,7 @@ public class RapportBean {
                 Integer value = entrySet.getValue();
                 pveDiOr.set(key, value);
             }
-            
+
             Map<String, Integer> data2 = resultBiBrac.getPveAgEtBr();
             ChartSeries pveAgBr = new ChartSeries();
             pveAgBr.setLabel("PVE(Ag & Br)");
@@ -273,7 +320,7 @@ public class RapportBean {
                 Integer value = entrySet.getValue();
                 pveAgBr.set(key, value);
             }
-            
+
             Map<String, Integer> data3 = resultBiBrac.getPvmDiEtOr();
             ChartSeries pvmDiOr = new ChartSeries();
             pvmDiOr.setLabel("PVM(Di & Or)");
@@ -282,7 +329,7 @@ public class RapportBean {
                 Integer value = entrySet.getValue();
                 pvmDiOr.set(key, value);
             }
-            
+
             Map<String, Integer> data4 = resultBiBrac.getPvmAgEtBr();
             ChartSeries pvmAgBr = new ChartSeries();
             pvmAgBr.setLabel("PVM(Ag & Br)");
@@ -295,17 +342,18 @@ public class RapportBean {
             model2.addSeries(pveAgBr);
             model2.addSeries(pvmDiOr);
             model2.addSeries(pvmAgBr);
-            
-            
+
             model2.setTitle("Disponibilité Bière Bracongo");
             model2.setLegendPosition("e");
             model2.setShowPointLabels(true);
             model2.getAxes().put(AxisType.X, new CategoryAxis("Format de Boisson"));
             Axis yAxis = model2.getAxis(AxisType.Y);
+            Axis xAxis = model2.getAxis(AxisType.X);
             yAxis.setLabel("Pourcentage (%)");
             yAxis.setMin(0);
-           // yAxis.setMax(3);
+            // yAxis.setMax(3);
             yAxis.setMax(100);
+            xAxis.setTickAngle(60);
             return model2;
         } catch (ServiceException ex) {
             Logger.getLogger(RapportBean.class.getName()).log(Level.SEVERE, null, ex);

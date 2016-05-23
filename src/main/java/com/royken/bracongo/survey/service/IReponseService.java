@@ -8,12 +8,14 @@ import com.royken.bracongo.survey.entities.TypeBoisson;
 import com.royken.bracongo.survey.entities.TypeCategorie;
 import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.bracongo.survey.entities.projection.BoissonDispoStat;
+import com.royken.bracongo.survey.entities.projection.BoissonPrixStat;
 import com.royken.bracongo.survey.entities.projection.DisponibiliteNumeriqueStat;
 import com.royken.bracongo.survey.entities.projection.ReponseProjection;
-import com.royken.generic.dao.DataAccessException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Local;
+import org.joda.time.LocalTime;
 
 /**
  *
@@ -28,7 +30,7 @@ public interface IReponseService {
 
     public List<Reponse> findAllReponse() throws ServiceException;
 
-    public List<Reponse> findAllReponseBetweenDates(Date debut, Date fin) throws DataAccessException;
+    public List<Reponse> findAllReponseBetweenDates(Date debut, Date fin) throws ServiceException;
 
     public List<Reponse> findAllReponseByDate(Date date) throws ServiceException;
 
@@ -36,6 +38,7 @@ public interface IReponseService {
 
     public void saveReponseProjection(ReponseProjection reponseProjection) throws ServiceException;
 
+    @Deprecated
     public int countReponseByCriteria(Secteur secteur, TypeBoisson typeBoisson, TypeRegime typeRegime, Date debut, Date fin);
 
     public int countReponseGlobalStat(Planning planning, Secteur secteur, TypeRegime typeRegime, TypeCategorie categorie, Date debut, Date fin) throws ServiceException;
@@ -45,5 +48,15 @@ public interface IReponseService {
     public DisponibiliteNumeriqueStat getAllDispoStat(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException;
 
     public int countDisponibiliteFormat(FormatBoisson formatBoisson, Boolean DiEtOr, Boolean pve, Date debut, Date fin) throws ServiceException;
+    
+    public Map<Integer, BoissonPrixStat> getPrixMoyen(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException;
 
+    public int parcEmballage(Boolean bracongo, Boolean pve, Date debut, Date fin) throws ServiceException;
+    
+    public double jourMoyenEcoule(Boolean bracongo, Boolean pve, Date debut, Date fin) throws ServiceException;
+    
+    public LocalTime getHeureMoyenneSrd(Boolean bracongo, Boolean pve, Date debut, Date fin)throws ServiceException;
+            
+    public int nombrePdvServiParSrd(Boolean bracongo, Boolean pve, Date debut, Date fin) throws ServiceException;
+    
 }

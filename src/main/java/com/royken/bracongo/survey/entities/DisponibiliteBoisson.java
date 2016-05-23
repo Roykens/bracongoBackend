@@ -21,9 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="disponibiliteBoisson")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DisponibiliteBoisson implements Serializable{
-    @OneToOne(mappedBy = "disponibiliteBoisson")
-    private Reponse reponse;
-    
+   
     @Version
     private int version;
     
@@ -69,13 +67,6 @@ public class DisponibiliteBoisson implements Serializable{
         this.formatBoisson = formatBoisson;
     }
 
-    public Reponse getReponse() {
-        return reponse;
-    }
-
-    public void setReponse(Reponse reponse) {
-        this.reponse = reponse;
-    }
-    
+  
     
 }

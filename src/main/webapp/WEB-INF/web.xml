@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    
     <context-param>
-    <param-name>javax.faces.FULL_STATE_SAVING_VIEW_IDS</param-name>
-    <param-value>/toto.xhtml</param-value>
-</context-param>
+        <param-name>com.sun.faces.enableRestoreView11Compatibility</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.FULL_STATE_SAVING_VIEW_IDS</param-name>
+        <param-value>/toto.xhtml</param-value>
+    </context-param>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
@@ -39,7 +44,7 @@
         <param-name>primefaces.FONT_AWESOME</param-name>
         <param-value>true</param-value>
     </context-param>
-        <context-param>
+    <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/primefaces-sentinel.taglib.xml</param-value>
     </context-param>
@@ -63,7 +68,7 @@
         <extension>eot</extension>
         <mime-type>application/vnd.ms-fontobject</mime-type>
     </mime-mapping>
-        <mime-mapping>
+    <mime-mapping>
         <extension>eot?#iefix</extension>
         <mime-type>application/vnd.ms-fontobject</mime-type>
     </mime-mapping>
@@ -79,11 +84,11 @@
         <extension>svg#exobolditalic</extension>
         <mime-type>image/svg+xml</mime-type>
     </mime-mapping>
-        <mime-mapping>
+    <mime-mapping>
         <extension>svg#exomedium</extension>
         <mime-type>image/svg+xml</mime-type>
     </mime-mapping>
-        <mime-mapping>
+    <mime-mapping>
         <extension>svg#exoregular</extension>
         <mime-type>image/svg+xml</mime-type>
     </mime-mapping>

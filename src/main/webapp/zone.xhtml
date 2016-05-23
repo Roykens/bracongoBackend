@@ -50,7 +50,7 @@
                             <h:outputText value="Code"/> 
                             <p:inputText  id="en" value="#{zoneBean.zone.code}"/>
                             <h:outputText value="Secteur"/> 
-                            <p:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith" style="height: 30px; width: 90%">
                                 <f:selectItems value="#{zoneBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
                             </p:selectOneMenu> 
                             <f:facet name="footer"> <br/> 
@@ -71,7 +71,7 @@
                             <h:outputText value="Code"/> 
                             <p:inputText  id="en" value="#{zoneBean.zone.code}"/>
                             <h:outputText value="Secteur"/> 
-                            <p:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu value="#{zoneBean.id}" class="syntaxe_content" required="true" requiredMessage="Le secteur est obligatoire" filter="true" filterMatchMode="startsWith" style="height: 30px; width: 90%">
                                 <f:selectItems value="#{zoneBean.secteurs}" var="secteur" itemLabel="#{secteur.code}" itemValue="#{secteur.id}" />
                             </p:selectOneMenu>  
                             <h:inputHidden value="#{zoneBean.zone.id}"/>

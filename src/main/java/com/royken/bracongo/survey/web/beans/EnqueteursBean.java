@@ -109,7 +109,7 @@ public class EnqueteursBean implements Serializable{
     
     public void saveOrUpdateEnqueteur() throws ServiceException{
       System.out.println(enqueteur);
-        if (enqueteur != null && enqueteur.getMatricule() != null) {
+        if (enqueteur != null) {
             enqueteur.setSecteur(secteurService.findSecteurById(id));
             enqueteurService.saveOrUpdateEnqueteur(enqueteur);
             if (enqueteur.getId() == null) {

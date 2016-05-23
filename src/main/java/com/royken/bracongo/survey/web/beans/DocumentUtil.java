@@ -13,9 +13,10 @@ import com.itextpdf.text.pdf.PdfPCell;
 public class DocumentUtil {
     
     
-     public static PdfPCell createDefaultHeaderCell(String message, Font bf, int rowspan, int colspan, boolean rotation) {
+     public static PdfPCell createDefaultHeaderCell(String message, Font bf, int rowspan, int colspan, boolean rotation, BaseColor color) {
         PdfPCell cell = new PdfPCell(new Phrase(message, bf));
-        cell.setBackgroundColor(new BaseColor(230, 230, 230));
+        //cell.setBackgroundColor(new BaseColor(230, 230, 230));
+        cell.setBackgroundColor(color);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         cell.setRowspan(rowspan);

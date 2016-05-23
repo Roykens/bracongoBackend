@@ -59,29 +59,33 @@
                 <div class="EmptyBox10"></div>
                 
                 <div class="Container25 Responsive">
-                    <div class="ContainerIndent">
-                        <p:panel style="min-height: 400px;">
+                    <div class="ContainerIndent" >
+                        <h:form>
+                        <p:panel style="min-height: 400px;" id="visite">
                             <i class=" icon-data-science-inv Fs50 Fleft Wid25 orange TexAlCenter"></i>
                             <div class="Fs24 Fright MarTop10 leaden Wid70">Total des visites d'aujourd'hui</div>
                             <div class="EmptyBox10"></div>
                             <p:separator styleClass="Wid100"></p:separator>
                             <div class="EmptyBox10"></div>
-                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 1<br/><span class="Fs24 orange">13.760</span></div>
-                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 2<br/><span class="Fs24 red">2.280</span></div>
+                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 1<br/><span class="Fs24 orange"><h:outputText value="#{rapportBean.secteur1}"/></span></div>
+                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 2<br/><span class="Fs24 red"><h:outputText value="#{rapportBean.secteur2}"/></span></div>
                             <div class="EmptyBox20"></div>
-                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 3<br/><span class="Fs24 hardblue">134</span></div>
-                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 4<br/><span class="Fs24 green" >134</span></div>
+                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 3<br/><span class="Fs24 hardblue"><h:outputText value="#{rapportBean.secteur3}"/></span></div>
+                            <div class="Fs12 Fright leaden Wid50 TexAlCenter Responsive">Secteur 4<br/><span class="Fs24 green" ><h:outputText value="#{rapportBean.secteur4}"/></span></div>
                             <div class="EmptyBox10"></div>
                             <p:separator styleClass="Wid100"></p:separator>
                           <!--  <a href="#" class="DispInlBlock Fs14 Fright MarRight10"><i class="icon-doc-1 orange"> Get Full Report</i></a> -->
-                            <div class="Fs24  leaden Wid100 TexAlCenter DispInlBlock Responsive">Total<br/><span class="Fs24 blue">13.760</span></div>
+                            <div class="Fs24  leaden Wid100 TexAlCenter DispInlBlock Responsive">Total<br/><span class="Fs24 blue"><h:outputText value="#{rapportBean.secteur}"/></span></div>
                         </p:panel>
+                        <p:poll interval="#{30*2}"  update="visite" />
+                        </h:form>
                     </div>
                 </div>
                 
                 <div class="Container75 Responsive">
                     <div class="ContainerIndent">
-                        <p:panel style="min-height:400px;">
+                        <h:form>
+                        <p:panel style="min-height:400px;" id="repartition">
                             <div class="Container100 Responsive Fs20">
                                 <i class="icon-chart-bar"></i> Repartition des visites
                             </div>
@@ -89,6 +93,8 @@
                                 <p:chart type="bar" model="#{rapportBean.model}" style="height:300px;margin-top:10px" responsive="true"/>
                             </div>
                         </p:panel>
+                        <p:poll interval="#{30*2}"  update="repartition" />
+                        </h:form>
                     </div>
                 </div>
                 

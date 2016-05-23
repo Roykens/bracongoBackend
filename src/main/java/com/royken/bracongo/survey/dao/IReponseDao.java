@@ -10,6 +10,7 @@ import com.royken.bracongo.survey.entities.TypeCategorie;
 import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.IGenericDao;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface IReponseDao extends IGenericDao<Reponse, Long>{
     
     public List<Reponse> findReponseForDate(Date date) throws DataAccessException;
     
-    public int countReponseByCriteria(Secteur secteur, TypeBoisson typeBoisson, TypeRegime typeRegime, Date debut, Date fin) throws DataAccessException;
+  //  public int countReponseByCriteria(Secteur secteur, TypeBoisson typeBoisson, TypeRegime typeRegime, Date debut, Date fin) throws DataAccessException;
     
     public Reponse findByPdvAndDate(PointDeVente pointDeVente, Date date) throws DataAccessException;
     
@@ -36,4 +37,14 @@ public interface IReponseDao extends IGenericDao<Reponse, Long>{
     public int dispoibiliteFormatReponse(FormatBoisson formatBoisson, Reponse reponse) throws DataAccessException;
     
     public List<Reponse> findAllByDateTypeRegime(Date debut, Date fin, Boolean DiEtOr, Boolean pve, Boolean biere, Boolean bracongo) throws DataAccessException;
+    
+    public int prixMoyenFormat(FormatBoisson formatBoisson, Date debut, Date fin, Boolean pve) throws DataAccessException;
+    
+    public int countParEmballage(Boolean bracongo, Boolean pve, Date debut, Date fin) throws DataAccessException;
+    
+    public double nombreJourMoyenEcoule(Boolean bracongo, Boolean pve, Date debut, Date fin)throws DataAccessException;
+    
+    public List<Date> getHeuresPassageSrd(Boolean bracongo, Boolean pve,Date debut, Date fin) throws DataAccessException;
+    
+    public int nombrepdvVisiteParSrd(Boolean bracongo, Boolean pve, Date debut, Date fin) throws DataAccessException;
 }

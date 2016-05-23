@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+        <div class="ContainerIndent">
+            <p:panel header="Reporting">
+                <div class="ContainerIndent">
+
+                    <h3 class="hardblue">Paramètres</h3>
+
+                    <h:form>
+                        <p:selectOneRadio id="console" value="#{documentBean.choix}" required="true" requiredMessage="Le type de rapport de rapport est obligatoire">
+                            <f:selectItem itemLabel="Hebdomadaire" itemValue="#{true}" />
+                            <f:selectItem itemLabel="Mensuel" itemValue="#{false}" />
+                        </p:selectOneRadio>
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:outputLabel for="debut" value="Du : " />
+                            <p:calendar id="debut" value="#{documentBean.debut}" required="true" requiredMessage="Cette valeur est obligatoire"/>
+
+                            <p:outputLabel for="fin" value="Au : " />
+                            <p:calendar id="fin" value="#{documentBean.fin}" required="true" requiredMessage="Cette valeur est obligatoire"/>
+
+                        </h:panelGrid>
+                        <p:separator style="height:20px" />
+                        <div class="Fs12 Fright leaden Wid50 TexAlRight Responsive"><p:commandButton value="Exporter" ajax="false" action="#{documentBean.produceDocument()}">
+                                <p:fileDownload value="#{documentBean.fichier}" />
+                            </p:commandButton><br/></div>
+                    </h:form>
+                </div>
+            </p:panel>
+        </div>
+    </ui:define>
+
+</ui:composition>

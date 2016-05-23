@@ -57,7 +57,7 @@
                             <h:outputText value="Code"/> 
                             <p:inputText  id="en" value="#{circuitBean.circuit.code}"/>
                             <h:outputText value="Zone"/> 
-                            <p:selectOneMenu value="#{circuitBean.id}" class="syntaxe_content" required="true" requiredMessage="La zone est obligatoire" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu value="#{circuitBean.id}" class="syntaxe_content" required="true" requiredMessage="La zone est obligatoire" filter="true" filterMatchMode="startsWith" style="height: 30px; width: 90%">
                                 <f:selectItems value="#{circuitBean.zones}" var="zone" itemLabel="#{zone.code}" itemValue="#{zone.id}" />
                             </p:selectOneMenu> 
                             <f:facet name="footer"> <br/> 
@@ -78,7 +78,7 @@
                             <h:outputText value="Code"/> 
                             <p:inputText  id="en" value="#{circuitBean.circuit.code}"/>
                             <h:outputText value="Circuit"/> 
-                            <p:selectOneMenu value="#{circuitBean.id}" class="syntaxe_content" required="true" requiredMessage="La zone est obligatoire" filter="true" filterMatchMode="startsWith">
+                            <p:selectOneMenu value="#{circuitBean.id}" class="syntaxe_content" required="true" requiredMessage="La zone est obligatoire" filter="true" filterMatchMode="startsWith" style="height: 30px; width: 90%">
                                 <f:selectItems value="#{circuitBean.zones}" var="zone" itemLabel="#{zone.code}" itemValue="#{zone.id}" />
                             </p:selectOneMenu>  
                             <h:inputHidden value="#{circuitBean.circuit.id}"/>

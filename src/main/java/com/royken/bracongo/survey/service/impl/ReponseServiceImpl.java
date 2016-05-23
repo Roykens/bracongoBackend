@@ -7,6 +7,7 @@ import com.royken.bracongo.survey.dao.IDisponibiliteBoissonDao;
 import com.royken.bracongo.survey.dao.IEtatMaterielDao;
 import com.royken.bracongo.survey.dao.IEtatPlvDao;
 import com.royken.bracongo.survey.dao.IFormatBoissonDao;
+import com.royken.bracongo.survey.dao.IFormatDao;
 import com.royken.bracongo.survey.dao.IMaterielDao;
 import com.royken.bracongo.survey.dao.IPlanningDao;
 import com.royken.bracongo.survey.dao.IPlvDao;
@@ -20,6 +21,7 @@ import com.royken.bracongo.survey.entities.Boisson;
 import com.royken.bracongo.survey.entities.BoissonInfos;
 import com.royken.bracongo.survey.entities.EtatMateriel;
 import com.royken.bracongo.survey.entities.EtatPlv;
+import com.royken.bracongo.survey.entities.Format;
 import com.royken.bracongo.survey.entities.FormatBoisson;
 import com.royken.bracongo.survey.entities.Materiel;
 import com.royken.bracongo.survey.entities.PLV;
@@ -32,6 +34,7 @@ import com.royken.bracongo.survey.entities.TypeBoisson;
 import com.royken.bracongo.survey.entities.TypeCategorie;
 import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.bracongo.survey.entities.projection.BoissonDispoStat;
+import com.royken.bracongo.survey.entities.projection.BoissonPrixStat;
 import com.royken.bracongo.survey.entities.projection.BoissonProjection;
 import com.royken.bracongo.survey.entities.projection.DisponibiliteNumeriqueStat;
 import com.royken.bracongo.survey.entities.projection.MaterielProjection;
@@ -41,7 +44,12 @@ import com.royken.bracongo.survey.service.IReponseService;
 import com.royken.bracongo.survey.service.ServiceException;
 import com.royken.bracongo.survey.service.util.ConvertorUtil;
 import com.royken.generic.dao.DataAccessException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +57,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import org.joda.time.LocalTime;
 
 /**
  *
@@ -59,6 +68,9 @@ public class ReponseServiceImpl implements IReponseService {
 
     @Inject
     private IReponseDao reponseDao;
+    
+    @Inject
+    private IFormatDao formatDao; 
 
     @Inject
     private IPointDeVenteDao pointDeVenteDao;
@@ -222,7 +234,7 @@ public class ReponseServiceImpl implements IReponseService {
     }
 
     @Override
-    public List<Reponse> findAllReponseBetweenDates(Date debut, Date fin) throws DataAccessException {
+    public List<Reponse> findAllReponseBetweenDates(Date debut, Date fin) throws ServiceException{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -341,7 +353,7 @@ public class ReponseServiceImpl implements IReponseService {
             System.out.println("Le secteur");
             System.out.println(secteur1);
             if (secteur1 != null) {
-                int result = reponseDao.countReponseByCriteria(secteur1, typeBoisson, typeRegime, debut, fin);
+                int result =0;// reponseDao.countReponseByCriteria(secteur1, typeBoisson, typeRegime, debut, fin);
                 System.out.println("Le resultat");
                 System.out.println(result);
                 return result;
@@ -427,14 +439,16 @@ public class ReponseServiceImpl implements IReponseService {
                 int pvE = reponseDao.countDisponibiliteFormat(formatBoisson, null, true, debut, fin,null, null);
                 int pvM = reponseDao.countDisponibiliteFormat(formatBoisson, null, false, debut, fin,null, null);
                 int pdV = reponseDao.countDisponibiliteFormat(formatBoisson, null, null, debut, fin,null, null);
-                System.out.println(formatBoisson.getBoisson().getNom() + " " + pvedO + " " + pveab + " " + pvmdO + " "+ pvmab);
-                pveDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveDiOr > 0) ? ((int)Math.round((pvedO*1.0) / nombrePveDiOr)) * 100 : 0);
-                pveAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveAgBr > 0) ? ((int)Math.round((pveab * 1.0) / nombrePveAgBr)) * 100 : 0);
-                pvmDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmDiOr > 0) ? ((int)Math.round((pvmdO * 1.0) / nombrePvmDiOr)) * 100 : 0);
-                pvmAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmAgBr > 0) ? ((int)Math.round((pvmab * 1.0) / nombrePvmAgBr)) * 100 : 0);
-                pve.put(getNameFromFormatBoisson(formatBoisson), (a  > 0) ? ((int)Math.round((pvE * 1.0) / a)) * 100 : 0);
-                pvm.put(getNameFromFormatBoisson(formatBoisson), (b  > 0) ? ((int)Math.round((pvM * 1.0) / b)) * 100 : 0);
-                pdv.put(getNameFromFormatBoisson(formatBoisson), (c  > 0) ? ((int)Math.round((pdV * 1.0) / c)) * 100 : 0);
+                System.out.println(formatBoisson.getBoisson().getNom() + " " + pvedO + " " + pveab + " " + pvmdO + " "+ pvmab +" nombre = " +nombrePveDiOr);
+                int toto = (int)Math.round(((pvedO *1.0) / nombrePveDiOr) * 100);
+                System.out.println("J'ai eu + " + toto);
+                pveDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveDiOr > 0) ? toto: 0);
+                pveAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveAgBr > 0) ? ((int)Math.round((pveab * 1.0) / nombrePveAgBr) * 100) : 0);
+                pvmDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmDiOr > 0) ? ((int)Math.round((pvmdO * 1.0) / nombrePvmDiOr) * 100) : 0);
+                pvmAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmAgBr > 0) ? ((int)Math.round((pvmab * 1.0) / nombrePvmAgBr) * 100) : 0);
+                pve.put(getNameFromFormatBoisson(formatBoisson), (a  > 0) ? ((int)Math.round(((pvE * 1.0) / a) * 100)) : 0);
+                pvm.put(getNameFromFormatBoisson(formatBoisson), (b  > 0) ? ((int)Math.round(((pvM * 1.0) / b) * 100)) : 0);
+                pdv.put(getNameFromFormatBoisson(formatBoisson), (c  > 0) ? ((int)Math.round(((pdV * 1.0) / c) * 100)) : 0);
             }
             result.setPveAgEtBr(pveAgEtBr);
             result.setPveDiEtOr(pveDiEtOr);
@@ -481,17 +495,7 @@ public class ReponseServiceImpl implements IReponseService {
         } catch (DataAccessException ex) {
             Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    private int nombrePveByTypeEtRegime(List<Reponse> reponses, boolean pve, boolean diOr){
-        int result = 0;
-        for (Reponse reponse : reponses) {
-            if(((reponse.getPointDeVente().getTypeRegime() == TypeRegime.PVE) == pve)  && (((reponse.getPointDeVente().getTypeCategorie() == TypeCategorie.Di || reponse.getPointDeVente().getTypeCategorie() == TypeCategorie.Or)) == diOr))
-                result ++;
-        }
-        return result;
-    }
-    
+    }   
     
     private int distributionListBoison(List<Boisson> boissons, Reponse reponse){
         int result  = 0;
@@ -559,18 +563,133 @@ public class ReponseServiceImpl implements IReponseService {
             int e = reponsesPve.size();
             int f = reponsesPvm.size();
             int g = reponsesPdv.size();
-            numeriqueStat.setPveDiO((a > 0) ? ((int)Math.round((nombreDiOrPve * 1.0)/ a)) * 100 : 0);
-            numeriqueStat.setPveArBz((b > 0) ? ((int)Math.round((nombreAgBzPve * 1.0)/ b)) * 100 : 0);
-            numeriqueStat.setPve((e > 0) ? ((int)Math.round((nombrePve * 1.0)/ e)) * 100 : 0);
-            numeriqueStat.setPvmDiOr((c > 0) ? ((int)Math.round((nombreDiOrPvm * 1.0)/ c)) * 100 : 0);
-            numeriqueStat.setPvmArBz((d > 0) ? ((int)Math.round((nombreAgBzPvm * 1.0)/ d)) * 100 : 0);
-            numeriqueStat.setPvm((f > 0) ? ((int)Math.round((nombrePvm * 1.0)/ f)) * 100 : 0);
-            numeriqueStat.setPdv((g > 0) ? ((int)Math.round((nombrePdv * 1.0)/ g)) * 100 : 0);
+            numeriqueStat.setPveDiO((a > 0) ? ((int)Math.round((nombreDiOrPve * 1.0)/ a * 100)) : 0);
+            numeriqueStat.setPveArBz((b > 0) ? ((int)Math.round((nombreAgBzPve * 1.0)/ b * 100)) : 0);
+            numeriqueStat.setPve((e > 0) ? ((int)Math.round((nombrePve * 1.0)/ e * 100)) : 0);
+            numeriqueStat.setPvmDiOr((c > 0) ? ((int)Math.round((nombreDiOrPvm * 1.0)/ c * 100)) : 0);
+            numeriqueStat.setPvmArBz((d > 0) ? ((int)Math.round((nombreAgBzPvm * 1.0)/ d) * 100) : 0);
+            numeriqueStat.setPvm((f > 0) ? ((int)Math.round((nombrePvm * 1.0)/ f * 100)) : 0);
+            numeriqueStat.setPdv((g > 0) ? ((int)Math.round(((nombrePdv * 1.0)/ g) * 100)) : 0);
             
         } catch (DataAccessException ex) {
             Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return numeriqueStat;
+    }
+
+    @Override
+    public Map<Integer, BoissonPrixStat> getPrixMoyen(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException {
+        
+        List<Format> formats = new ArrayList<Format>();
+        try {
+            formats = formatDao.getAllFormatByTypeEnterprise(bracongo, biere ? TypeBoisson.BI: TypeBoisson.BG);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Map<Integer,BoissonPrixStat> result = new HashMap<Integer, BoissonPrixStat>();
+        for (Format format : formats) {
+            result.put(format.getVolume(), getByFormat(format, bracongo, biere, debut, fin));
+        }
+        //List<FormatBoisson> formatBoissons = formatBoissonDao.
+        return result;
+    }
+    
+    private BoissonPrixStat getByFormat(Format format, Boolean bracongo, Boolean biere, Date debut, Date fin){
+        BoissonPrixStat dispoStat = new BoissonPrixStat();
+        Map<String, Integer> prixPve = new HashMap<String, Integer>();
+        Map<String, Integer> prixMixte = new HashMap<String, Integer>();
+        Map<String, Integer> prixGlobal = new HashMap<String, Integer>();
+        Map<String, Integer> prix = new HashMap<String, Integer>();
+        Map<String,Double> ecart = new HashMap<String, Double>();
+        try {
+            List<FormatBoisson> formatBoissons = formatBoissonDao.findAllByTypeForEnterpriseAndFormat(bracongo, (biere )? TypeBoisson.BI: TypeBoisson.BG,format);
+            for (FormatBoisson formatBoisson : formatBoissons) {
+                prix.put(formatBoisson.getBoisson().getNom(), formatBoisson.getPrix());
+                int pPve = reponseDao.prixMoyenFormat(formatBoisson, debut, fin, true);
+                prixPve.put(formatBoisson.getBoisson().getNom(), pPve);
+                int pM = reponseDao.prixMoyenFormat(formatBoisson, debut, fin, false);
+                prixMixte.put(formatBoisson.getBoisson().getNom(), pM);
+                int pG = reponseDao.prixMoyenFormat(formatBoisson, debut, fin, null);
+                prixGlobal.put(formatBoisson.getBoisson().getNom(), pG);
+                ecart.put(formatBoisson.getBoisson().getNom(), calculateEcart(pG, formatBoisson.getPrix()));
+            }
+            dispoStat.setEcart(ecart);
+            dispoStat.setPrix(prix);
+            dispoStat.setPrixGlobal(prixGlobal);
+            dispoStat.setPrixMixte(prixMixte);
+            dispoStat.setPrixPve(prixPve);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return dispoStat;
+    }
+    
+    private double calculateEcart(int global, int prixConseille){
+        DecimalFormat df1 = new DecimalFormat("#.#");
+        df1.setRoundingMode(RoundingMode.CEILING);
+        double temp = ((global - prixConseille) * 1.0/global) * 100;
+        //String result = df1.format(temp)
+        //return Double.valueOf(df1.format(temp));
+        return temp;
+    }
+
+    @Override
+    public int parcEmballage(Boolean bracongo, Boolean pve, Date debut, Date fin) throws ServiceException {
+        try {
+            return reponseDao.countParEmballage(bracongo, pve, debut, fin);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    @Override
+    public double jourMoyenEcoule(Boolean bracongo, Boolean pve, Date debut, Date fin) throws ServiceException {
+        try {
+            return reponseDao.nombreJourMoyenEcoule(bracongo, pve, debut, fin);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
+    }
+
+    @Override
+    public LocalTime getHeureMoyenneSrd(Boolean bracongo, Boolean pve, Date debut, Date fin) throws ServiceException {
+        try {
+            List<Date> dates = reponseDao.getHeuresPassageSrd(bracongo, pve, debut, fin);
+            return calculateHeureMoyenne(dates);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    private LocalTime calculateHeureMoyenne(List<Date> dates){
+        int heuresTotal = 0;
+        int minutes = 0;
+        int minutesTotal = 0;
+        for (Date date : dates) {
+            Calendar cal = new GregorianCalendar();
+            cal.setTime(date);
+            heuresTotal += cal.get(Calendar.HOUR_OF_DAY);
+            minutes += cal.get(Calendar.MINUTE);
+        }
+        minutesTotal = heuresTotal * 60 + minutes;
+        double time = (minutesTotal * 1.0)/ (dates.size() * 60);
+        int heure = (int)time;
+        int minute = (int)((time - heure) * 60);
+        LocalTime result = new LocalTime(heure, minute);
+        return result;
+    }
+
+    @Override
+    public int nombrePdvServiParSrd(Boolean bracongo, Boolean pve, Date debut, Date fin) throws ServiceException {
+        try {
+            return reponseDao.nombrepdvVisiteParSrd(bracongo, pve, debut, fin);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return -1;
     }
 
 }

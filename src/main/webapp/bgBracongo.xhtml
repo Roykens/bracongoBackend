@@ -18,9 +18,9 @@
                                     <h:panelGrid  class="rightPosition"  id="displaySaveEVBgBCongo" columns="2">
                                         
                                         <h:outputText  value="Format : " class="syntaxe_content"/> 
-                                        <h:selectOneMenu value="#{boissonBean.idFormat}" class="syntaxe_content" >
+                                        <p:selectOneMenu value="#{boissonBean.idFormat}" class="syntaxe_content" style="height: 30px; width:90%;" >
                                             <f:selectItems value="#{boissonBean.formats}" var="frmb" itemLabel="#{frmb.volume} cl" itemValue="#{frmb.id}" />
-                                        </h:selectOneMenu> 
+                                        </p:selectOneMenu> 
                                         <h:outputText  value="Prix (FC) : " class="syntaxe_content"/>
                                         <p:inputText value="#{boissonBean.formatBoisson1.prix}" required="true" requiredMessage="Le prix est pbligatoire"/>
                                         <h:inputHidden value="#{boissonBean.boisson.nom}" />  
@@ -190,7 +190,7 @@
                             </f:facet>
                             <p:column >                               
                                 <p:dataTable  id="eBgBCongo"  
-                                              emptyMessage="Aucune Evaluation n'est enregistrée" 
+                                              emptyMessage="Aucun Format Trouvé" 
                                               var="formatBoisson" 
                                               value="#{boissonBean.getFormatBoissons(bgBracongo)}" 
                                               rowKey="#{formatBoisson.id}" 
@@ -219,15 +219,16 @@
                                         #{formatBoisson.prix}    
                                     </p:column>
                                     <p:column headerText="Action">
-                                        <p:commandLink id="deleteBgBCongo" value="|Supprimer" onclick="PF('dlgDelete1BgBCongo').show()"  update="tabview:fs1BgBCongo:ds1BgBCongo" >  
-                                            <f:setPropertyActionListener  value="#{bgBracongo}" target="#{boissonBean.boisson}"/>
-                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>
-                                        </p:commandLink> 
                                         <p:commandLink id="updateBgBCongo" value="|Modifier" onclick="PF('dlgUpdate1BgBCongo').show()"  update="tabview:formUpdateFBgBrac:displayUpdateFBgBrac" >  
                                             <f:setPropertyActionListener  value="#{bgBracongo}" target="#{boissonBean.boisson}"/>
                                             <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson1}"/>
                                         </p:commandLink> 
 
+                                        <p:commandLink id="deleteBgBCongo" value="|Supprimer" onclick="PF('dlgDelete1BgBCongo').show()"  update="tabview:fs1BgBCongo:ds1BgBCongo" >  
+                                            <f:setPropertyActionListener  value="#{bgBracongo}" target="#{boissonBean.boisson}"/>
+                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>
+                                        </p:commandLink> 
+                                        
                                     </p:column>        
                                     <f:facet name="footer" >  
                                         <p:commandLink  id="ajouterBgBCongo" value="Nouveau Format" type="button" onclick="PF('dlgSaveEVBgBCongo').show()" update="tabview:formSaveEVBgBCongo:displaySaveEVBgBCongo" >

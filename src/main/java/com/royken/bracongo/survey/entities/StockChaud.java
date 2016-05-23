@@ -22,9 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StockChaud implements Serializable{
     
-    @OneToOne(mappedBy = "stockChaud")
-    private Reponse reponse;
-    
+   
     @Version
     private int version;
     
@@ -70,13 +68,6 @@ public class StockChaud implements Serializable{
         this.formatBoisson = formatBoisson;
     }
 
-    public Reponse getReponse() {
-        return reponse;
-    }
-
-    public void setReponse(Reponse reponse) {
-        this.reponse = reponse;
-    }
-    
+  
     
 }
