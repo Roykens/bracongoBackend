@@ -124,11 +124,11 @@ background-color:black;
     
 }
 
-.login-back{background-image:url("#{resource['sentinel-layout:images/login_back2.png']}"); background-position:top left; background-repeat:no-repeat; background-size: 50%;}
+.login-back{background-image:url("#{resource['sentinel-layout:images/back.jpg']}"); background-position:center; background-repeat:no-repeat; background-size: 100%;}
 
 .MarAuto1 {
-    margin-left: auto;
-    margin-right: 8%;
+    margin-left: 5%;
+    margin-right: auto;
 }
 
 .TabBtn1 {
@@ -153,4 +153,15 @@ background-color:black;
     overflow: visible;
     color: black;
     background-color: #ff112f !important;
+}
+
+#login-box {
+    font-size: 14px;
+    background: rgba(54, 25, 25, .5);
+    z-index: 1000;
+}
+
+.MyOpaque{
+   background: rgba(54, 25, 25, .5); 
+   z-index: 1000;
 }

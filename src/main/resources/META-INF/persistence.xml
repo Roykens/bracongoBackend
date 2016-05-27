@@ -27,6 +27,7 @@
     <class>com.royken.bracongo.survey.entities.Commentaire</class>
     <class>com.royken.bracongo.survey.entities.Images</class>
     <class>com.royken.bracongo.survey.entities.BoissonInfos</class>
+    <class>com.royken.bracongo.survey.entities.Utilisateur</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>

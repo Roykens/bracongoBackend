@@ -10,6 +10,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         
     <h:outputScript name="js/login.js" library="sentinel-layout" />
+    
+    <h:outputScript name="js/modernizr.custom.86080.js.js" library="sentinel-layout" />
+   <!-- <h:outputStylesheet name="css/style3.css" library="sentinel-layout" /> -->
     <h:outputStylesheet name="css/font-icon-layout.css" library="sentinel-layout" />
     <h:outputStylesheet name="css/sentinel-layout.css" library="sentinel-layout" />
     <h:outputStylesheet name="css/core-layout.css" library="sentinel-layout" />
@@ -17,17 +20,30 @@
 </h:head>
 
 <h:body class="fontRegular login-back white-back">
-
-    <div class="Container80 MaxWid500 Fnone MarAuto1 TexAlCenter PaddingTopPercent10">
+   <!-- <ul class="cb-slideshow">
+            <li><span>Image 01</span></li>
+            <li><span>Image 02</span></li>
+            <li><span>Image 03</span></li>
+            <li><span>Image 04</span></li>
+            <li><span>Image 05</span></li>
+            <li><span>Image 06</span></li>
+            
+        </ul>
+    -->
+    <header id="toto">
+    <div class="Container80 MaxWid500 Fnone MarAuto1 TexAlCenter PaddingTopPercent10 ">
+        <div class="MyOpaque">
         <a href="" id="login-logo">
-            <h:graphicImage name="images/LOGO.svg" styleClass="Fleft" library="sentinel-layout"/>
+            
+            <h:graphicImage name="images/logo2.png" styleClass="Fleft" library="sentinel-layout"/>
             <span class="Fs30 FontTitilliumSemiBoldItalic Fleft"><span class="softblue">BRACONGO</span><span class="hardblue">SURVEY</span></span>
         </a>
+        </div>
         <div class="EmptyBox10"></div>
     </div>
     
     <!-- LOGIN BOX COVER START -->
-    <div class="Container80 MaxWid500 white-back Fnone MarAuto1 BordRad10" id="login-box">
+    <div class="Container80 MaxWid500 white-back Fnone MarAuto1 " id="login-box">
         <div class="Container100">
             <div class="Container100 TexAlCenter Animated05 BoxSizeBorder TabBtn1 left " role="1" >
                 <div class="Container80 Fnone MarAuto FontBold"><i class="icon-lock"></i> Login</div>
@@ -35,21 +51,24 @@
            
             
             <div class="Container90 Fnone MarAuto1 TexAlCenter TabContent" >
+                <h:form >   
                 <div class="EmptyBox50"></div>
-                <p:inputText value="" placeholder="Utilisateur" styleClass="Container80 Fnone MarAuto Fs18" />
+                <p:inputText  placeholder="Utilisateur" styleClass="Container80 Fnone MarAuto Fs18" value="#{loginBean.username}"/>
                 <div class="EmptyBox10"></div>
-                <p:password value="" placeholder="Mot de passe" styleClass="Container80 Fnone MarAuto Fs18" feedback="false"/>
+                <p:password  placeholder="Mot de passe" styleClass="Container80 Fnone MarAuto Fs18" feedback="false" value="#{loginBean.password}"/>
                 <div class="EmptyBox20"></div>
                 
                 <div class="EmptyBox30"></div>
-                <p:commandButton  value="Connexion" styleClass="Fs16" class="RedButton" ></p:commandButton>
+                <p:commandButton  value="Connexion" styleClass="Fs16" class="RedButton" action="#{loginBean.validateUsernamePassword()}"></p:commandButton>
                 <div class="EmptyBox50"></div>
+                </h:form>
             </div>
             
            
         </div>
     </div>
     <!-- LOGIN BOX COVER END -->
+    </header>
     
 </h:body>
 

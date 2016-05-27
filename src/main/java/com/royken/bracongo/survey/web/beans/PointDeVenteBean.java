@@ -272,6 +272,7 @@ public class PointDeVenteBean implements Serializable {
           //model.addOverlay(new Marker(new LatLng(-4.328993, 15.340236), "M1"));
         if (pointDeVntes.size() > 0) {
             for (PointDeVente pointDeVnte : pointDeVntes) {
+                if(pointDeVnte.getLatitude()!= null)
                 model.addOverlay(new Marker(new LatLng(pointDeVnte.getLatitude(), pointDeVnte.getLongitude()), pointDeVnte.getNom()));
              //   model.addOverlay(new Marker);
             }

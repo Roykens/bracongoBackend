@@ -289,12 +289,25 @@ public class ReponseServiceImpl implements IReponseService {
                     if (boissonProjection.getPrix().length() > 1) {
                         infos.setPrixPdv(Integer.parseInt(boissonProjection.getPrix()));
                     }
+                    else{
+                        infos.setPrixPdv(0);
+                    }
                     if (boissonProjection.getStock().length() > 1) {
                         infos.setStockChaud(Integer.parseInt(boissonProjection.getStock()));
                     }
+                    else{
+                      infos.setStockChaud(0);  
+                    }
                 } else {
                     infos.setDisponibilite(disponible);
-                    infos.setPrixPdv(0);
+                    String prix = boissonProjection.getPrix();
+                    if(!prix.isEmpty()){
+                        infos.setPrixPdv(Integer.parseInt(boissonProjection.getPrix()));
+                    }
+                    else{
+                       infos.setPrixPdv(0); 
+                    }
+                    
                     infos.setStockChaud(0);
                 }
                 boissonInfosDao.create(infos);
@@ -311,12 +324,40 @@ public class ReponseServiceImpl implements IReponseService {
                 Materiel materiel = materielDao.findById(Long.valueOf(materielProjection.getIdServeur()));
                 etatMateriel.setMateriel(materiel);
                 etatMateriel.setReponse(reponse);
-                etatMateriel.setNombre(Integer.parseInt(materielProjection.getNombreBrac()));
-                etatMateriel.setNombreDefecteux(Integer.parseInt(materielProjection.getNombreCasseBrac()));
-                etatMateriel.setNombreDefectueuxConc(Integer.parseInt(materielProjection.getNombreCasseConc()));
+                String nombreBrac = materielProjection.getNombreBrac();
+                if(nombreBrac.length() > 0){
+                    etatMateriel.setNombre(Integer.parseInt(nombreBrac));
+                }
+                else{
+                    etatMateriel.setNombre(0);
+                }
+                
+                String defectueuxBrac = materielProjection.getNombreCasseBrac();
+                if(!defectueuxBrac.isEmpty()){
+                    etatMateriel.setNombreDefecteux(Integer.parseInt(defectueuxBrac));
+                }
+                else{
+                    etatMateriel.setNombreDefecteux(0);
+                }
+                
+                String defectueuxConc = materielProjection.getNombreCasseConc();
+                if(!defectueuxConc.isEmpty()){
+                    etatMateriel.setNombreDefectueuxConc(Integer.parseInt(defectueuxConc));
+                }
+                else{
+                    etatMateriel.setNombreDefectueuxConc(0);
+                }
                 etatMateriel.setTypeEtat(ConvertorUtil.getFromString(materielProjection.getEtatBrac()));
                 etatMateriel.setTypeEtatConc(ConvertorUtil.getFromString(materielProjection.getEtatConc()));
-                etatMateriel.setNombreBralima(Integer.parseInt(materielProjection.getNombreCon()));
+                
+                String nombreConc = materielProjection.getNombreCon();
+                if(!nombreConc.isEmpty()){
+                    etatMateriel.setNombreBralima(Integer.parseInt(nombreConc));
+                }
+                else{
+                    etatMateriel.setNombreBralima(0);
+                }
+                
                 etatMaterielDao.create(etatMateriel);
             } catch (DataAccessException ex) {
                 Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -332,8 +373,22 @@ public class ReponseServiceImpl implements IReponseService {
                 EtatPlv etatPlv = new EtatPlv();
                 etatPlv.setReponse(reponse);
                 etatPlv.setPlv(plv);
-                etatPlv.setNombre(Integer.parseInt(plvProjection.getNombreBrac()));
-                etatPlv.setNombreBralima(Integer.parseInt(plvProjection.getNombreConc()));
+                String nombrebrac = plvProjection.getNombreBrac();
+                if(!nombrebrac.isEmpty()){
+                    etatPlv.setNombre(Integer.parseInt(nombrebrac));
+                }
+                else{
+                    etatPlv.setNombre(0);
+                }
+                
+                String nombreConc = plvProjection.getNombreConc();
+                if(!nombreConc.isEmpty()){
+                    etatPlv.setNombreBralima(Integer.parseInt(nombreConc));
+                }
+                else{
+                    etatPlv.setNombreBralima(0);
+                }
+                
                 etatPlv.setTypeEtat(ConvertorUtil.getFromString(plvProjection.getEtatBrac()));
                 etatPlv.setTypeEtatBralima(ConvertorUtil.getFromString(plvProjection.getEtatConc()));
                 etatPlvDao.create(etatPlv);

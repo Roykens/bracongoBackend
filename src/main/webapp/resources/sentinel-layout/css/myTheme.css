@@ -158,8 +158,10 @@ background-color:black;
 #login-box {
     font-size: 14px;
     background: rgba(54, 25, 25, .5);
+    z-index: 1000;
 }
 
 .MyOpaque{
-   background: rgba(54, 25, 25, .5); 
+   background: rgba(54, 25, 25, .5);
+   z-index: 1000;
 }

@@ -81,8 +81,6 @@
 
                             <p:commandButton value="Ajouter un Point de Vente" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk" update=":form:table" styleClass="RedButton"/>
                             <p:commandButton value="Importer depuis  un fichier" onclick="PF('importer_dialog').show()" icon="ui-icon-disk" update=":form:table" styleClass="RedButton"/>
-                            <p:commandButton value="Modifier un Point de Vente" action="#{pointDeVenteBean.toto()}" icon="ui-icon-disk" styleClass="RedButton"/>
-                            <p:commandButton value="Supprimer un Point de Vente" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete" styleClass="RedButton"/>
                             <p:commandButton id = "carte" icon="ui-icon-pin-s" value="Carte" style="float: right; w" oncomplete="PF('carte_dialog').show()" styleClass="RedButton"/>
                         </f:facet> 
                     </p:dataTable>
