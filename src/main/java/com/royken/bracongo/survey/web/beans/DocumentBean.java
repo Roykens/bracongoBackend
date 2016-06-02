@@ -46,6 +46,20 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalTime;
 import org.primefaces.model.StreamedContent;
@@ -59,6 +73,8 @@ import org.primefaces.model.StreamedContent;
 public class DocumentBean {
 
     private Boolean choix;
+
+    private Boolean excel;
 
     @EJB
     private IReponseService reponseService;
@@ -92,6 +108,28 @@ public class DocumentBean {
 
     Map<Integer, BoissonPrixStat> prixStatBral;
 
+    int pveDiS1, pveOrS1, pveAgS1, pveBrS1;
+    int pveDiS2, pveOrS2, pveAgS2, pveBrS2;
+    int pveDiS3, pveOrS3, pveAgS3, pveBrS3;
+    int pveDiS4, pveOrS4, pveAgS4, pveBrS4;
+
+    int pvmDiS1, pvmOrS1, pvmAgS1, pvmBrS1;
+    int pvmDiS2, pvmOrS2, pvmAgS2, pvmBrS2;
+    int pvmDiS3, pvmOrS3, pvmAgS3, pvmBrS3;
+    int pvmDiS4, pvmOrS4, pvmAgS4, pvmBrS4;
+    
+    XSSFColor b = new XSSFColor(new java.awt.Color(255, 255, 255));
+
+    XSSFCellStyle grey;
+
+    XSSFCellStyle black;
+
+    XSSFCellStyle gold;
+
+    XSSFCellStyle blue;
+
+    XSSFCellStyle yellow;
+
     public Boolean getChoix() {
         return choix;
     }
@@ -124,6 +162,14 @@ public class DocumentBean {
         return fichier;
     }
 
+    public Boolean getExcel() {
+        return excel;
+    }
+
+    public void setExcel(Boolean excel) {
+        this.excel = excel;
+    }
+
     public void setFichier(StreamedContent fichier) {
         this.fichier = fichier;
     }
@@ -152,6 +198,10 @@ public class DocumentBean {
         System.out.println(choix);
         System.out.println("=====================");
 
+        System.out.println("TEST DES DONNEES excel ===========");
+        System.out.println(excel);
+        System.out.println("=====================");
+
         System.out.println("TEST DES DONNEES debut ===========");
         System.out.println(debut);
         System.out.println("=====================");
@@ -166,11 +216,70 @@ public class DocumentBean {
         if (response instanceof HttpServletResponse) {
             try {
                 HttpServletResponse hsr = (HttpServletResponse) response;
-                hsr.setContentType("application/pdf");
-                hsr.setHeader("Content-Disposition", "attachment; filename=pv.pdf");
-                produceRapport(((HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse()).getOutputStream());
-                context.responseComplete();
+                if (excel != null) {
+                    resultBiBrac = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.TRUE, Boolean.TRUE);
+                    resultBgBrac = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.FALSE, Boolean.TRUE);
+                    resultBgBral = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.FALSE, Boolean.FALSE);
+                    resultBiBral = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.TRUE, Boolean.FALSE);
+                    prixStatBrac = reponseService.getPrixMoyen(debut, fin, Boolean.TRUE, Boolean.TRUE);
+                    prixStatBral = reponseService.getPrixMoyen(debut, fin, Boolean.TRUE, Boolean.FALSE);
+                    List<Secteur> secteurs = secteurService.findAllSecteur();
+
+                    pveDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
+                    pveDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
+                    pveDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
+                    pveDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
+
+                    pveBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
+                    pveBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
+                    pveBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
+                    pveBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
+
+                    pveAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
+                    pveAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
+                    pveAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
+                    pveAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
+
+                    pveOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
+                    pveOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
+                    pveOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
+                    pveOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
+
+                    pvmDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
+                    pvmDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
+                    pvmDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
+                    pvmDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
+
+                    pvmBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
+                    pvmBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
+                    pvmBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
+                    pvmBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
+
+                    pvmAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
+                    pvmAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
+                    pvmAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
+                    pvmAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
+
+                    pvmOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
+                    pvmOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
+                    pvmOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
+                    pvmOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
+                    if (!excel) {
+                        hsr.setContentType("application/pdf");
+                        hsr.setHeader("Content-Disposition", "attachment; filename=rapport.pdf");
+                        produceRapport(((HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse()).getOutputStream());
+                        context.responseComplete();
+                    } else {
+                        System.out.println("HHHHHHHHH");
+                        hsr.setContentType("application/xlsx");
+                        hsr.setHeader("Content-Disposition", "attachment; filename=rapport.xlsx");
+                        produceExcel(((HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse()).getOutputStream());
+                        context.responseComplete();
+                    }
+                }
             } catch (IOException ex) {
+                Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ServiceException ex) {
                 Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -179,12 +288,7 @@ public class DocumentBean {
     private void produceRapport(OutputStream stream) {
         Document doc = null;
         try {
-            resultBiBrac = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.TRUE, Boolean.TRUE);
-            resultBgBrac = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.FALSE, Boolean.TRUE);
-            resultBgBral = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.FALSE, Boolean.FALSE);
-            resultBiBral = reponseService.getAllBoissonDispoStat(debut, fin, Boolean.TRUE, Boolean.FALSE);
-            prixStatBrac = reponseService.getPrixMoyen(debut, fin, Boolean.TRUE, Boolean.TRUE);
-            prixStatBral = reponseService.getPrixMoyen(debut, fin, Boolean.TRUE, Boolean.FALSE);
+
             doc = new Document();
             PdfWriter writer = PdfWriter.getInstance(doc, stream);
             doc.setPageSize(PageSize.A4.rotate());
@@ -210,8 +314,6 @@ public class DocumentBean {
             doc.close();
         } catch (DocumentException ex) {
             Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ServiceException ex) {
-            Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -233,14 +335,13 @@ public class DocumentBean {
             Chunk c1 = new Chunk("BRAC-DMC-EN-073\t\t\t", f1);
             Chunk c2 = new Chunk("              Report Market Audit ", f2);
             StringBuilder dateString1 = new StringBuilder();
-            if(choix){
+            if (choix) {
                 dateString1.append("Week : ").append(getWeekFromDate(debut));
-            }
-            else{
+            } else {
                 dateString1.append("Month : ").append(getMonthFromDate(debut));
             }
             Chunk wee1 = new Chunk(dateString1.toString(), f2);
-            Chunk date1 = new Chunk(" From "+dateString(debut)+" to "+ dateString(fin), ff);
+            Chunk date1 = new Chunk(" From " + dateString(debut) + " to " + dateString(fin), ff);
             Phrase p = new Phrase();
             p.add(c1);
             p.add(c2);
@@ -254,77 +355,25 @@ public class DocumentBean {
             ct.go();
             document.add(new Paragraph("\n"));
 
-            int pveDiS1, pveOrS1, pveAgS1, pveBrS1;
-            int pveDiS2, pveOrS2, pveAgS2, pveBrS2;
-            int pveDiS3, pveOrS3, pveAgS3, pveBrS3;
-            int pveDiS4, pveOrS4, pveAgS4, pveBrS4;
-
-            int pvmDiS1, pvmOrS1, pvmAgS1, pvmBrS1;
-            int pvmDiS2, pvmOrS2, pvmAgS2, pvmBrS2;
-            int pvmDiS3, pvmOrS3, pvmAgS3, pvmBrS3;
-            int pvmDiS4, pvmOrS4, pvmAgS4, pvmBrS4;
-            List<Secteur> secteurs = secteurService.findAllSecteur();
-
-            pveDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
-            pveDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
-            pveDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
-            pveDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Di, debut, fin);
-
-            pveBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
-            pveBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
-            pveBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
-            pveBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Br, debut, fin);
-
-            pveAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
-            pveAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
-            pveAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
-            pveAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Ag, debut, fin);
-
-            pveOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
-            pveOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
-            pveOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
-            pveOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.PVE, TypeCategorie.Or, debut, fin);
-
-            pvmDiS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
-            pvmDiS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
-            pvmDiS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
-            pvmDiS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Di, debut, fin);
-
-            pvmBrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
-            pvmBrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
-            pvmBrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
-            pvmBrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Br, debut, fin);
-
-            pvmAgS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
-            pvmAgS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
-            pvmAgS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
-            pvmAgS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Ag, debut, fin);
-
-            pvmOrS1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
-            pvmOrS2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
-            pvmOrS3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
-            pvmOrS4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), TypeRegime.Mixte, TypeCategorie.Or, debut, fin);
-
             Font f3 = new Font(Font.FontFamily.HELVETICA, 16.0f, Font.BOLD);
             Font f4 = new Font(Font.FontFamily.HELVETICA, 16.0f, Font.NORMAL);
             Font f5 = new Font(Font.FontFamily.HELVETICA, 13.0f, Font.NORMAL);
             Chunk per = new Chunk("Période : ", f3);
-            
+
             StringBuilder dateString = new StringBuilder();
-            if(choix){
-                dateString.append("Week ").append(getWeekFromDate(debut)+" ");
-            }
-            else{
-                dateString.append("Month ").append(getMonthFromDate(debut)+" ");
+            if (choix) {
+                dateString.append("Week ").append(getWeekFromDate(debut) + " ");
+            } else {
+                dateString.append("Month ").append(getMonthFromDate(debut) + " ");
             }
             Chunk wee = new Chunk(dateString.toString(), f4);
-            Chunk date = new Chunk(dateString(debut)+" au "+ dateString(fin), f4);
+            Chunk date = new Chunk(dateString(debut) + " au " + dateString(fin), f4);
 
             Paragraph p1 = new Paragraph();
             p1.add(per);
             p1.add(wee);
             p1.add(date);
-            
+
             //p1.setAlignment(Element.ALIGN_CENTER);
             document.add(p1);
             document.add(new Chunk("\n"));
@@ -333,17 +382,16 @@ public class DocumentBean {
             Calendar cal = Calendar.getInstance();
             cal.setTime(debut);
             int year = cal.get(Calendar.YEAR);
-            if(choix){
+            if (choix) {
                 resume.append(" de la semaine ");
                 resume.append(getWeekFromDate(debut));
-            }
-            else{
+            } else {
                 resume.append(" du mois ");
                 resume.append(getMonthFromDate(debut));
             }
             resume.append("-");
             resume.append(year);
-            resume.append(" ( du "+ dateString(debut)+" au "+ dateString(fin)+")");
+            resume.append(" ( du " + dateString(debut) + " au " + dateString(fin) + ")");
             resume.append(" par les Markets Audit Officers selon la configuration dans le tableau ci-dessous.");
             Chunk pdv1 = new Chunk(resume.toString(), f4);
             p1 = new Paragraph();
@@ -486,8 +534,6 @@ public class DocumentBean {
 
             document.add(table);
         } catch (DocumentException ex) {
-            Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ServiceException ex) {
             Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1657,7 +1703,7 @@ public class DocumentBean {
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int month = cal.get(Calendar.MONTH);
         int year = cal.get(Calendar.YEAR);
-        return day+"/"+(month+1)+"/"+year;
+        return day + "/" + (month + 1) + "/" + year;
 
     }
 
@@ -1667,11 +1713,1334 @@ public class DocumentBean {
         int week = cal.get(Calendar.WEEK_OF_YEAR);
         return week;
     }
-    
+
     private int getMonthFromDate(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int week = cal.get(Calendar.MONTH);
-        return week+1;
+        return week + 1;
     }
+
+    private void produceExcel(OutputStream stream) {
+        try {
+            XSSFWorkbook workbook = new XSSFWorkbook();
+
+            XSSFFont blackFont = workbook.createFont();
+            //font.setFontHeightInPoints((short) 30);
+            //font.setFontName("IMPACT");
+            //font.setItalic(true);
+            blackFont.setColor(HSSFColor.WHITE.index);
+
+            grey = workbook.createCellStyle();
+            grey.setFillForegroundColor(HSSFColor.GREY_50_PERCENT.index);
+            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
+            grey.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            grey.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            grey.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            grey.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+            grey.setAlignment(HorizontalAlignment.CENTER);
+            grey.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            black = workbook.createCellStyle();
+            black.setFillForegroundColor(HSSFColor.BLACK.index);
+            black.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            black.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            black.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            black.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
+            // black.setAlignment(HorizontalAlignment.CENTER);
+            black.setFont(blackFont);
+            black.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            gold = workbook.createCellStyle();
+            gold.setFillForegroundColor(HSSFColor.GOLD.index);
+            gold.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            gold.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            gold.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            gold.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
+            gold.setAlignment(HorizontalAlignment.CENTER);
+            gold.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            blue = workbook.createCellStyle();
+            blue.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
+            blue.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            blue.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            blue.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            blue.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
+            blue.setAlignment(HorizontalAlignment.CENTER);
+            blue.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            yellow = workbook.createCellStyle();
+            yellow.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
+            yellow.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            yellow.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            yellow.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            yellow.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
+            yellow.setAlignment(HorizontalAlignment.CENTER);
+            yellow.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            XSSFSheet spreadsheet = workbook.createSheet("reporting");
+            produceExcelReporting(spreadsheet);
+            XSSFSheet spreadsheet2 = workbook.createSheet("disponibiliteBi&Bg");
+            produceExcelDispo(spreadsheet2, workbook);
+            XSSFSheet spreadsheet3 = workbook.createSheet("classement");
+            produceExcelClassement(spreadsheet3);
+            XSSFSheet spreadsheet4 = workbook.createSheet("respectPrix");
+            produceExcelRespect(spreadsheet4);
+            XSSFSheet spreadsheet5 = workbook.createSheet("parcEmballage");
+            produceExcelParc(spreadsheet5);
+            workbook.write(stream);
+            stream.flush();
+            stream.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void produceExcelReporting(XSSFSheet sheet) {
+        int rowId = 1;
+        int colId = 1;
+        Row row = sheet.createRow(rowId);
+        Cell cell = row.createCell(colId++);
+        cell.setCellValue("");
+        cell = row.createCell(colId);
+        cell.setCellValue("PVE");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+        colId += 4;
+        cell = row.createCell(colId);
+        cell.setCellValue("MIXTES");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+
+        colId += 4;
+        cell = row.createCell(colId);
+        cell.setCellValue("TOTAL PDV");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+        colId += 4;
+        cell = row.createCell(colId);
+        cell.setCellValue("TOTAL\n PAR\n SECTEUR");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId + 1, //last row  (0-based)
+                colId, //first column (0-based)
+                colId //last column  (0-based)
+        ));
+
+        colId = 1;
+        rowId++;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("SECTEURS");
+        String[] cat = {"DI", "OR", "AG", "BR"};
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 4; j++) {
+                cell = row.createCell(colId++);
+                cell.setCellValue(cat[j]);
+            }
+        }
+        rowId++;
+        colId = 1;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("S1");
+        cell = row.createCell(colId++);
+        System.out.println("TOTOTOTOTOTOTOTOTOTOTO = " + pveDiS1);
+        cell.setCellValue(pveDiS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmDiS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmOrS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmAgS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmBrS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS1 + pvmDiS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS1 + pvmOrS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS1 + pvmAgS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS1 + pvmBrS1);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS1 + pvmDiS1 + pveOrS1 + pvmOrS1 + pveAgS1 + pvmAgS1 + pveBrS1 + pvmBrS1);
+
+        rowId++;
+        colId = 1;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("S2");
+        cell = row.createCell(colId++);
+        System.out.println("TOTOTOTOTOTOTOTOTOTOTO = " + pveDiS1);
+        cell.setCellValue(pveDiS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmDiS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmOrS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmAgS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmBrS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS2 + pvmDiS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS2 + pvmOrS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS2 + pvmAgS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS2 + pvmBrS2);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS2 + pvmDiS2 + pveOrS2 + pvmOrS2 + pveAgS2 + pvmAgS2 + pveBrS2 + pvmBrS2);
+
+        rowId++;
+        colId = 1;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("S3");
+        cell = row.createCell(colId++);
+        System.out.println("TOTOTOTOTOTOTOTOTOTOTO = " + pveDiS1);
+        cell.setCellValue(pveDiS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmDiS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmOrS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmAgS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmBrS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS3 + pvmDiS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS3 + pvmOrS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS3 + pvmAgS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS3 + pvmBrS3);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS3 + pvmDiS3 + pveOrS3 + pvmOrS3 + pveAgS3 + pvmAgS3 + pveBrS3 + pvmBrS3);
+
+        rowId++;
+        colId = 1;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("S4");
+        cell = row.createCell(colId++);
+        System.out.println("TOTOTOTOTOTOTOTOTOTOTO = " + pveDiS1);
+        cell.setCellValue(pveDiS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmDiS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmOrS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmAgS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pvmBrS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS4 + pvmDiS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveOrS4 + pvmOrS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveAgS4 + pvmAgS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveBrS4 + pvmBrS4);
+        cell = row.createCell(colId++);
+        cell.setCellValue(pveDiS4 + pvmDiS4 + pveOrS4 + pvmOrS4 + pveAgS4 + pvmAgS4 + pveBrS4 + pvmBrS4);
+
+        int a, b, c, d, e, f, g, h, i, j, k, l;
+        rowId++;
+        colId = 1;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("Total");
+        a = pveDiS1 + pveDiS2 + pveDiS3 + pveDiS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(a);
+        b = pveOrS1 + pveOrS2 + pveOrS3 + pveOrS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(b);
+        c = pveAgS1 + pveAgS2 + pveAgS3 + pveAgS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(c);
+        d = pveBrS1 + pveBrS2 + pveBrS3 + pveBrS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(d);
+        e = pvmDiS1 + pvmDiS2 + pvmDiS3 + pvmDiS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(e);
+        f = pvmOrS1 + pvmOrS2 + pvmOrS3 + pvmOrS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(f);
+        g = pvmAgS1 + pvmAgS2 + pvmAgS3 + pvmAgS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(g);
+        h = pvmBrS1 + pvmBrS2 + pvmBrS3 + pvmBrS4;
+        cell = row.createCell(colId++);
+        cell.setCellValue(h);
+        i = a + e;
+        cell = row.createCell(colId++);
+        cell.setCellValue(i);
+        j = b + f;
+        cell = row.createCell(colId++);
+        cell.setCellValue(j);
+        k = c + g;
+        cell = row.createCell(colId++);
+        cell.setCellValue(k);
+        l = d + h;
+        cell = row.createCell(colId++);
+        cell.setCellValue(l);
+        cell = row.createCell(colId++);
+        cell.setCellValue(i + j + k + l);
+
+        nombrePVE = a + b + c + d;
+        nombreMixte = e + f + g + h;
+        rowId++;
+        colId = 1;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("");
+
+        cell = row.createCell(colId);
+        cell.setCellValue(a + b + c + d);
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+        colId += 4;
+        cell = row.createCell(colId);
+        cell.setCellValue(e + f + g + h);
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+
+        colId += 4;
+        cell = row.createCell(colId);
+        cell.setCellValue(i + j + k + l);
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+
+    }
+
+    private void produceExcelDispo(XSSFSheet sheet, XSSFWorkbook workbook) {
+        try {
+
+            int nombreBibra = resultBiBrac.getPveAgEtBr().size();
+            int nombreBgBrac = resultBgBrac.getPveDiEtOr().size();
+            int nombreBgBral = resultBgBral.getPveAgEtBr().size();
+            int nombreBiBral = resultBiBral.getPveDiEtOr().size();
+            DisponibiliteNumeriqueStat numeriqueStatBiBrac = reponseService.getAllDispoStat(debut, fin, Boolean.TRUE, Boolean.TRUE);
+            DisponibiliteNumeriqueStat numeriqueStatBgBrac = reponseService.getAllDispoStat(debut, fin, Boolean.FALSE, Boolean.TRUE);
+            DisponibiliteNumeriqueStat numeriqueStatBiBral = reponseService.getAllDispoStat(debut, fin, Boolean.TRUE, Boolean.FALSE);
+            DisponibiliteNumeriqueStat numeriqueStatBgBral = reponseService.getAllDispoStat(debut, fin, Boolean.FALSE, Boolean.FALSE);
+
+            Map<String, Integer> data1 = resultBiBrac.getPveDiEtOr();
+            Map<String, Integer> data2 = resultBiBrac.getPveAgEtBr();
+            Map<String, Integer> data3 = resultBiBrac.getPve();
+            Map<String, Integer> data4 = resultBiBrac.getPvmDiEtOr();
+            Map<String, Integer> data5 = resultBiBrac.getPvmAgEtBr();
+            Map<String, Integer> data6 = resultBiBrac.getPvm();
+            Map<String, Integer> data7 = resultBiBrac.getPdv();
+
+            Map<String, Integer> datai1 = resultBgBrac.getPveDiEtOr();
+            Map<String, Integer> datai2 = resultBgBrac.getPveAgEtBr();
+            Map<String, Integer> datai3 = resultBgBrac.getPve();
+            Map<String, Integer> datai4 = resultBgBrac.getPvmDiEtOr();
+            Map<String, Integer> datai5 = resultBgBrac.getPvmAgEtBr();
+            Map<String, Integer> datai6 = resultBgBrac.getPvm();
+            Map<String, Integer> datai7 = resultBgBrac.getPdv();
+
+            Map<String, Integer> data1a = resultBiBral.getPveDiEtOr();
+            Map<String, Integer> data2a = resultBiBral.getPveAgEtBr();
+            Map<String, Integer> data3a = resultBiBral.getPve();
+            Map<String, Integer> data4a = resultBiBral.getPvmDiEtOr();
+            Map<String, Integer> data5a = resultBiBral.getPvmAgEtBr();
+            Map<String, Integer> data6a = resultBiBral.getPvm();
+            Map<String, Integer> data7a = resultBiBral.getPdv();
+
+            Map<String, Integer> datai1a = resultBgBral.getPveDiEtOr();
+            Map<String, Integer> datai2a = resultBgBral.getPveAgEtBr();
+            Map<String, Integer> datai3a = resultBgBral.getPve();
+            Map<String, Integer> datai4a = resultBgBral.getPvmDiEtOr();
+            Map<String, Integer> datai5a = resultBgBral.getPvmAgEtBr();
+            Map<String, Integer> datai6a = resultBgBral.getPvm();
+            Map<String, Integer> datai7a = resultBgBral.getPdv();
+            int rowId = 1;
+            int colId = 1;
+            Row row = sheet.createRow(rowId);
+            Cell cell = row.createCell(colId);
+            cell.setCellValue("");
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId + 1, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId //last column  (0-based)
+            ));
+            colId++;
+            cell = row.createCell(colId);
+            cell.setCellValue("DISPONIBILITE BIÈRES BRACONGO");
+            cell.setCellStyle(gold);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId + nombreBibra //last column  (0-based)
+            ));
+            colId = colId + nombreBibra + 1;
+            cell = row.createCell(colId);
+            cell.setCellValue("DISPONIBILITE BIÈRES BRALIMA");
+            cell.setCellStyle(blue);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId + nombreBiBral //last column  (0-based)
+            ));
+            colId = 2;
+            rowId++;
+            row = sheet.createRow(rowId);
+
+            BorderStyle border = BorderStyle.THICK;
+
+            XSSFCellStyle myStyle = workbook.createCellStyle();
+            myStyle.setRotation((short) 90);
+            myStyle.setFillForegroundColor(HSSFColor.GOLD.index);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+            //myStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            XSSFCellStyle myStyle2 = workbook.createCellStyle();
+            myStyle2.setRotation((short) 90);
+            myStyle2.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
+            myStyle2.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            myStyle2.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            myStyle2.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            myStyle2.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+           // myStyle2.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            XSSFCellStyle myStyle3 = workbook.createCellStyle();
+            myStyle3.setRotation((short) 90);
+            myStyle3.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
+            myStyle3.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            myStyle3.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            myStyle3.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            myStyle3.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
+            //myStyle3.setFillPattern(CellStyle.SOLID_FOREGROUND);
+
+            /* J'entre les noms des bières bracongo*/
+            for (Map.Entry<String, Integer> entrySet : data1.entrySet()) {
+                String key = entrySet.getKey();
+                cell = row.createCell(colId++);
+                cell.setCellValue(key + " CL");
+                cell.setCellStyle(myStyle);
+            }
+
+            cell = row.createCell(colId++);
+            cell.setCellValue("TAUX DES PDV D.N. = 1");
+            cell.setCellStyle(myStyle3);
+
+            /* J'entre les noms des bières bralima*/
+            for (Map.Entry<String, Integer> entrySet : data1a.entrySet()) {
+                String key = entrySet.getKey();
+                cell = row.createCell(colId++);
+                cell.setCellValue(key + " CL");
+                cell.setCellStyle(myStyle2);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue("TAUX DES PDV D.N. = 1");
+            cell.setCellStyle(myStyle3);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE (Di & Or)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : data1.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBrac.getPveDiO() + "%");
+            cell.setCellStyle(yellow);
+
+            for (Map.Entry<String, Integer> entrySet : data1a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBral.getPveDiO() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE (Ag & Br)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : data2.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBrac.getPveArBz() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : data2a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBral.getPveArBz() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve */
+            for (Map.Entry<String, Integer> entrySet : data3.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBrac.getPve() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : data3a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBral.getPve() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE (Di & Or)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : data4.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBrac.getPvmDiOr() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : data4a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBral.getPvmDiOr() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE (Ag & Br)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pvm Ag et Bz*/
+            for (Map.Entry<String, Integer> entrySet : data5.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBrac.getPvmArBz() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : data5a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBral.getPvmArBz() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : data6.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBrac.getPvm() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : data6a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBral.getPvm() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("GLOBAL");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : data7.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBrac.getPdv() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : data7a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBiBral.getPdv() + "%");
+            cell.setCellStyle(yellow);
+
+            /////////////////////////////////////////////////////////////////////
+            colId = 1;
+            rowId += 2;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId);
+            cell.setCellValue("");
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId + 1, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId //last column  (0-based)
+            ));
+            colId++;
+            cell = row.createCell(colId);
+            cell.setCellValue("DISPONIBILITE BG BRACONGO");
+            cell.setCellStyle(gold);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId + nombreBgBrac + 1 //last column  (0-based)
+            ));
+            colId = colId + nombreBgBrac + 2;
+            cell = row.createCell(colId);
+            cell.setCellValue("DISPONIBILITE BG BRALIMA");
+            cell.setCellStyle(blue);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId + nombreBgBral + 1 //last column  (0-based)
+            ));
+            colId = 2;
+            rowId++;
+            row = sheet.createRow(rowId);
+
+            /* J'entre les noms des bières bracongo*/
+            for (Map.Entry<String, Integer> entrySet : datai1.entrySet()) {
+                String key = entrySet.getKey();
+                cell = row.createCell(colId++);
+                cell.setCellValue(key + " CL");
+                cell.setCellStyle(myStyle);
+            }
+
+            cell = row.createCell(colId++);
+            cell.setCellValue("TAUX DES PDV D.N. = 1");
+            cell.setCellStyle(myStyle3);
+
+            /* J'entre les noms des bières bralima*/
+            for (Map.Entry<String, Integer> entrySet : datai1a.entrySet()) {
+                String key = entrySet.getKey();
+                cell = row.createCell(colId++);
+                cell.setCellValue(key + " CL");
+                cell.setCellStyle(myStyle2);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue("TAUX DES PDV D.N. = 1");
+            cell.setCellStyle(myStyle3);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE (Di & Or)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai1.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPveDiO() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai1a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPveDiO() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE (Ag & Br)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai2.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPveArBz() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai2a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPveArBz() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve */
+            for (Map.Entry<String, Integer> entrySet : datai3.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPve() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai3a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPve() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE (Di & Or)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai4.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPvmDiOr() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai4a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPvmDiOr() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE (Ag & Br)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pvm Ag et Bz*/
+            for (Map.Entry<String, Integer> entrySet : datai5.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPvmArBz() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai5a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPvmArBz() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai6.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPvm() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai6a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPvm() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("GLOBAL");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai7.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPdv() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai7a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPdv() + "%");
+            cell.setCellStyle(yellow);
+
+        } catch (ServiceException ex) {
+            Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void produceExcelClassement(XSSFSheet sheet) {
+        Map<String, Integer> pveDiOrSup = getclassementRegimeCategorieSup(true, true, true);
+        Map<String, Integer> pveDiOrInf = getclassementRegimeCategorieSup(true, true, false);
+        Map<String, Integer> pveAgBzSup = getclassementRegimeCategorieSup(true, false, true);
+        Map<String, Integer> pveAgBzInf = getclassementRegimeCategorieSup(true, false, false);
+        Map<String, Integer> pvmDiOrSup = getclassementRegimeCategorieSup(false, true, true);
+        Map<String, Integer> pvmDiOrInf = getclassementRegimeCategorieSup(false, true, false);
+        Map<String, Integer> pvmAgBzSup = getclassementRegimeCategorieSup(false, false, true);
+        Map<String, Integer> pvmAgBzInf = getclassementRegimeCategorieSup(false, false, false);
+
+        int rowId = 1;
+        int colId = 1;
+        Row row = sheet.createRow(rowId);
+        Cell cell = row.createCell(colId);
+        cell.setCellValue("PVE");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 4 //last column  (0-based)
+        ));
+
+        colId = 1;
+        rowId = 2;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("PVE Di&Or >= 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pveDiOrSup.entrySet()) {
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        colId = 1;
+        rowId++;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Dispo < 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pveDiOrInf.entrySet()) {
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        colId = 4;
+        rowId = 2;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("PVE Ag&Br >= 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pveAgBzSup.entrySet()) {
+            colId = 4;
+            rowId++;
+            row = sheet.getRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        colId = 4;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Dispo < 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pveAgBzInf.entrySet()) {
+            colId = 4;
+            rowId++;
+            row = sheet.getRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        ////////////////////////////
+        rowId = 1;
+        colId = 7;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Mixte");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 4 //last column  (0-based)
+        ));
+
+        colId = 7;
+        rowId = 2;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("MIXTE Di&Or >= 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pvmDiOrSup.entrySet()) {
+            colId = 7;
+            rowId++;
+            row = sheet.getRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        colId = 7;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Dispo < 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pvmDiOrInf.entrySet()) {
+            colId = 7;
+            rowId++;
+            row = sheet.getRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        colId = 10;
+        rowId = 2;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("MIXTE Ag&Br >= 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pvmAgBzSup.entrySet()) {
+            colId = 10;
+            rowId++;
+            row = sheet.getRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        colId = 10;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Dispo < 50%");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        for (Map.Entry<String, Integer> entrySet : pvmAgBzInf.entrySet()) {
+            colId = 10;
+            rowId++;
+            row = sheet.getRow(rowId);
+            String key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            cell = row.createCell(colId++);
+            cell.setCellValue(key + "CL");
+            cell = row.createCell(colId++);
+            cell.setCellValue(value + "%");
+        }
+
+        colId = 14;
+        rowId = 1;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Disponibilité moyenne générale");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 4 //last column  (0-based)
+        ));
+        colId = 14;
+        rowId = 2;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId + 1, //last row  (0-based)
+                colId, //first column (0-based)
+                colId //last column  (0-based)
+        ));
+        colId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Disponibilité moyenne générale Bières");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+        colId = 17;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue("Disponibilité moyenne générale BG");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+
+        colId = 15;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("Bracongo");
+        cell = row.createCell(colId++);
+        cell.setCellValue("Bralima");
+        cell = row.createCell(colId++);
+        cell.setCellValue("Bracongo");
+        cell = row.createCell(colId++);
+        cell.setCellValue("Bralima");
+
+        colId = 14;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("PVE (Di&Or)");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBrac.getPveDiEtOr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBral.getPveDiEtOr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBrac.getPveDiEtOr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBral.getPveDiEtOr()) + "%");
+
+        colId = 14;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("PVE (Ag&Br)");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBrac.getPveAgEtBr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBral.getPveAgEtBr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBrac.getPveAgEtBr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBral.getPveAgEtBr()) + "%");
+
+        colId = 14;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("PVE");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBrac.getPve()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBral.getPve()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBrac.getPve()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBral.getPve()) + "%");
+
+        colId = 14;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("MIXTE (Di&Or)");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBrac.getPvmDiEtOr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBral.getPvmDiEtOr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBrac.getPvmDiEtOr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBral.getPvmDiEtOr()) + "%");
+
+        colId = 14;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("MIXTE (Ag&Br)");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBrac.getPvmAgEtBr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBral.getPvmAgEtBr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBrac.getPvmAgEtBr()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBral.getPvmAgEtBr()) + "%");
+
+        colId = 14;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("MIXTE ");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBrac.getPvm()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBral.getPvm()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBrac.getPvm()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBral.getPvm()) + "%");
+
+        colId = 14;
+        rowId++;
+        row = sheet.getRow(rowId);
+        cell = row.createCell(colId++);
+        cell.setCellValue("MIXTE ");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBrac.getPdv()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBiBral.getPdv()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBrac.getPdv()) + "%");
+        cell = row.createCell(colId++);
+        cell.setCellValue(getMoyenne(resultBgBral.getPdv()) + "%");
+
+    }
+
+    private void produceExcelRespect(XSSFSheet sheet) {
+
+    }
+
+    private void produceExcelParc(XSSFSheet sheet) {
+
+    }
+
 }

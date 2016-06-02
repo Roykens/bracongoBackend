@@ -27,6 +27,8 @@ public class MaterielProjection {
     private String nombreCasseBrac;
 
     private String nombreCasseConc;
+    
+    private String jourCasse;
 
     public int getIdServeur() {
         return idServeur;
@@ -91,6 +93,16 @@ public class MaterielProjection {
     public void setNombreCasseConc(String nombreCasseConc) {
         this.nombreCasseConc = nombreCasseConc;
     }
+
+    public String getJourCasse() {
+        return jourCasse;
+    }
+
+    public void setJourCasse(String jourCasse) {
+        this.jourCasse = jourCasse;
+    }
+    
+    
 
     @Override
     public String toString() {

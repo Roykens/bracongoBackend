@@ -102,7 +102,7 @@ public class BoissonInfos implements Serializable{
 
     @Override
     public String toString() {
-        return "BoissonInfos{" + "id=" + id + ", disponibilite=" + disponibilite + ", prixPdv=" + prixPdv + ", stockChaud=" + stockChaud + ", formatBoisson=" + formatBoisson + ", reponse=" + reponse + '}';
+        return "BoissonInfos{" + "id=" + id + ", disponibilite=" + disponibilite + ", prixPdv=" + prixPdv + ", stockChaud=" + stockChaud + ", formatBoisson=" + formatBoisson + '}';
     }
     
     

@@ -265,6 +265,8 @@ public class ReponseServiceImpl implements IReponseService {
             reponse.setVerificationFifo(reponseProjection.isFifo() == true ? ReponseValue.OUI : ReponseValue.NON);
             reponse.setSrdBracongo(reponseProjection.isSrdBrac() == true ? ReponseValue.OUI : ReponseValue.NON);
             reponse.setSrdBralimba(reponseProjection.isSrdBral() == true ? ReponseValue.OUI : ReponseValue.NON);
+            reponse.setParcEmballageBrac(reponseProjection.getParcEmballageBracongo());
+            reponse.setParcEmballageBral(reponseProjection.getParcEmballageBralima());
             reponseDao.create(reponse);
             Reponse reponse2 = reponseDao.findByPlanningAndPdv(planning, pointDeVente);
             saveBoissonInfos(reponse2, reponseProjection.getBoissonProjections());
@@ -306,8 +308,7 @@ public class ReponseServiceImpl implements IReponseService {
                     }
                     else{
                        infos.setPrixPdv(0); 
-                    }
-                    
+                    }                    
                     infos.setStockChaud(0);
                 }
                 boissonInfosDao.create(infos);
@@ -338,6 +339,14 @@ public class ReponseServiceImpl implements IReponseService {
                 }
                 else{
                     etatMateriel.setNombreDefecteux(0);
+                }
+                
+                String jourCasse = materielProjection.getJourCasse();
+                if(!jourCasse.isEmpty()){
+                    etatMateriel.setJourCasse(Integer.parseInt(jourCasse));
+                }
+                else{
+                    etatMateriel.setJourCasse(-1);
                 }
                 
                 String defectueuxConc = materielProjection.getNombreCasseConc();
@@ -432,6 +441,7 @@ public class ReponseServiceImpl implements IReponseService {
     public int nombrePdvAgEtBz(List<Reponse> reponses, boolean exclisif) {
         int result = 0;
         for (Reponse reponse : reponses) {
+                System.out.println(reponse);
             if ((reponse.getPointDeVente().getTypeCategorie() == TypeCategorie.Ag || reponse.getPointDeVente().getTypeCategorie() == TypeCategorie.Br) && (reponse.getPointDeVente().getTypeRegime() == TypeRegime.PVE) == exclisif) {
                 result++;
             }

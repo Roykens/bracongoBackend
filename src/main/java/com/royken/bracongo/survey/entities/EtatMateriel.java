@@ -38,7 +38,7 @@ public class EtatMateriel implements Serializable{
     @Enumerated
     private TypeEtat typeEtat;
     
-    
+    @Enumerated
     private TypeEtat typeEtatConc;
     
     @Basic
@@ -46,6 +46,9 @@ public class EtatMateriel implements Serializable{
     
     @Basic
     private int nombreDefectueuxConc;
+    
+    @Basic
+    private int jourCasse;
     
     @Basic
     private int nombreBralima;
@@ -131,6 +134,14 @@ public class EtatMateriel implements Serializable{
 
     public void setNombreDefectueuxConc(int nombreDefectueuxConc) {
         this.nombreDefectueuxConc = nombreDefectueuxConc;
+    }
+
+    public int getJourCasse() {
+        return jourCasse;
+    }
+
+    public void setJourCasse(int jourCasse) {
+        this.jourCasse = jourCasse;
     }
     
     

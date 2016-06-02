@@ -224,6 +224,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
        // System.out.println("Ma liste");
        // System.out.println(boi);
         BoissonInfos bi = getManager().createQuery(cq).getResultList().get(0);
+      //  System.out.println("La biere infos :" + bi);
         return (bi.isDisponibilite() == true) ? 1 : 0;
     }
 
@@ -297,7 +298,8 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
             predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), pve ? TypeRegime.PVE : TypeRegime.Mixte));
         }
 
-        predicates.add(cb.equal(boisInfoRoot.get(BoissonInfos_.disponibilite), true));
+       // predicates.add(cb.equal(boisInfoRoot.get(BoissonInfos_.disponibilite), true));
+        predicates.add(cb.gt(boisInfoRoot.get(BoissonInfos_.prixPdv), 0));
 
         Expression<Integer> sum = cb.sum(boisInfoRoot.get(BoissonInfos_.prixPdv));
 
@@ -371,13 +373,16 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         if(pve != null){
             predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), pve ? TypeRegime.PVE:TypeRegime.Mixte));
         }
+        
         Expression<Integer> sum = null;
         
         if(bracongo != null){
             if(bracongo){
+                predicates.add(cb.gt(rpsRoot.get(Reponse_.jourDepuisDernierPassageFVD), -1));
                 sum = cb.sum(rpsRoot.get(Reponse_.jourDepuisDernierPassageFVD));
             }
             else{
+                predicates.add(cb.gt(rpsRoot.get(Reponse_.jourDernierPassageFVDBralimba), -1));
                 sum = cb.sum(rpsRoot.get(Reponse_.jourDernierPassageFVDBralimba));
             }
         }
@@ -481,4 +486,57 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         }
     }
 
+    @Override
+    public int stockChaudFormatReponse(FormatBoisson formatBoisson, Boolean DiEtOr, Boolean pve, Date debut, Date fin, Boolean biere, Boolean bracongo) throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
+        Root<Reponse> rpsRoot = cq.from(Reponse.class);
+        Path<PointDeVente> pdvPath = rpsRoot.get(Reponse_.pointDeVente);
+        //Root<FormatBoisson> formBoisRoot = cq.from(FormatBoisson.class);
+        Root<BoissonInfos> bInRoot = cq.from(BoissonInfos.class);
+        Expression<List<BoissonInfos>> ab = rpsRoot.get(Reponse_.boissonInfoss);
+        Join<Reponse, BoissonInfos> toto = rpsRoot.join(Reponse_.boissonInfoss);
+        Path<FormatBoisson> formPat = toto.get(BoissonInfos_.formatBoisson);
+        Path<Boisson> boisPath = formPat.get(FormatBoisson_.boisson);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (biere != null) {
+            if (biere) {
+                predicates.add(cb.equal(boisPath.get(Boisson_.typeBoisson), TypeBoisson.BI));
+            } else {
+                predicates.add(cb.equal(boisPath.get(Boisson_.typeBoisson), TypeBoisson.BG));
+            }
+        }
+        if (bracongo != null) {
+            predicates.add(cb.equal(boisPath.get(Boisson_.isBracongo), bracongo));
+        }
+
+        if (formatBoisson != null) {
+            predicates.add(cb.equal(toto.get(BoissonInfos_.formatBoisson), formatBoisson));
+        }
+        predicates.add(cb.equal(toto.get(BoissonInfos_.disponibilite), true));
+        if (debut != null && fin != null) {
+            predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
+        }
+        if (DiEtOr != null) {
+            if (DiEtOr) {
+                predicates.add(cb.or(cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Di), cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Or)));
+            } else {
+                predicates.add(cb.or(cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Ag), cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Br)));
+            }
+        }
+        if (pve != null) {
+            if (pve) {
+                predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), TypeRegime.PVE));
+            } else {
+                predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), TypeRegime.Mixte));
+            }
+        }
+         Expression<Integer> sum = cb.sum(toto.get(BoissonInfos_.stockChaud));
+        cq.select(sum);
+        if (predicates.size() > 0) {
+            cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
+        }
+        
+        return getManager().createQuery(cq).getSingleResult();
+    }
 }

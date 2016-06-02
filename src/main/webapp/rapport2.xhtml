@@ -13,7 +13,7 @@
                     <h3 class="hardblue">Paramètres</h3>
 
                     <h:form>
-                        <p:selectOneRadio id="console" value="#{documentBean.choix}" required="true" requiredMessage="Le type de rapport de rapport est obligatoire">
+                        <p:selectOneRadio id="console" value="#{documentBean.choix}" required="true" requiredMessage="Le type de rapport est obligatoire">
                             <f:selectItem itemLabel="Hebdomadaire" itemValue="#{true}" />
                             <f:selectItem itemLabel="Mensuel" itemValue="#{false}" />
                         </p:selectOneRadio>
@@ -24,7 +24,12 @@
                             <p:outputLabel for="fin" value="Au : " />
                             <p:calendar id="fin" value="#{documentBean.fin}" required="true" requiredMessage="Cette valeur est obligatoire"/>
 
+
                         </h:panelGrid>
+                        <p:selectOneRadio id="excel" value="#{documentBean.excel}" required="true" requiredMessage="Le format de rapport est obligatoire">
+                            <f:selectItem itemLabel="Excel" itemValue="#{true}" />
+                            <f:selectItem itemLabel="PDF" itemValue="#{false}" />
+                        </p:selectOneRadio>
                         <p:separator style="height:20px" />
                         <div class="Fs12 Fright leaden Wid50 TexAlRight Responsive"><p:commandButton value="Exporter" ajax="false" action="#{documentBean.produceDocument()}">
                                 <p:fileDownload value="#{documentBean.fichier}" />

@@ -262,5 +262,10 @@ public class Reponse implements Serializable {
         this.parcEmballageBral = parcEmballageBral;
     }
 
+    @Override
+    public String toString() {
+        return "Reponse{" + "etatPlv=" + etatPlv + ", typePdv=" + typePdv + ", heureDeVisite=" + heureDeVisite + ", jourDepuisDernierPassageFVD=" + jourDepuisDernierPassageFVD + ", srdBracongo=" + srdBracongo + ", heurePassageSrdBracongo=" + heurePassageSrdBracongo + ", jourDernierPassageFVDBralimba=" + jourDernierPassageFVDBralimba + ", srdBralimba=" + srdBralimba + ", heurePassageSrdBralimba=" + heurePassageSrdBralimba + ", nombrePHN=" + nombrePHN + ", verificationFifo=" + verificationFifo + ", etatMateriel=" + etatMateriel + ", parcEmballageBrac=" + parcEmballageBrac + ", parcEmballageBral=" + parcEmballageBral + ", enqueteur=" + enqueteur + ", pointDeVente=" + pointDeVente + '}';
+    }
+
     
 }
