@@ -21,7 +21,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.royken</groupId>
+            <groupId>com.github.royken</groupId>
             <artifactId>genericDao</artifactId>
             <version>1.0</version>
             <exclusions>
