@@ -118,6 +118,7 @@ public class DocumentBean {
     int pvmDiS3, pvmOrS3, pvmAgS3, pvmBrS3;
     int pvmDiS4, pvmOrS4, pvmAgS4, pvmBrS4;
     
+    XSSFCellStyle myStyle;
     XSSFColor b = new XSSFColor(new java.awt.Color(255, 255, 255));
 
     XSSFCellStyle grey;
@@ -1730,6 +1731,14 @@ public class DocumentBean {
             //font.setFontName("IMPACT");
             //font.setItalic(true);
             blackFont.setColor(HSSFColor.WHITE.index);
+            
+            myStyle = workbook.createCellStyle();
+            myStyle.setRotation((short) 90);
+            myStyle.setFillForegroundColor(HSSFColor.GOLD.index);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
+            myStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
 
             grey = workbook.createCellStyle();
             grey.setFillForegroundColor(HSSFColor.GREY_50_PERCENT.index);
@@ -3036,7 +3045,189 @@ public class DocumentBean {
     }
 
     private void produceExcelRespect(XSSFSheet sheet) {
-
+        int rowId = 1;
+            int colId = 1;
+            int taille1 = getMapSize(prixStatBrac);
+            Row row = sheet.createRow(rowId);
+            Cell cell = row.createCell(colId);
+            cell.setCellValue("SECTEURS");
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId + 1, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId //last column  (0-based)
+            ));
+            colId++;
+            cell = row.createCell(colId);
+            cell.setCellValue("REGIME");
+            cell.setCellStyle(gold);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId + 1, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId  //last column  (0-based)
+            ));
+           colId++;
+           
+            for (Map.Entry<Integer, BoissonPrixStat> entrySet : prixStatBrac.entrySet()) {
+                Integer key = entrySet.getKey();
+                BoissonPrixStat value = entrySet.getValue();
+                cell = row.createCell(colId);
+                cell.setCellValue(key + " CL");
+                int step = value.getPrix().size();
+                sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId + step - 1  //last column  (0-based)
+                ));
+                colId += step;
+            }
+          
+            rowId ++;
+            colId = 3;
+            row = sheet.createRow(rowId);
+            for (Map.Entry<Integer, BoissonPrixStat> entrySet : prixStatBrac.entrySet()) {
+                BoissonPrixStat value = entrySet.getValue();
+                Map<String, Integer> noms = value.getPrixPve();
+                for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
+                    String key = entrySet1.getKey();
+                    cell = row.createCell(colId++);
+                    cell.setCellValue(key);
+                   
+                }
+            }
+            
+            rowId ++;
+            colId = 1;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId);
+            cell.setCellValue("Tous");
+            cell.setCellStyle(gold);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId + 2, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId  //last column  (0-based)
+            ));
+            colId++;
+            cell = row.createCell(colId);
+            cell.setCellValue("PVE");
+            colId++;
+            
+            for (Map.Entry<Integer, BoissonPrixStat> entrySet : prixStatBrac.entrySet()) {
+                BoissonPrixStat value = entrySet.getValue();
+                Map<String, Integer> noms = value.getPrixPve();
+                for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
+                    String key = entrySet1.getKey();
+                    int prix = entrySet1.getValue();
+                     cell = row.createCell(colId++);
+                     cell.setCellValue(prix);
+                }
+            }
+            
+            rowId++;
+            colId = 2;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId);
+            cell.setCellValue("Mixte");
+            colId++;
+            
+            for (Map.Entry<Integer, BoissonPrixStat> entrySet : prixStatBrac.entrySet()) {
+                BoissonPrixStat value = entrySet.getValue();
+                Map<String, Integer> noms = value.getPrixMixte();
+                for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
+                    String key = entrySet1.getKey();
+                    int prix = entrySet1.getValue();
+                    cell = row.createCell(colId++);
+                     cell.setCellValue(prix);
+                }
+            }
+            
+            
+            rowId++;
+            colId = 2;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId);
+            cell.setCellValue("Global");
+            colId++;
+            
+            for (Map.Entry<Integer, BoissonPrixStat> entrySet : prixStatBrac.entrySet()) {
+                BoissonPrixStat value = entrySet.getValue();
+                Map<String, Integer> noms = value.getPrixGlobal();
+                for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
+                    String key = entrySet1.getKey();
+                    int prix = entrySet1.getValue();
+                    cell = row.createCell(colId++);
+                     cell.setCellValue(prix);
+                }
+            }
+            
+            rowId++;
+            colId = 1;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId);
+            cell.setCellValue("");
+            colId++;
+            cell.setCellStyle(black);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId + 2, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId+taille1+1  //last column  (0-based)
+            ));
+            rowId++;
+            colId = 1;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId);
+            cell.setCellValue("Prix conseillés");
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId+1  //last column  (0-based)
+            ));
+            
+            colId +=2;
+            
+            for (Map.Entry<Integer, BoissonPrixStat> entrySet : prixStatBrac.entrySet()) {
+                BoissonPrixStat value = entrySet.getValue();
+                Map<String, Integer> noms = value.getPrix();
+                for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
+                    String key = entrySet1.getKey();
+                    int prix = entrySet1.getValue();
+                    cell = row.createCell(colId++);
+                     cell.setCellValue(prix);
+                   }
+            }
+            
+            rowId++;
+            colId = 1;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId);
+            cell.setCellValue("Écart (%)");
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId+1  //last column  (0-based)
+            ));
+            
+            colId +=2;
+            
+            for (Map.Entry<Integer, BoissonPrixStat> entrySet : prixStatBrac.entrySet()) {
+                BoissonPrixStat value = entrySet.getValue();
+                Map<String, Double> noms = value.getEcart();
+                for (Map.Entry<String, Double> entrySet1 : noms.entrySet()) {
+                    String key = entrySet1.getKey();
+                    double ecart = entrySet1.getValue();
+                    cell = row.createCell(colId++);
+                     cell.setCellValue(calculateEcart(ecart) + "%");
+                    
+                   }
+            }
+            
+          
     }
 
     private void produceExcelParc(XSSFSheet sheet) {
