@@ -5,12 +5,10 @@ import com.royken.bracongo.survey.entities.Planning;
 import com.royken.bracongo.survey.entities.PointDeVente;
 import com.royken.bracongo.survey.entities.Reponse;
 import com.royken.bracongo.survey.entities.Secteur;
-import com.royken.bracongo.survey.entities.TypeBoisson;
 import com.royken.bracongo.survey.entities.TypeCategorie;
 import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.IGenericDao;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +35,9 @@ public interface IReponseDao extends IGenericDao<Reponse, Long>{
     public int dispoibiliteFormatReponse(FormatBoisson formatBoisson, Reponse reponse) throws DataAccessException;
     
     public int stockChaudFormatReponse(FormatBoisson formatBoisson, Boolean DiEtOr, Boolean pve, Date debut, Date fin, Boolean biere, Boolean bracongo)throws DataAccessException;
+ 
+    /* Nombre de pdv ayant un stock chaud*/
+    public int pdvStockChaudFormat(FormatBoisson formatBoisson, Boolean DiEtOr, Boolean pve, Date debut, Date fin) throws DataAccessException;
     
     public List<Reponse> findAllByDateTypeRegime(Date debut, Date fin, Boolean DiEtOr, Boolean pve, Boolean biere, Boolean bracongo) throws DataAccessException;
     

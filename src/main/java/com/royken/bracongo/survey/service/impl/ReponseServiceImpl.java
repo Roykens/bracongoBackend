@@ -36,6 +36,7 @@ import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.bracongo.survey.entities.projection.BoissonDispoStat;
 import com.royken.bracongo.survey.entities.projection.BoissonPrixStat;
 import com.royken.bracongo.survey.entities.projection.BoissonProjection;
+import com.royken.bracongo.survey.entities.projection.BoissonStockDispoStat;
 import com.royken.bracongo.survey.entities.projection.BoissonStockStat;
 import com.royken.bracongo.survey.entities.projection.DisponibiliteNumeriqueStat;
 import com.royken.bracongo.survey.entities.projection.MaterielProjection;
@@ -509,9 +510,9 @@ public class ReponseServiceImpl implements IReponseService {
                 int toto = (int)Math.round(((pvedO *1.0) / nombrePveDiOr) * 100);
                 System.out.println("J'ai eu + " + toto);
                 pveDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveDiOr > 0) ? toto: -1);
-                pveAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveAgBr > 0) ? ((int)Math.round((pveab * 1.0) / nombrePveAgBr) * 100) : -1);
-                pvmDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmDiOr > 0) ? ((int)Math.round((pvmdO * 1.0) / nombrePvmDiOr) * 100) : -1);
-                pvmAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmAgBr > 0) ? ((int)Math.round((pvmab * 1.0) / nombrePvmAgBr) * 100) : -1);
+                pveAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveAgBr > 0) ? ((int)Math.round(((pveab * 1.0) / nombrePveAgBr) * 100)) : -1);
+                pvmDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmDiOr > 0) ? ((int)Math.round(((pvmdO * 1.0) / nombrePvmDiOr) * 100)) : -1);
+                pvmAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmAgBr > 0) ? ((int)Math.round(((pvmab * 1.0) / nombrePvmAgBr) * 100)) : -1);
                 pve.put(getNameFromFormatBoisson(formatBoisson), (a  > 0) ? ((int)Math.round(((pvE * 1.0) / a) * 100)) : -1);
                 pvm.put(getNameFromFormatBoisson(formatBoisson), (b  > 0) ? ((int)Math.round(((pvM * 1.0) / b) * 100)) : -1);
                 pdv.put(getNameFromFormatBoisson(formatBoisson), (c  > 0) ? ((int)Math.round(((pdV * 1.0) / c) * 100)) : -1);
@@ -564,9 +565,9 @@ public class ReponseServiceImpl implements IReponseService {
     }   
     
     private int distributionListBoison(List<Boisson> boissons, Reponse reponse){
-        int result  = 0;
+        int result  = 1;
         for (Boisson boisson : boissons) {
-            result += distributionBoisson(boisson, reponse);
+            result *= distributionBoisson(boisson, reponse);
         }
         return result > 0 ? 1:0;
     }
@@ -629,13 +630,13 @@ public class ReponseServiceImpl implements IReponseService {
             int e = reponsesPve.size();
             int f = reponsesPvm.size();
             int g = reponsesPdv.size();
-            numeriqueStat.setPveDiO((a > 0) ? ((int)Math.round((nombreDiOrPve * 1.0)/ a * 100)) : 0);
-            numeriqueStat.setPveArBz((b > 0) ? ((int)Math.round((nombreAgBzPve * 1.0)/ b * 100)) : 0);
-            numeriqueStat.setPve((e > 0) ? ((int)Math.round((nombrePve * 1.0)/ e * 100)) : 0);
-            numeriqueStat.setPvmDiOr((c > 0) ? ((int)Math.round((nombreDiOrPvm * 1.0)/ c * 100)) : 0);
-            numeriqueStat.setPvmArBz((d > 0) ? ((int)Math.round((nombreAgBzPvm * 1.0)/ d) * 100) : 0);
-            numeriqueStat.setPvm((f > 0) ? ((int)Math.round((nombrePvm * 1.0)/ f * 100)) : 0);
-            numeriqueStat.setPdv((g > 0) ? ((int)Math.round(((nombrePdv * 1.0)/ g) * 100)) : 0);
+            numeriqueStat.setPveDiO((a > 0) ? ((int)Math.round(((nombreDiOrPve * 1.0)/ a) * 100)) : -1);
+            numeriqueStat.setPveArBz((b > 0) ? ((int)Math.round(((nombreAgBzPve * 1.0)/ b) * 100)) : -1);
+            numeriqueStat.setPve((e > 0) ? ((int)Math.round(((nombrePve * 1.0)/ e) * 100)) : -1);
+            numeriqueStat.setPvmDiOr((c > 0) ? ((int)Math.round(((nombreDiOrPvm * 1.0)/ c) * 100)) : -1);
+            numeriqueStat.setPvmArBz((d > 0) ? ((int)Math.round(((nombreAgBzPvm * 1.0)/ d) * 100)) : -1);
+            numeriqueStat.setPvm((f > 0) ? ((int)Math.round(((nombrePvm * 1.0)/ f) * 100)) : -1);
+            numeriqueStat.setPdv((g > 0) ? ((int)Math.round(((nombrePdv * 1.0)/ g) * 100)) : -1);
             
         } catch (DataAccessException ex) {
             Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -768,7 +769,8 @@ public class ReponseServiceImpl implements IReponseService {
             else{
                 reponses = reponseDao.findAll();
             }
-            nombrePdvAgEtBz(reponses, true);
+           // nombrePdvAgEtBz(reponses, true);
+            BoissonStockStat result = new BoissonStockStat();
            int nombrePveDiOr =  nombrePdvDiEtOr(reponses, true);
            int nombrePveAgBr = nombrePdvAgEtBz(reponses, true);
            int nombrePvmDiOr = nombrePdvDiEtOr(reponses, false);
@@ -776,7 +778,13 @@ public class ReponseServiceImpl implements IReponseService {
            int a = nombrePveDiOr + nombrePveAgBr;
            int b = nombrePvmDiOr + nombrePvmAgBr;
            int c = a + b;
-           BoissonStockStat result = new BoissonStockStat();
+           result.setNombrePveDiOr(nombrePveDiOr);
+           result.setNombrePveArBr(nombrePveAgBr);
+           result.setNombrePve(a);
+           result.setNombreMixteDiOr(nombrePvmDiOr);
+           result.setNombreMixteAgBr(nombrePvmAgBr);
+           result.setNombreMixte(b);
+           result.setNombrePdv(c);
             Map<String, Integer> pveDiEtOr = new HashMap<String, Integer>();
             Map<String, Integer> pveAgEtBr = new HashMap<String, Integer>();
             Map<String, Integer> pvmDiEtOr = new HashMap<String, Integer>();
@@ -797,9 +805,76 @@ public class ReponseServiceImpl implements IReponseService {
                 int toto = (int)Math.round(((pvedO *1.0) / nombrePveDiOr) * 100);
                 System.out.println("J'ai eu + " + toto);
                 pveDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveDiOr > 0) ? toto: -1);
-                pveAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveAgBr > 0) ? ((int)Math.round((pveab * 1.0) / nombrePveAgBr) * 100) : -1);
-                pvmDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmDiOr > 0) ? ((int)Math.round((pvmdO * 1.0) / nombrePvmDiOr) * 100) : -1);
-                pvmAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmAgBr > 0) ? ((int)Math.round((pvmab * 1.0) / nombrePvmAgBr) * 100) : -1);
+                pveAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveAgBr > 0) ? ((int)Math.round(((pveab * 1.0) / nombrePveAgBr) * 100)) : -1);
+                pvmDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmDiOr > 0) ? ((int)Math.round(((pvmdO * 1.0) / nombrePvmDiOr) * 100)) : -1);
+                pvmAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmAgBr > 0) ? ((int)Math.round(((pvmab * 1.0) / nombrePvmAgBr) * 100)) : -1);
+                pve.put(getNameFromFormatBoisson(formatBoisson), (a  > 0) ? ((int)Math.round(((pvE * 1.0) / a) * 100)) : -1);
+                pvm.put(getNameFromFormatBoisson(formatBoisson), (b  > 0) ? ((int)Math.round(((pvM * 1.0) / b) * 100)) : -1);
+                pdv.put(getNameFromFormatBoisson(formatBoisson), (c  > 0) ? ((int)Math.round(((pdV * 1.0) / c) * 100)) : -1);
+            }
+            result.setPveAgEtBr(pveAgEtBr);
+            result.setPveDiEtOr(pveDiEtOr);
+            result.setPvmAgEtBr(pvmAgEtBr);
+            result.setPvmDiEtOr(pvmDiEtOr);
+            result.setPdv(pdv);
+            result.setPve(pve);
+            result.setPvm(pvm);
+           return result;
+            
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
+    @Override
+    public BoissonStockDispoStat getAllBoissonStockDispoStat(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException {
+        try {
+            List<Reponse> reponses;
+            if(debut != null && fin != null ){
+                reponses = reponseDao.findReponseBetweenDates(debut, fin);
+            }
+            else{
+                reponses = reponseDao.findAll();
+            }
+           // nombrePdvAgEtBz(reponses, true);
+            BoissonStockDispoStat result = new BoissonStockDispoStat();
+           int nombrePveDiOr =  nombrePdvDiEtOr(reponses, true);
+           int nombrePveAgBr = nombrePdvAgEtBz(reponses, true);
+           int nombrePvmDiOr = nombrePdvDiEtOr(reponses, false);
+           int nombrePvmAgBr = nombrePdvAgEtBz(reponses, false);
+           int a = nombrePveDiOr + nombrePveAgBr;
+           int b = nombrePvmDiOr + nombrePvmAgBr;
+           int c = a + b;
+           result.setNombrePveDiOr(nombrePveDiOr);
+           result.setNombrePveArBr(nombrePveAgBr);
+           result.setNombrePve(a);
+           result.setNombreMixteDiOr(nombrePvmDiOr);
+           result.setNombreMixteAgBr(nombrePvmAgBr);
+           result.setNombreMixte(b);
+           result.setNombrePdv(c);
+            Map<String, Integer> pveDiEtOr = new HashMap<String, Integer>();
+            Map<String, Integer> pveAgEtBr = new HashMap<String, Integer>();
+            Map<String, Integer> pvmDiEtOr = new HashMap<String, Integer>();
+            Map<String, Integer> pvmAgEtBr = new HashMap<String, Integer>();
+            Map<String, Integer> pve = new HashMap<String, Integer>();
+            Map<String, Integer> pvm = new HashMap<String, Integer>();
+            Map<String, Integer> pdv = new HashMap<String, Integer>();
+            List<FormatBoisson> formatBoissons = formatBoissonDao.findAllByTypeForEnterprise(bracongo,  (biere == true) ? TypeBoisson.BI:TypeBoisson.BG);
+            for (FormatBoisson formatBoisson : formatBoissons) {
+                int pvedO = reponseDao.pdvStockChaudFormat(formatBoisson, true, true, debut, fin);
+                int pveab = reponseDao.pdvStockChaudFormat(formatBoisson, false, true, debut, fin);
+                int pvmdO = reponseDao.pdvStockChaudFormat(formatBoisson, true, false, debut, fin);
+                int pvmab = reponseDao.pdvStockChaudFormat(formatBoisson, false, false, debut, fin);
+                int pvE = reponseDao.pdvStockChaudFormat(formatBoisson, null, true, debut, fin);
+                int pvM = reponseDao.pdvStockChaudFormat(formatBoisson, null, false, debut, fin);
+                int pdV = reponseDao.pdvStockChaudFormat(formatBoisson, null, null, debut, fin);
+                int toto = (int)Math.round(((pvedO *1.0) / nombrePveDiOr) * 100);
+                pveDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveDiOr > 0) ? toto: -1);
+                pveAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePveAgBr > 0) ? ((int)Math.round(((pveab * 1.0) / nombrePveAgBr) * 100)) : -1);
+                pvmDiEtOr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmDiOr > 0) ? ((int)Math.round(((pvmdO * 1.0) / nombrePvmDiOr) * 100)) : -1);
+                pvmAgEtBr.put(getNameFromFormatBoisson(formatBoisson), (nombrePvmAgBr > 0) ? ((int)Math.round(((pvmab * 1.0) / nombrePvmAgBr) * 100)) : -1);
                 pve.put(getNameFromFormatBoisson(formatBoisson), (a  > 0) ? ((int)Math.round(((pvE * 1.0) / a) * 100)) : -1);
                 pvm.put(getNameFromFormatBoisson(formatBoisson), (b  > 0) ? ((int)Math.round(((pvM * 1.0) / b) * 100)) : -1);
                 pdv.put(getNameFromFormatBoisson(formatBoisson), (c  > 0) ? ((int)Math.round(((pdV * 1.0) / c) * 100)) : -1);

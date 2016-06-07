@@ -164,10 +164,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         CriteriaQuery<Reponse> cq = cb.createQuery(Reponse.class);
         Root<Reponse> rpsRoot = cq.from(Reponse.class);
         Path<PointDeVente> pdvPath = rpsRoot.get(Reponse_.pointDeVente);
-        //Root<FormatBoisson> formBoisRoot = cq.from(FormatBoisson.class);
-        Root<BoissonInfos> bInRoot = cq.from(BoissonInfos.class);
-        Expression<List<BoissonInfos>> ab = rpsRoot.get(Reponse_.boissonInfoss);
-        Join<Reponse, BoissonInfos> toto = rpsRoot.join(Reponse_.boissonInfoss);
+       Join<Reponse, BoissonInfos> toto = rpsRoot.join(Reponse_.boissonInfoss);
         Path<FormatBoisson> formPat = toto.get(BoissonInfos_.formatBoisson);
         Path<Boisson> boisPath = formPat.get(FormatBoisson_.boisson);
         List<Predicate> predicates = new ArrayList<Predicate>();
@@ -489,31 +486,65 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
     @Override
     public int stockChaudFormatReponse(FormatBoisson formatBoisson, Boolean DiEtOr, Boolean pve, Date debut, Date fin, Boolean biere, Boolean bracongo) throws DataAccessException {
         CriteriaBuilder cb = getManager().getCriteriaBuilder();
-        CriteriaQuery<Integer> cq = cb.createQuery(Integer.class);
-        Root<Reponse> rpsRoot = cq.from(Reponse.class);
-        Path<PointDeVente> pdvPath = rpsRoot.get(Reponse_.pointDeVente);
-        //Root<FormatBoisson> formBoisRoot = cq.from(FormatBoisson.class);
-        Root<BoissonInfos> bInRoot = cq.from(BoissonInfos.class);
-        Expression<List<BoissonInfos>> ab = rpsRoot.get(Reponse_.boissonInfoss);
-        Join<Reponse, BoissonInfos> toto = rpsRoot.join(Reponse_.boissonInfoss);
-        Path<FormatBoisson> formPat = toto.get(BoissonInfos_.formatBoisson);
-        Path<Boisson> boisPath = formPat.get(FormatBoisson_.boisson);
+        CriteriaQuery<Number> cq = cb.createQuery(Number.class);
+        Root<BoissonInfos> boisInfoRoot = cq.from(BoissonInfos.class);
+        Path<Reponse> rpsPath = boisInfoRoot.get(BoissonInfos_.reponse);
+        Path<PointDeVente> pdvPath = rpsPath.get(Reponse_.pointDeVente);
         List<Predicate> predicates = new ArrayList<Predicate>();
-        if (biere != null) {
-            if (biere) {
-                predicates.add(cb.equal(boisPath.get(Boisson_.typeBoisson), TypeBoisson.BI));
-            } else {
-                predicates.add(cb.equal(boisPath.get(Boisson_.typeBoisson), TypeBoisson.BG));
+        if (debut != null) {
+            if (fin != null) {
+                predicates.add(cb.between(rpsPath.get(Reponse_.heureDeVisite), debut, fin));
             }
         }
-        if (bracongo != null) {
-            predicates.add(cb.equal(boisPath.get(Boisson_.isBracongo), bracongo));
+        predicates.add(cb.equal(boisInfoRoot.get(BoissonInfos_.formatBoisson), formatBoisson));
+
+        if (pve != null) {
+            predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), pve ? TypeRegime.PVE : TypeRegime.Mixte));
+        }
+        
+        if (DiEtOr != null) {
+            if (DiEtOr) {
+                predicates.add(cb.or(cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Di), cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Or)));
+            } else {
+                predicates.add(cb.or(cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Ag), cb.equal(pdvPath.get(PointDeVente_.typeCategorie), TypeCategorie.Br)));
+            }
         }
 
+       // predicates.add(cb.equal(boisInfoRoot.get(BoissonInfos_.disponibilite), true));
+        //predicates.add(cb.gt(boisInfoRoot.get(BoissonInfos_.prixPdv), 0));
+
+        Expression<Integer> sum = cb.sum(boisInfoRoot.get(BoissonInfos_.stockChaud));
+
+        cq.select(sum);
+        
+        
+
+        if (predicates.size() > 0) {
+            cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
+        }
+        
+       try {
+            return getManager().createQuery(cq).getSingleResult().intValue();
+        } catch (Exception e) {
+            return 0;
+        }
+    
+    }
+
+    @Override
+    public int pdvStockChaudFormat(FormatBoisson formatBoisson, Boolean DiEtOr, Boolean pve, Date debut, Date fin) throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Reponse> rpsRoot = cq.from(Reponse.class);
+        Path<PointDeVente> pdvPath = rpsRoot.get(Reponse_.pointDeVente);
+        Join<Reponse, BoissonInfos> toto = rpsRoot.join(Reponse_.boissonInfoss);
+        Path<FormatBoisson> formPat = toto.get(BoissonInfos_.formatBoisson);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+   
         if (formatBoisson != null) {
             predicates.add(cb.equal(toto.get(BoissonInfos_.formatBoisson), formatBoisson));
         }
-        predicates.add(cb.equal(toto.get(BoissonInfos_.disponibilite), true));
+        predicates.add(cb.gt(toto.get(BoissonInfos_.stockChaud), 0));
         if (debut != null && fin != null) {
             predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
         }
@@ -531,12 +562,15 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
                 predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), TypeRegime.Mixte));
             }
         }
-         Expression<Integer> sum = cb.sum(toto.get(BoissonInfos_.stockChaud));
-        cq.select(sum);
+        
+        Expression<Long> total = cb.count(rpsRoot);
+        cq.select(total);
         if (predicates.size() > 0) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
         }
-        
-        return getManager().createQuery(cq).getSingleResult();
+        return getManager().createQuery(cq).getSingleResult().intValue();
     }
+    
+    
+    
 }

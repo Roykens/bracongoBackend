@@ -1,6 +1,7 @@
 package com.royken.bracongo.survey.service;
 
 import com.royken.bracongo.survey.entities.Action;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -18,4 +19,6 @@ public interface IActionService {
     public void deleteAction(Long id) throws ServiceException;
     
     public List<Action> findAllAction() throws ServiceException;
+    
+    public List<Action> getByDates(Date debut, Date fin) throws ServiceException;
 }

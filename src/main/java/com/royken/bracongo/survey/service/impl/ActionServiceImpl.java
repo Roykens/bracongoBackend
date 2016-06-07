@@ -6,6 +6,7 @@ import com.royken.bracongo.survey.service.IActionService;
 import com.royken.bracongo.survey.service.ServiceException;
 import com.royken.generic.dao.DataAccessException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -74,5 +75,10 @@ public class ActionServiceImpl implements IActionService {
             Logger.getLogger(ActionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return Collections.EMPTY_LIST;
+    }
+
+    @Override
+    public List<Action> getByDates(Date debut, Date fin) throws ServiceException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -9,6 +9,7 @@ import com.royken.bracongo.survey.entities.TypeCategorie;
 import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.bracongo.survey.entities.projection.BoissonDispoStat;
 import com.royken.bracongo.survey.entities.projection.BoissonPrixStat;
+import com.royken.bracongo.survey.entities.projection.BoissonStockDispoStat;
 import com.royken.bracongo.survey.entities.projection.BoissonStockStat;
 import com.royken.bracongo.survey.entities.projection.DisponibiliteNumeriqueStat;
 import com.royken.bracongo.survey.entities.projection.ReponseProjection;
@@ -47,6 +48,8 @@ public interface IReponseService {
     public BoissonDispoStat getAllBoissonDispoStat(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException;
     
     public BoissonStockStat getAllBoissonStockStat(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException;
+    
+    public BoissonStockDispoStat getAllBoissonStockDispoStat(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException;
 
     public DisponibiliteNumeriqueStat getAllDispoStat(Date debut, Date fin, Boolean biere, Boolean bracongo) throws ServiceException;
 

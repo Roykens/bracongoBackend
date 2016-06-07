@@ -9,9 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Kenfack Valmy-Roi <roykenvalmy@gmail.com>
  */
-@XmlRootElement(name="boissonStockStat")
+@XmlRootElement(name="boissonStockDispoStat")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BoissonStockStat {
+public class BoissonStockDispoStat {
     
     private Map<String,Integer> pveDiEtOr;
     
@@ -152,7 +152,5 @@ public class BoissonStockStat {
     public void setNombrePdv(int nombrePdv) {
         this.nombrePdv = nombrePdv;
     }
-    
-    
     
 }
