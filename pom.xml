@@ -190,12 +190,12 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <version>1.1.1</version>
                 <configuration>
-                    <!-- Do not wait after the container is started -->
+                     Do not wait after the container is started 
                     <wait>false</wait>
  
                     <container>
@@ -218,7 +218,7 @@
                     </configuration>
  
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 </project>
