@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.royken.bracongo.survey</groupId>
-    <artifactId>bracongo</artifactId>
+    <groupId>com.royken.bracongo</groupId>
+    <artifactId>survey</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
     <properties>
@@ -189,6 +189,35 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.1.1</version>
+                <configuration>
+                    <!-- Do not wait after the container is started -->
+                    <wait>false</wait>
+ 
+                    <container>
+                        <containerId>glassfish-4.1</containerId>
+                        <home>glassfish-4.1</home>
+                        <output>${project.build.directory}/glassfish/container.log</output>
+                        <append>false</append>
+                        <log>${project.build.directory}/glassfish/cargo.log</log>
+                    </container>
+ 
+                    <configuration>
+                        <deployable>
+                            <groupId>com.royken.bracongo</groupId>
+                            <artifactId>survey</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>/</context>
+                            </properties>
+                        </deployable>
+                    </configuration>
+ 
+                </configuration>
             </plugin>
         </plugins>
     </build>

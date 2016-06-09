@@ -31,8 +31,13 @@ public class Reponse implements Serializable {
 
     @OneToOne(mappedBy = "reponse")
     private Action action;
+    
+    @OneToOne(mappedBy = "reponse")
+    private Commentaire commentaire;
+    
     @OneToMany(mappedBy = "reponse")
     private List<BoissonInfos> boissonInfoss;
+    
     @OneToOne(mappedBy = "reponse")
     private EtatPlv etatPlv;
 
@@ -265,6 +270,14 @@ public class Reponse implements Serializable {
     @Override
     public String toString() {
         return "Reponse{" + "etatPlv=" + etatPlv + ", typePdv=" + typePdv + ", heureDeVisite=" + heureDeVisite + ", jourDepuisDernierPassageFVD=" + jourDepuisDernierPassageFVD + ", srdBracongo=" + srdBracongo + ", heurePassageSrdBracongo=" + heurePassageSrdBracongo + ", jourDernierPassageFVDBralimba=" + jourDernierPassageFVDBralimba + ", srdBralimba=" + srdBralimba + ", heurePassageSrdBralimba=" + heurePassageSrdBralimba + ", nombrePHN=" + nombrePHN + ", verificationFifo=" + verificationFifo + ", etatMateriel=" + etatMateriel + ", parcEmballageBrac=" + parcEmballageBrac + ", parcEmballageBral=" + parcEmballageBral + ", enqueteur=" + enqueteur + ", pointDeVente=" + pointDeVente + '}';
+    }
+
+    public Commentaire getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(Commentaire commentaire) {
+        this.commentaire = commentaire;
     }
 
     

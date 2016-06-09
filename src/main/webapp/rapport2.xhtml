@@ -31,7 +31,7 @@
                             <f:selectItem itemLabel="PDF" itemValue="#{false}" />
                         </p:selectOneRadio>
                         <p:separator style="height:20px" />
-                        <div class="Fs12 Fright leaden Wid50 TexAlRight Responsive"><p:commandButton value="Exporter" ajax="false" action="#{documentBean.produceDocument()}">
+                        <div class="Fs12 Fright leaden Wid50 TexAlRight Responsive"><p:commandButton value="Exporter" ajax="false" action="#{documentBean.produceDocument()}" styleClass="RedButton">
                                 <p:fileDownload value="#{documentBean.fichier}" />
                             </p:commandButton><br/></div>
                     </h:form>

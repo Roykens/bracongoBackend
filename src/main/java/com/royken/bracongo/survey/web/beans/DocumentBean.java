@@ -15,6 +15,8 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.royken.bracongo.survey.entities.Action;
+import com.royken.bracongo.survey.entities.Commentaire;
 import com.royken.bracongo.survey.entities.Secteur;
 import com.royken.bracongo.survey.entities.TypeCategorie;
 import com.royken.bracongo.survey.entities.TypeRegime;
@@ -23,9 +25,12 @@ import com.royken.bracongo.survey.entities.projection.BoissonPrixStat;
 import com.royken.bracongo.survey.entities.projection.BoissonStockDispoStat;
 import com.royken.bracongo.survey.entities.projection.BoissonStockStat;
 import com.royken.bracongo.survey.entities.projection.DisponibiliteNumeriqueStat;
+import com.royken.bracongo.survey.service.IActionService;
+import com.royken.bracongo.survey.service.ICommentaireService;
 import com.royken.bracongo.survey.service.IReponseService;
 import com.royken.bracongo.survey.service.ISecteurService;
 import com.royken.bracongo.survey.service.ServiceException;
+import com.royken.bracongo.survey.web.beans.util.ActionParseUtil;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.RoundingMode;
@@ -82,6 +87,12 @@ public class DocumentBean {
     @EJB
     private ISecteurService secteurService;
 
+    @EJB
+    private IActionService actionService;
+    
+    @EJB
+    private ICommentaireService commentaireService;
+
     private StreamedContent fichier;
 
     private Date debut;
@@ -107,9 +118,9 @@ public class DocumentBean {
     BoissonStockStat stockBibrac;
 
     BoissonStockStat stockBibral;
-    
+
     BoissonStockDispoStat stockDispoBibrac;
-    
+
     BoissonStockDispoStat stockDispoBibral;
 
     Map<Integer, BoissonPrixStat> prixStatBrac;
@@ -125,6 +136,10 @@ public class DocumentBean {
     int pvmDiS2, pvmOrS2, pvmAgS2, pvmBrS2;
     int pvmDiS3, pvmOrS3, pvmAgS3, pvmBrS3;
     int pvmDiS4, pvmOrS4, pvmAgS4, pvmBrS4;
+
+    private List<Action> actions;
+    
+    private List<Commentaire> commentaires;
 
     XSSFColor b = new XSSFColor(new java.awt.Color(255, 255, 255));
 
@@ -168,6 +183,14 @@ public class DocumentBean {
         this.secteurService = secteurService;
     }
 
+    public IActionService getActionService() {
+        return actionService;
+    }
+
+    public void setActionService(IActionService actionService) {
+        this.actionService = actionService;
+    }
+
     public Date getDebut() {
         return debut;
     }
@@ -200,6 +223,16 @@ public class DocumentBean {
         this.fin = fin;
     }
 
+    public ICommentaireService getCommentaireService() {
+        return commentaireService;
+    }
+
+    public void setCommentaireService(ICommentaireService commentaireService) {
+        this.commentaireService = commentaireService;
+    }
+
+    
+    
     /**
      * Creates a new instance of DocumentBean
      */
@@ -208,7 +241,6 @@ public class DocumentBean {
 
     public void produceDocument() {
 
-
         FacesContext context = FacesContext.getCurrentInstance();
 
         Object response = context.getExternalContext().getResponse();
@@ -216,6 +248,8 @@ public class DocumentBean {
             try {
                 HttpServletResponse hsr = (HttpServletResponse) response;
                 if (excel != null) {
+                    actions = actionService.getByDates(debut, fin);
+                    commentaires = commentaireService.getAllByDates(debut, fin);
                     stockDispoBibrac = reponseService.getAllBoissonStockDispoStat(debut, fin, Boolean.TRUE, Boolean.TRUE);
                     stockDispoBibral = reponseService.getAllBoissonStockDispoStat(debut, fin, Boolean.TRUE, Boolean.FALSE);
                     stockBibrac = reponseService.getAllBoissonStockStat(debut, fin, Boolean.TRUE, Boolean.TRUE);
@@ -1832,6 +1866,10 @@ public class DocumentBean {
             produceExcelStock(spreadsheet5);
             XSSFSheet spreadsheet6 = workbook.createSheet("parcEmballage");
             produceExcelParc(spreadsheet6);
+            XSSFSheet spreadshhet7 = workbook.createSheet("action");
+            produceExcelAction(spreadshhet7);
+            XSSFSheet spreadshhet8 = workbook.createSheet("marche");
+            produceExcelCommentaire(spreadshhet8);
             workbook.write(stream);
             stream.flush();
             stream.close();
@@ -2109,7 +2147,6 @@ public class DocumentBean {
 
     }
 
-    
     private void produceExcelStock(XSSFSheet sheet) {
         int nombreBibra = resultBiBrac.getPveAgEtBr().size();
         int nombreBiBral = resultBiBral.getPveDiEtOr().size();
@@ -2127,15 +2164,14 @@ public class DocumentBean {
         Map<String, Integer> data5a = stockBibral.getPvmAgEtBr();
         Map<String, Integer> data6a = stockBibral.getPvm();
         Map<String, Integer> data7a = stockBibral.getPdv();
-        
-        
+
         Map<String, Integer> datai1 = stockDispoBibrac.getPveDiEtOr();
         Map<String, Integer> datai2 = stockDispoBibrac.getPveAgEtBr();
         Map<String, Integer> datai3 = stockDispoBibrac.getPve();
         Map<String, Integer> datai4 = stockDispoBibrac.getPvmDiEtOr();
         Map<String, Integer> datai5 = stockDispoBibrac.getPvmAgEtBr();
         Map<String, Integer> datai6 = stockDispoBibrac.getPvm();
-        Map<String, Integer> datai7= stockDispoBibrac.getPdv();
+        Map<String, Integer> datai7 = stockDispoBibrac.getPdv();
         Map<String, Integer> data1ia = stockDispoBibral.getPveDiEtOr();
         Map<String, Integer> datai2a = stockDispoBibral.getPveAgEtBr();
         Map<String, Integer> datai3a = stockDispoBibral.getPve();
@@ -2165,7 +2201,7 @@ public class DocumentBean {
                 rowId, //first row (0-based)
                 rowId, //last row  (0-based)
                 colId, //first column (0-based)
-                colId + nombreBibra-1 //last column  (0-based)
+                colId + nombreBibra - 1 //last column  (0-based)
         ));
         colId = colId + nombreBibra;
         cell = row.createCell(colId);
@@ -2175,7 +2211,7 @@ public class DocumentBean {
                 rowId, //first row (0-based)
                 rowId, //last row  (0-based)
                 colId, //first column (0-based)
-                colId + nombreBiBral-1 //last column  (0-based)
+                colId + nombreBiBral - 1 //last column  (0-based)
         ));
         colId = 2;
         rowId++;
@@ -2235,7 +2271,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(gold);
-            
+
         }
         for (Map.Entry<String, Integer> entrySet : data2a.entrySet()) {
             //  String key = entrySet.getKey();
@@ -2258,7 +2294,7 @@ public class DocumentBean {
             //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
-            cell.setCellValue(value );
+            cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data3a.entrySet()) {
@@ -2304,7 +2340,7 @@ public class DocumentBean {
             //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
-            cell.setCellValue(value );
+            cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data5a.entrySet()) {
@@ -2313,7 +2349,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(blue);
-            }
+        }
         colId = 1;
         rowId++;
         row = sheet.createRow(rowId);
@@ -2361,8 +2397,7 @@ public class DocumentBean {
             cell.setCellValue(value);
             cell.setCellStyle(blue);
         }
-        
-        
+
         rowId = 13;
         colId = 1;
         row = sheet.createRow(rowId);
@@ -2385,7 +2420,7 @@ public class DocumentBean {
                 rowId, //first row (0-based)
                 rowId, //last row  (0-based)
                 colId, //first column (0-based)
-                colId + nombreBibra-1 //last column  (0-based)
+                colId + nombreBibra - 1 //last column  (0-based)
         ));
         colId = colId + nombreBibra;
         cell = row.createCell(colId);
@@ -2395,7 +2430,7 @@ public class DocumentBean {
                 rowId, //first row (0-based)
                 rowId, //last row  (0-based)
                 colId, //first column (0-based)
-                colId + nombreBiBral-1 //last column  (0-based)
+                colId + nombreBiBral - 1 //last column  (0-based)
         ));
         colId = 2;
         rowId++;
@@ -2456,7 +2491,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(gold);
-            
+
         }
         for (Map.Entry<String, Integer> entrySet : datai2a.entrySet()) {
             //  String key = entrySet.getKey();
@@ -2534,7 +2569,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(blue);
-            }
+        }
         colId = 1;
         rowId++;
         row = sheet.createRow(rowId);
@@ -2582,7 +2617,7 @@ public class DocumentBean {
             cell.setCellValue(value + "%");
             cell.setCellStyle(blue);
         }
-       
+
     }
 
     private void produceExcelClassement(XSSFSheet sheet) {
@@ -3450,11 +3485,11 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(nombreparcPveBrac);
             cell = row.createCell(colId++);
-            cell.setCellValue((nombreparcPveBrac / nombrePVE));
+            cell.setCellValue(nombrePVE > 0 ?(nombreparcPveBrac / nombrePVE):-1);
             cell = row.createCell(colId++);
             cell.setCellValue(nombreparcPveBral);
             cell = row.createCell(colId++);
-            cell.setCellValue((nombreparcPveBral / nombrePVE));
+            cell.setCellValue(nombrePVE > 0 ? (nombreparcPveBral / nombrePVE):- 1);
 
             double jourBrac = reponseService.jourMoyenEcoule(true, true, debut, fin);
             cell = row.createCell(colId++);
@@ -3482,13 +3517,13 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(visitePveBrac);
             cell = row.createCell(colId++);
-            cell.setCellValue(((int) ((visitePveBrac * 1.0) / nombrePVE * 100)));
+            cell.setCellValue(nombrePVE > 0 ? ((int) ((visitePveBrac * 1.0) / nombrePVE * 100)): -1);
             cell = row.createCell(colId++);
             cell.setCellValue(heurePveBral.get(DateTimeFieldType.hourOfDay()) + ":" + heurePveBral.get(DateTimeFieldType.minuteOfHour()));
             cell = row.createCell(colId++);
             cell.setCellValue(visitePveBral);
             cell = row.createCell(colId++);
-            cell.setCellValue(((int) ((visitePveBral * 1.0) / nombrePVE * 100)));
+            cell.setCellValue(nombrePVE > 0 ?((int) ((visitePveBral * 1.0) / nombrePVE * 100)): -1);
 
             colId = 1;
             rowId++;
@@ -3501,11 +3536,11 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(nombreparcMixteBrac);
             cell = row.createCell(colId++);
-            cell.setCellValue((nombreparcMixteBrac / nombreMixte));
+            cell.setCellValue(nombreMixte > 0 ?(nombreparcMixteBrac / nombreMixte) : -1);
             cell = row.createCell(colId++);
             cell.setCellValue(nombreparcMixteBral);
             cell = row.createCell(colId++);
-            cell.setCellValue((nombreparcMixteBral / nombreMixte));
+            cell.setCellValue(nombreMixte > 0 ? (nombreparcMixteBral / nombreMixte) : -1);
             double jourMixteBrac = reponseService.jourMoyenEcoule(true, false, debut, fin);
             cell = row.createCell(colId++);
             cell.setCellValue(calculateEcart(jourMixteBrac));
@@ -3518,13 +3553,13 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(visiteMixteBrac);
             cell = row.createCell(colId++);
-            cell.setCellValue(((int) ((visiteMixteBrac * 1.0) / nombreMixte * 100)));
+            cell.setCellValue(nombreMixte > 0 ? ((int) ((visiteMixteBrac * 1.0) / nombreMixte * 100)) : -1);
             cell = row.createCell(colId++);
             cell.setCellValue(heureMixteBral.get(DateTimeFieldType.hourOfDay()) + ":" + heureMixteBral.get(DateTimeFieldType.minuteOfHour()));
             cell = row.createCell(colId++);
             cell.setCellValue(visiteMixteBral);
             cell = row.createCell(colId++);
-            cell.setCellValue(((int) ((visiteMixteBral * 1.0) / nombreMixte * 100)));
+            cell.setCellValue(nombreMixte > 0 ? ((int) ((visiteMixteBral * 1.0) / nombreMixte * 100)) : -1);
 
             colId = 1;
             rowId++;
@@ -3577,7 +3612,7 @@ public class DocumentBean {
             DisponibiliteNumeriqueStat numeriqueStatBgBrac = reponseService.getAllDispoStat(debut, fin, Boolean.FALSE, Boolean.TRUE);
             DisponibiliteNumeriqueStat numeriqueStatBiBral = reponseService.getAllDispoStat(debut, fin, Boolean.TRUE, Boolean.FALSE);
             DisponibiliteNumeriqueStat numeriqueStatBgBral = reponseService.getAllDispoStat(debut, fin, Boolean.FALSE, Boolean.FALSE);
-            
+
             Map<String, Integer> data1 = resultBiBrac.getPveDiEtOr();
             Map<String, Integer> data2 = resultBiBrac.getPveAgEtBr();
             Map<String, Integer> data3 = resultBiBrac.getPve();
@@ -3585,7 +3620,7 @@ public class DocumentBean {
             Map<String, Integer> data5 = resultBiBrac.getPvmAgEtBr();
             Map<String, Integer> data6 = resultBiBrac.getPvm();
             Map<String, Integer> data7 = resultBiBrac.getPdv();
-            
+
             Map<String, Integer> datai1 = resultBgBrac.getPveDiEtOr();
             Map<String, Integer> datai2 = resultBgBrac.getPveAgEtBr();
             Map<String, Integer> datai3 = resultBgBrac.getPve();
@@ -3594,6 +3629,14 @@ public class DocumentBean {
             Map<String, Integer> datai6 = resultBgBrac.getPvm();
             Map<String, Integer> datai7 = resultBgBrac.getPdv();
             
+            Map<String, Integer> datai1a = resultBgBrac.getPveDiEtOr();
+            Map<String, Integer> datai2a = resultBgBrac.getPveAgEtBr();
+            Map<String, Integer> datai3a = resultBgBrac.getPve();
+            Map<String, Integer> datai4a = resultBgBrac.getPvmDiEtOr();
+            Map<String, Integer> datai5a = resultBgBrac.getPvmAgEtBr();
+            Map<String, Integer> datai6a = resultBgBrac.getPvm();
+            Map<String, Integer> datai7a = resultBgBrac.getPdv();
+
             Map<String, Integer> data1a = resultBiBral.getPveDiEtOr();
             Map<String, Integer> data2a = resultBiBral.getPveAgEtBr();
             Map<String, Integer> data3a = resultBiBral.getPve();
@@ -3601,8 +3644,7 @@ public class DocumentBean {
             Map<String, Integer> data5a = resultBiBral.getPvmAgEtBr();
             Map<String, Integer> data6a = resultBiBral.getPvm();
             Map<String, Integer> data7a = resultBiBral.getPdv();
-            
-          
+
             int rowId = 1;
             int colId = 1;
             Row row = sheet.createRow(rowId);
@@ -3637,9 +3679,9 @@ public class DocumentBean {
             colId = 2;
             rowId++;
             row = sheet.createRow(rowId);
-            
+
             BorderStyle border = BorderStyle.THICK;
-            
+
             /* J'entre les noms des bières bracongo*/
             for (Map.Entry<String, Integer> entrySet : data1.entrySet()) {
                 String key = entrySet.getKey();
@@ -3647,11 +3689,11 @@ public class DocumentBean {
                 cell.setCellValue(key + " CL");
                 cell.setCellStyle(myStyle);
             }
-            
+
             cell = row.createCell(colId++);
             cell.setCellValue("TAUX DES PDV D.N. = 1");
             cell.setCellStyle(myStyle3);
-            
+
             /* J'entre les noms des bières bralima*/
             for (Map.Entry<String, Integer> entrySet : data1a.entrySet()) {
                 String key = entrySet.getKey();
@@ -3679,7 +3721,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBrac.getPveDiO() + "%");
             cell.setCellStyle(yellow);
-            
+
             for (Map.Entry<String, Integer> entrySet : data1a.entrySet()) {
                 //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
@@ -3690,7 +3732,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBral.getPveDiO() + "%");
             cell.setCellStyle(yellow);
-            
+
             colId = 1;
             rowId++;
             row = sheet.createRow(rowId);
@@ -3704,7 +3746,7 @@ public class DocumentBean {
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
                 cell.setCellStyle(gold);
-                
+
             }
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBrac.getPveArBz() + "%");
@@ -3716,11 +3758,11 @@ public class DocumentBean {
                 cell.setCellValue(value + "%");
                 cell.setCellStyle(blue);
             }
-            
+
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBral.getPveArBz() + "%");
             cell.setCellStyle(yellow);
-            
+
             colId = 1;
             rowId++;
             row = sheet.createRow(rowId);
@@ -3748,7 +3790,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBral.getPve() + "%");
             cell.setCellStyle(yellow);
-            
+
             colId = 1;
             rowId++;
             row = sheet.createRow(rowId);
@@ -3776,7 +3818,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBral.getPvmDiOr() + "%");
             cell.setCellStyle(yellow);
-            
+
             colId = 1;
             rowId++;
             row = sheet.createRow(rowId);
@@ -3804,7 +3846,7 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBral.getPvmArBz() + "%");
             cell.setCellStyle(yellow);
-            
+
             colId = 1;
             rowId++;
             row = sheet.createRow(rowId);
@@ -3859,18 +3901,487 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(numeriqueStatBiBral.getPdv() + "%");
             cell.setCellStyle(yellow);
-            
+
             /////////////////////////////////////////////////////////////////////
+            rowId = 13;
             colId = 1;
-            rowId += 2;
             row = sheet.createRow(rowId);
             cell = row.createCell(colId);
             cell.setCellValue("");
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId + 1, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId //last column  (0-based)
+            ));
+            colId++;
+            cell = row.createCell(colId);
+            cell.setCellValue("BG BRACONGO");
+            cell.setCellStyle(gold);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId + nombreBgBrac //last column  (0-based)
+            ));
+            colId = colId + nombreBibra + 1;
+            cell = row.createCell(colId);
+            cell.setCellValue("BG BRALIMA");
+            cell.setCellStyle(blue);
+            sheet.addMergedRegion(new CellRangeAddress(
+                    rowId, //first row (0-based)
+                    rowId, //last row  (0-based)
+                    colId, //first column (0-based)
+                    colId + nombreBgBral //last column  (0-based)
+            ));
+            colId = 2;
+            rowId++;
+            row = sheet.createRow(rowId);
+
             
+            /* J'entre les noms des bières bracongo*/
+            for (Map.Entry<String, Integer> entrySet : datai1.entrySet()) {
+                String key = entrySet.getKey();
+                cell = row.createCell(colId++);
+                cell.setCellValue(key + " CL");
+                cell.setCellStyle(myStyle);
+            }
+
+            cell = row.createCell(colId++);
+            cell.setCellValue("TAUX DES PDV D.N. = 1");
+            cell.setCellStyle(myStyle3);
+
+            /* J'entre les noms des bières bralima*/
+            for (Map.Entry<String, Integer> entrySet : datai1a.entrySet()) {
+                String key = entrySet.getKey();
+                cell = row.createCell(colId++);
+                cell.setCellValue(key + " CL");
+                cell.setCellStyle(myStyle2);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue("TAUX DES PDV D.N. = 1");
+            cell.setCellStyle(myStyle3);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE (Di & Or)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai1.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPveDiO() + "%");
+            cell.setCellStyle(yellow);
+
+            for (Map.Entry<String, Integer> entrySet : datai1a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPveDiO() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE (Ag & Br)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai2.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPveArBz() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai2a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPveArBz() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("PVE");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve */
+            for (Map.Entry<String, Integer> entrySet : datai3.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPve() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai3a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPve() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE (Di & Or)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai4.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPvmDiOr() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai4a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPvmDiOr() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE (Ag & Br)");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pvm Ag et Bz*/
+            for (Map.Entry<String, Integer> entrySet : datai5.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPvmArBz() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai5a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPvmArBz() + "%");
+            cell.setCellStyle(yellow);
+
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("MIXTE");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai6.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPvm() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai6a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPvm() + "%");
+            cell.setCellStyle(yellow);
+            colId = 1;
+            rowId++;
+            row = sheet.createRow(rowId);
+            cell = row.createCell(colId++);
+            cell.setCellValue("GLOBAL");
+            cell.setCellStyle(grey);
+            /* J'entre les données des bières bracongo pve di et Or*/
+            for (Map.Entry<String, Integer> entrySet : datai7.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(gold);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBrac.getPdv() + "%");
+            cell.setCellStyle(yellow);
+            for (Map.Entry<String, Integer> entrySet : datai7a.entrySet()) {
+                //  String key = entrySet.getKey();
+                Integer value = entrySet.getValue();
+                cell = row.createCell(colId++);
+                cell.setCellValue(value + "%");
+                cell.setCellStyle(blue);
+            }
+            cell = row.createCell(colId++);
+            cell.setCellValue(numeriqueStatBgBral.getPdv() + "%");
+            cell.setCellStyle(yellow);
+
         } catch (ServiceException ex) {
             Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-   
+
+    private void produceExcelAction(XSSFSheet sheet) {
+
+        int rowId = 1;
+        int colId = 1;
+        Row row = sheet.createRow(rowId);
+        Cell cell = row.createCell(colId);
+        cell.setCellValue("Action");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+        colId += 4;
+        
+        cell = row.createCell(colId);
+        cell.setCellValue("Qui");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+        
+        colId = 1;
+        rowId++;
+        StringBuilder stb = new StringBuilder();
+        List<String> value = ActionParseUtil.besoinContrat(actions);
+        stb.append("BESOIN DE CONTRAT");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.besoinRenouvellementContrat(actions);
+        stb.append("PDV AYANT BESOIN DE RENOUVELLEMENT DE CONTRATS");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.contratPartiel(actions);
+        stb.append("CONTRATS EXÉCUTÉS PARTIELLEMENT");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.ReclamationRemise(actions);
+        stb.append("RÉCLAMATION REMISE");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvFerme(actions);
+        stb.append("PDV FERMÉS, NON OPÉRATIONNELS ET MATÉRIELS À RECUPÉRER");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvSollicitantConversion(actions);
+        stb.append("PDV MIXTES SOLLICITANT LA CONVERSION EN PVE");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.besoin3BacContre1(actions);
+        stb.append("PDV AYANT BESOIN DE L'OPÉRATION 3 BACS CONTRE 1");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvDemenage(actions);
+        stb.append("PDV AYANT DÉMÉNAGÉ SANS PREVENIR BRACONGO --> LES RETROUVER");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvRenforcer(actions);
+        stb.append("PDV À RENFORCER EN CAPACITÉ D'ACCUEIL");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvBesoinPlv(actions);
+        stb.append("BESOIN DE PLV");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvConsignation(actions);
+        stb.append("BESOIN DE CONSIGNATION EMBALLAGES");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvAdresseErrone(actions);
+        stb.append("PDV AVEC ADRESSES ÉRRONNÉES");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvBesoin5Chaises(actions);
+        stb.append("PDV AYANT BESOIN DE L'OPÉRATION 5 CHAISES CONTRE 1");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+        colId = 1;
+        rowId++;
+        stb = new StringBuilder();
+        value = ActionParseUtil.pdvPhnCapsule(actions);
+        stb.append("PDV AVEC PHN CAPSULÉS");
+        stb.append("\n");
+        addActioncell(rowId, colId, value,sheet, stb.toString());
+        
+
+    }
+    
+    private void addActioncell(int rowId, int colId, List<String> value, XSSFSheet sheet, String header){
+       Row row = sheet.createRow(rowId);
+        Cell cell = row.createCell(colId);
+        StringBuilder stb = new StringBuilder();
+        stb.append(header);
+        stb.append(value.get(0));
+        cell.setCellValue(stb.toString());
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+        colId += 4;        
+        cell = row.createCell(colId);
+        cell.setCellValue(value.get(1));
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+    }
+
+    private void produceExcelCommentaire(XSSFSheet sheet){
+        int rowId = 1;
+        int colId = 1;
+        Row row = sheet.createRow(rowId);
+        Cell cell = row.createCell(colId);
+        cell.setCellValue("Commentaires");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+        colId += 4;
+        
+        cell = row.createCell(colId);
+        cell.setCellValue("Point de Vente");
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+        
+        for (Commentaire commentaire : commentaires) {
+            
+        rowId  ++;
+        colId = 1;
+        row = sheet.createRow(rowId);
+        cell = row.createCell(colId);
+        cell.setCellValue(commentaire.getContenu());
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 3 //last column  (0-based)
+        ));
+        colId += 4;
+        
+        cell = row.createCell(colId);
+        StringBuilder stb = new StringBuilder();
+        stb.append(commentaire.getReponse().getPointDeVente().getNom());
+        stb.append(" ");
+        stb.append(commentaire.getReponse().getPointDeVente().getCircuit().getZone().getSecteur().getCode());
+        stb.append("-");
+        stb.append(commentaire.getReponse().getPointDeVente().getCircuit().getCode());
+        cell.setCellValue(stb.toString());
+        sheet.addMergedRegion(new CellRangeAddress(
+                rowId, //first row (0-based)
+                rowId, //last row  (0-based)
+                colId, //first column (0-based)
+                colId + 1 //last column  (0-based)
+        ));
+        }
+    }
 }

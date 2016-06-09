@@ -165,3 +165,49 @@ background-color:black;
    background: rgba(54, 25, 25, .5);
    z-index: 1000;
 }
+
+
+
+.ui-panel .ui-panel-titlebar {
+    padding: 4px 10px 5px 10px !important;
+    font-size: 14px;
+    color: #ffffff;
+    z-index: 100;
+    border-radius: 3px !important;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    background: #3D3D3D;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5A5A5A', endColorstr='#3D3D3D', GradientType=0 );
+    font-family: 'titillium_webregular' !important;
+}
+
+
+.ui-datagrid .ui-datagrid-header {
+    padding: 4px 10px 5px 10px !important;
+    font-size: 14px;
+    color: #ffffff;
+    z-index: 100;
+    border-radius: 3px !important;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    background: #3D3D3D;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5A5A5A', endColorstr='#3D3D3D', GradientType=0 );
+    font-family: 'titillium_webregular' !important;
+}
+
+
+.ui-datatable .ui-datagrid-header, .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-subtable-header, .ui-datatable .ui-datatable-summaryrow {
+    color: #ffffff !important;
+}
+.ui-datatable .ui-datagrid-header, .ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-subtable-header, .ui-datatable .ui-datatable-summaryrow {
+    padding: 4px 10px 5px 10px !important;
+    font-size: 14px;
+    color: #ffffff;
+    z-index: 100;
+    border-radius: 3px !important;
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    background: #3D3D3D;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5A5A5A', endColorstr='#3D3D3D', GradientType=0 );
+    font-family: 'titillium_webregular' !important;
+}

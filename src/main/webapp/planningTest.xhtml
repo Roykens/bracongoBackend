@@ -48,7 +48,7 @@
                                 <h:panelGroup >
                                     <h:panelGrid  class="rightPosition"  id="displaySave" columns="2">
                                         <h:outputText value="Enqueteur : "/> 
-                                        <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="startsWith">
+                                        <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="startsWith" style="height: 30px; width: 90%">
                                             <f:selectItems value="#{planningBean.enqueteurs}" var="enqueteur" itemLabel="#{enqueteur.nom}" itemValue="#{enqueteur.id}" />
                                         </p:selectOneMenu>
                                     </h:panelGrid>  
@@ -167,7 +167,7 @@
                             </f:facet>
                             <p:column >                               
                                 <p:dataTable  id="e"  
-                                              emptyMessage="Aucune Evaluation n'est enregistrée" 
+                                              emptyMessage="Aucune PDV n'est enregistré" 
                                               var="planingPvd" 
                                               value="#{planningBean.getPlanningPdvs(car)}" 
                                               rowKey="#{planingPvd.id}" 

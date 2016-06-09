@@ -79,6 +79,11 @@ public class ActionServiceImpl implements IActionService {
 
     @Override
     public List<Action> getByDates(Date debut, Date fin) throws ServiceException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return actionDao.getAllActionByDates(debut, fin);
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ActionServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return Collections.EMPTY_LIST;
     }
 }

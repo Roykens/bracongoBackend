@@ -41,6 +41,8 @@ public class ReponseProjection {
 
     private int nombrePhn;
 
+    private String commentaire;
+    
     private List<BoissonProjection> boissonProjections;
 
     private List<PlvProjection> plvProjections;
@@ -184,6 +186,16 @@ public class ReponseProjection {
     public void setAction(Action action) {
         this.action = action;
     }
+
+    public String getCommentaire() {
+        return commentaire;
+    }
+
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
+    }
+    
+    
 
     @Override
     public String toString() {

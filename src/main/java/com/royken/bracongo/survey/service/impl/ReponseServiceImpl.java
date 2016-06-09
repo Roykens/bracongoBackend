@@ -3,6 +3,7 @@ package com.royken.bracongo.survey.service.impl;
 import com.royken.bracongo.survey.dao.IActionDao;
 import com.royken.bracongo.survey.dao.IBoissonDao;
 import com.royken.bracongo.survey.dao.IBoissonInfosDao;
+import com.royken.bracongo.survey.dao.ICommentaireDao;
 import com.royken.bracongo.survey.dao.IDisponibiliteBoissonDao;
 import com.royken.bracongo.survey.dao.IEtatMaterielDao;
 import com.royken.bracongo.survey.dao.IEtatPlvDao;
@@ -19,6 +20,7 @@ import com.royken.bracongo.survey.dao.IsecteurDao;
 import com.royken.bracongo.survey.entities.Action;
 import com.royken.bracongo.survey.entities.Boisson;
 import com.royken.bracongo.survey.entities.BoissonInfos;
+import com.royken.bracongo.survey.entities.Commentaire;
 import com.royken.bracongo.survey.entities.EtatMateriel;
 import com.royken.bracongo.survey.entities.EtatPlv;
 import com.royken.bracongo.survey.entities.Format;
@@ -115,6 +117,9 @@ public class ReponseServiceImpl implements IReponseService {
     
     @Inject
     private IBoissonDao boissonDao;
+    
+    @Inject
+    private ICommentaireDao commentaireDao;
 
     public IReponseDao getReponseDao() {
         return reponseDao;
@@ -220,6 +225,40 @@ public class ReponseServiceImpl implements IReponseService {
         this.formatBoissonDao = formatBoissonDao;
     }
 
+    public IFormatDao getFormatDao() {
+        return formatDao;
+    }
+
+    public void setFormatDao(IFormatDao formatDao) {
+        this.formatDao = formatDao;
+    }
+
+    public IActionDao getActionDao() {
+        return actionDao;
+    }
+
+    public void setActionDao(IActionDao actionDao) {
+        this.actionDao = actionDao;
+    }
+
+    public IBoissonDao getBoissonDao() {
+        return boissonDao;
+    }
+
+    public void setBoissonDao(IBoissonDao boissonDao) {
+        this.boissonDao = boissonDao;
+    }
+
+    public ICommentaireDao getCommentaireDao() {
+        return commentaireDao;
+    }
+
+    public void setCommentaireDao(ICommentaireDao commentaireDao) {
+        this.commentaireDao = commentaireDao;
+    }
+    
+    
+
     @Override
     public Reponse saveOrUpdateReponse(Reponse reponse) throws ServiceException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -275,6 +314,18 @@ public class ReponseServiceImpl implements IReponseService {
             saveEtatMateriel(reponse2, reponseProjection.getMaterielProjections());
             saveEtatPlv(reponse2, reponseProjection.getPlvProjections());
             saveAction(reponse2, reponseProjection.getAction());
+            saveCommentaire(reponse, reponseProjection.getCommentaire());
+        } catch (DataAccessException ex) {
+            Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void saveCommentaire(Reponse reponse, String commentaire){
+        try {
+            Commentaire commentaire1 = new Commentaire();
+            commentaire1.setReponse(reponse);
+            commentaire1.setContenu(commentaire);
+            commentaireDao.create(commentaire1);
         } catch (DataAccessException ex) {
             Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
