@@ -239,7 +239,7 @@ public class DocumentBean {
     public DocumentBean() {
     }
 
-    public void produceDocument() {
+    public void produceDocument() throws ArithmeticException{
 
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -3572,11 +3572,11 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue((nombreparcPveBrac + nombreparcMixteBrac));
             cell = row.createCell(colId++);
-            cell.setCellValue((nombreparcPveBrac + nombreparcMixteBrac) / (nombreMixte + nombrePVE));
+            cell.setCellValue(((nombreMixte + nombrePVE) > 0) ?(nombreparcPveBrac + nombreparcMixteBrac) / (nombreMixte + nombrePVE) : -1);
             cell = row.createCell(colId++);
             cell.setCellValue((nombreparcPveBral + nombreparcMixteBral));
             cell = row.createCell(colId++);
-            cell.setCellValue((nombreparcPveBral + nombreparcMixteBral) / (nombreMixte + nombrePVE));
+            cell.setCellValue((nombreMixte + nombrePVE) > 0 ?(nombreparcPveBral + nombreparcMixteBral) / (nombreMixte + nombrePVE) : - 1);
             double jourGlobalBrac = reponseService.jourMoyenEcoule(true, null, debut, fin);
             cell = row.createCell(colId++);
             cell.setCellValue(calculateEcart(jourGlobalBrac));
@@ -3589,13 +3589,13 @@ public class DocumentBean {
             cell = row.createCell(colId++);
             cell.setCellValue(visiteGlobalBrac);
             cell = row.createCell(colId++);
-            cell.setCellValue(((int) ((visiteGlobalBrac * 1.0) / (nombrePVE + nombreMixte) * 100)));
+            cell.setCellValue((nombrePVE + nombreMixte) > 0 ?((int) ((visiteGlobalBrac * 1.0) / (nombrePVE + nombreMixte) * 100)) : - 1);
             cell = row.createCell(colId++);
             cell.setCellValue(heureGlobalBral.get(DateTimeFieldType.hourOfDay()) + ":" + heureGlobalBral.get(DateTimeFieldType.minuteOfHour()));
             cell = row.createCell(colId++);
             cell.setCellValue(visiteGlobalBral);
             cell = row.createCell(colId++);
-            cell.setCellValue(((int) ((visiteGlobalBral * 1.0) / (nombrePVE + nombreMixte) * 100)));
+            cell.setCellValue((nombrePVE + nombreMixte) > 0 ?((int) ((visiteGlobalBral * 1.0) / (nombrePVE + nombreMixte) * 100)) : - 1);
 
         } catch (ServiceException ex) {
             Logger.getLogger(DocumentBean.class.getName()).log(Level.SEVERE, null, ex);
