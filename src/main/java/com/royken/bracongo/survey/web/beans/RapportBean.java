@@ -77,11 +77,12 @@ public class RapportBean {
     public int getSecteur1() {
         try {
             secteurs = secteurService.findAllSecteur();
-            secteur1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), null, null, null, null);
+            if(secteurs.size() > 3){
+                secteur1 = reponseService.countReponseGlobalStat(null, secteurs.get(0), null, null, null, null);
                 secteur2 = reponseService.countReponseGlobalStat(null, secteurs.get(1), null, null, null, null);
                 secteur3 = reponseService.countReponseGlobalStat(null, secteurs.get(2), null, null, null, null);
                 secteur4 = reponseService.countReponseGlobalStat(null, secteurs.get(3), null, null, null, null);
-
+            }
             
         } catch (ServiceException ex) {
             Logger.getLogger(RapportBean.class.getName()).log(Level.SEVERE, null, ex);
