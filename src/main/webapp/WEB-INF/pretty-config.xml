@@ -6,10 +6,12 @@
 	<url-mapping id="accueil">
 		<pattern value="/accueil" />
 		<view-id value="/myDashboard.xhtml" />
+                <view-id value="/faces/myDashboard.xhtml" />
 	</url-mapping>
         <url-mapping id="boissons">
 		<pattern value="/boissons" />
 		<view-id value="/toto.xhtml" />
+                <view-id value="/faces/toto.xhtml" />
 	</url-mapping>
         <url-mapping id="reporting">
 		<pattern value="/reporting" />

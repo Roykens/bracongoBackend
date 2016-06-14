@@ -3,6 +3,7 @@ package com.royken.bracongo.survey.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -46,6 +47,10 @@ public class Planning implements Serializable{
     
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date datePlaning;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -103,6 +108,16 @@ public class Planning implements Serializable{
         this.planningPdvs = planningPdvs;
     }
 
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+    
+    
+    
     @Override
     public String toString() {
         return "Planning{" + "version=" + version + ", id=" + id + ", enqueteur=" + enqueteur + ", datePlaning=" + datePlaning + '}';

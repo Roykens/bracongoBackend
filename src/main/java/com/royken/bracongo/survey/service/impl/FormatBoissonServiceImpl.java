@@ -68,7 +68,10 @@ public class FormatBoissonServiceImpl implements IFormatBoissonService{
         try {
             FormatBoisson formatBoisson = formatBoissonDao.findById(id);
             if(formatBoisson != null){
-                formatBoissonDao.delete(formatBoisson);
+                formatBoisson.setActive(0);
+                System.out.println("LLLLLLLLLLL");
+                System.out.println(formatBoisson);
+                formatBoissonDao.update(formatBoisson);
             }
         } catch (DataAccessException ex) {
             Logger.getLogger(FormatBoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -78,7 +81,7 @@ public class FormatBoissonServiceImpl implements IFormatBoissonService{
     @Override
     public List<FormatBoisson> findAllFormatBoisson() throws ServiceException {
         try {
-            return formatBoissonDao.findAll();
+            return formatBoissonDao.findAllActive();
         } catch (DataAccessException ex) {
             Logger.getLogger(FormatBoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

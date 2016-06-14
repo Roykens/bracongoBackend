@@ -228,7 +228,7 @@
                                         </p:commandLink>
                                         <p:commandLink id="deleteBiBra" value="|Supprimer" onclick="PF('dlgDelete1BiBra').show()"  update="tabview:fs1BiBra:ds1BiBra" >  
                                             <f:setPropertyActionListener  value="#{car}" target="#{boissonBean.boisson}"/>
-                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>
+                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson1}"/>
                                         </p:commandLink> 
 
                                     </p:column>        

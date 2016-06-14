@@ -3,6 +3,7 @@ package com.royken.bracongo.survey.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,6 +41,10 @@ public class Commentaire implements Serializable {
 
     @OneToMany(mappedBy = "commentaire")
     private List<Images> images;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -80,4 +85,13 @@ public class Commentaire implements Serializable {
     public void setReponse(Reponse reponse) {
         this.reponse = reponse;
     }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+    
 }

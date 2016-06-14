@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -55,6 +57,10 @@ public class EtatMateriel implements Serializable{
     
     @ManyToOne
     private Materiel materiel;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -142,6 +148,14 @@ public class EtatMateriel implements Serializable{
 
     public void setJourCasse(int jourCasse) {
         this.jourCasse = jourCasse;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     

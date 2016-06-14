@@ -1,6 +1,7 @@
 package com.royken.bracongo.survey.entities;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +11,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +34,10 @@ public class PlanningPdv implements Serializable{
     
     @ManyToOne
     private PointDeVente pointDeVente;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -64,6 +70,16 @@ public class PlanningPdv implements Serializable{
     public void setPointDeVente(PointDeVente pointDeVente) {
         this.pointDeVente = pointDeVente;
     }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+    
+    
 
     @Override
     public String toString() {

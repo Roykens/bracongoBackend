@@ -58,7 +58,7 @@ public class FormatBoissonDaoImpl extends GenericDao<FormatBoisson, Long> implem
         CriteriaBuilder cb = getManager().getCriteriaBuilder();
         CriteriaQuery<FormatBoisson> cq = cb.createQuery(FormatBoisson.class);
         Root<FormatBoisson> fmRoot = cq.from(FormatBoisson.class);
-        cq.where(cb.equal(fmRoot.get(FormatBoisson_.boisson), boisson));
+        cq.where(cb.and(cb.equal(fmRoot.get(FormatBoisson_.boisson), boisson), cb.equal(fmRoot.get(FormatBoisson_.active), 1)));
         return getManager().createQuery(cq).getResultList();
     }
 
@@ -85,6 +85,15 @@ public class FormatBoissonDaoImpl extends GenericDao<FormatBoisson, Long> implem
          if (predicates.size() > 0) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
         }
+        return getManager().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<FormatBoisson> findAllActive() throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<FormatBoisson> cq = cb.createQuery(FormatBoisson.class);
+        Root<FormatBoisson> formRoot = cq.from(FormatBoisson.class);
+        cq.where(cb.equal(formRoot.get(FormatBoisson_.active), 1));
         return getManager().createQuery(cq).getResultList();
     }
 

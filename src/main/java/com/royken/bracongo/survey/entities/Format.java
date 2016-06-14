@@ -3,6 +3,7 @@ package com.royken.bracongo.survey.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,6 +36,10 @@ public class Format implements Serializable{
     
     @Basic
     private int volume;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -66,6 +72,16 @@ public class Format implements Serializable{
     public void setFormatBoissons(List<FormatBoisson> formatBoissons) {
         this.formatBoissons = formatBoissons;
     }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+    
+    
 
     @Override
     public String toString() {

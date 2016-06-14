@@ -35,6 +35,10 @@ public class PLV implements Serializable{
     
     @Column
     private String nom;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -66,6 +70,14 @@ public class PLV implements Serializable{
 
     public void setEtatPlvs(List<EtatPlv> etatPlvs) {
         this.etatPlvs = etatPlvs;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     

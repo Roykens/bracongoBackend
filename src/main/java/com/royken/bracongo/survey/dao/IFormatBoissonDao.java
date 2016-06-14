@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface IFormatBoissonDao extends IGenericDao<FormatBoisson, Long>{
     
+    public List<FormatBoisson> findAllActive() throws DataAccessException;
+    
     public List<FormatBoisson> findAllByTypeForEnterprise(Boolean bracongo, TypeBoisson typeBoisson)throws DataAccessException;
     
     public FormatBoisson findByBoissonAndFormat(Boisson boisson, Format format) throws DataAccessException;

@@ -229,7 +229,7 @@
                                         </p:commandLink> 
                                         <p:commandLink id="deleteBgBra" value="|Supprimer" onclick="PF('dlgDelete1BgBra').show()"  update="tabview:fs1BgBra:ds1BgBra" >  
                                             <f:setPropertyActionListener  value="#{bgBral}" target="#{boissonBean.boisson}"/>
-                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>
+                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson1}"/>
                                         </p:commandLink> 
 
                                     </p:column>        

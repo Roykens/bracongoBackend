@@ -115,6 +115,7 @@
                                     <h:panelGrid  class="rightPosition"  id="dsBiBCongo" columns="1">   
                                         <h:outputLabel value="voulez-vous vraiment supprimer cette boisson ?"/>
                                         <h:inputHidden value="#{boissonBean.boisson.id}"  />
+                                        
                                         <h:inputHidden value="#{boissonBean.boisson.version}"  />
                                         <h:inputHidden value="#{boissonBean.boisson.isBracongo}" />
                                         <h:inputHidden value="#{boissonBean.boisson.typeBoisson}"  />
@@ -139,6 +140,7 @@
                                         <h:inputHidden value="#{boissonBean.boisson.version}"  />
                                         <h:inputHidden value="#{boissonBean.boisson.isBracongo}" />
                                         <h:inputHidden value="#{boissonBean.formatBoisson.id}"  />
+                                        <h:inputHidden value="#{boissonBean.formatBoisson.active}"  />
                                         <h:inputHidden value="#{boissonBean.formatBoisson.version}"  />
                                         <h:inputHidden value="#{boissonBean.format.id}"  />
                                     </h:panelGrid>  
@@ -229,7 +231,7 @@
                                         </p:commandLink>
                                         <p:commandLink id="deleteBiBCongo" value="|Supprimer" onclick="PF('dlgDelete1BiBCongo').show()"  update="tabview:fs1BiBCongo:ds1BiBCongo" >  
                                             <f:setPropertyActionListener  value="#{biBracongo}" target="#{boissonBean.boisson}"/>
-                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson}"/>
+                                            <f:setPropertyActionListener value="#{formatBoisson}" target="#{boissonBean.formatBoisson1}"/>
                                         </p:commandLink> 
 
                                     </p:column>        

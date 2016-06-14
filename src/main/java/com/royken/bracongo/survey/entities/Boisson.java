@@ -42,6 +42,10 @@ public class Boisson implements Serializable{
     
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean isBracongo;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -89,6 +93,14 @@ public class Boisson implements Serializable{
 
     public void setFormatBoissons(List<FormatBoisson> formatBoissons) {
         this.formatBoissons = formatBoissons;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     

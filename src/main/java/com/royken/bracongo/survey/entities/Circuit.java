@@ -42,6 +42,10 @@ public class Circuit implements Serializable{
     @ManyToOne
     private Zone zone;
 
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
+    
     public int getVersion() {
         return version;
     }
@@ -82,6 +86,16 @@ public class Circuit implements Serializable{
         this.zone = zone;
     }
 
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Circuit{" + "version=" + version + ", id=" + id + ", code=" + code + ", zone=" + zone + '}';

@@ -36,6 +36,10 @@ public class Materiel implements Serializable{
     
     @Column(unique = true)
     private String nom;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -68,6 +72,15 @@ public class Materiel implements Serializable{
     public void setEtatMateriels(List<EtatMateriel> etatMateriels) {
         this.etatMateriels = etatMateriels;
     }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+    
     
     
 }

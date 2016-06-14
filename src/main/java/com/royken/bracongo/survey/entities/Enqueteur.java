@@ -55,6 +55,10 @@ public class Enqueteur implements Serializable{
     
     @OneToMany(mappedBy = "enqueteur")
     private List<Reponse> reponses;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -142,6 +146,14 @@ public class Enqueteur implements Serializable{
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     

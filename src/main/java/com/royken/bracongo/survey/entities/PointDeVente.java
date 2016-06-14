@@ -70,6 +70,10 @@ public class PointDeVente implements Serializable{
     @XmlTransient
     @OneToMany(mappedBy = "pointDeVente")
     private List<Reponse> reponses;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -173,6 +177,14 @@ public class PointDeVente implements Serializable{
 
     public void setPlanningPdvs(List<PlanningPdv> planningPdvs) {
         this.planningPdvs = planningPdvs;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     

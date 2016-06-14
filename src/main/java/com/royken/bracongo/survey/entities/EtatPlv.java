@@ -14,6 +14,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,6 +49,10 @@ public class EtatPlv implements Serializable{
     
     @OneToOne
     private Reponse reponse;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
     
 
     public int getVersion() {
@@ -112,6 +117,14 @@ public class EtatPlv implements Serializable{
 
     public void setReponse(Reponse reponse) {
         this.reponse = reponse;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     

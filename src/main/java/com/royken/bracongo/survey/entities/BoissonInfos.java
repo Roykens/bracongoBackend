@@ -12,6 +12,7 @@ import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,6 +44,10 @@ public class BoissonInfos implements Serializable{
     
     @ManyToOne
     private Reponse reponse;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -103,6 +108,14 @@ public class BoissonInfos implements Serializable{
     @Override
     public String toString() {
         return "BoissonInfos{" + "id=" + id + ", disponibilite=" + disponibilite + ", prixPdv=" + prixPdv + ", stockChaud=" + stockChaud + ", formatBoisson=" + formatBoisson + '}';
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
     
     

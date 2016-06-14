@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -96,6 +97,10 @@ public class Reponse implements Serializable {
 
     @OneToOne
     private Planning planning;
+    
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
 
     public int getVersion() {
         return version;
@@ -279,6 +284,16 @@ public class Reponse implements Serializable {
     public void setCommentaire(Commentaire commentaire) {
         this.commentaire = commentaire;
     }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+    
+    
 
     
 }

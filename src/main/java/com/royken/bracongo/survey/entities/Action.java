@@ -82,6 +82,10 @@ public class Action implements Serializable{
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean phnCapsule;
     
+    @XmlTransient
+    @Column(columnDefinition = "int default 1")
+    private int active;
+    
     public Long getId() {
         return id;
     }
@@ -230,6 +234,15 @@ public class Action implements Serializable{
     public String toString() {
         return "Action{" + "reponse=" + reponse + ", besoinDeContrat=" + besoinDeContrat + ", besoinRenouvellementContrat=" + besoinRenouvellementContrat + ", contratPartiel=" + contratPartiel + ", reclamationRemise=" + reclamationRemise + ", fermeNonOperationel=" + fermeNonOperationel + ", mixteSollicitantCoversion=" + mixteSollicitantCoversion + ", besoinOperation3Bac1=" + besoinOperation3Bac1 + ", nombreBacs=" + nombreBacs + ", demenageSansPrevenir=" + demenageSansPrevenir + ", renforcerEnCapacite=" + renforcerEnCapacite + ", besoinPlv=" + besoinPlv + ", besoinConsignationEmballage=" + besoinConsignationEmballage + ", adresseErronee=" + adresseErronee + ", besoin5ChaisesContre1=" + besoin5ChaisesContre1 + ", phnCapsule=" + phnCapsule + '}';
     }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
+    
     
     
     
