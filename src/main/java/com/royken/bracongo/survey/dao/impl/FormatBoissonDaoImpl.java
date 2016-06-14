@@ -36,6 +36,7 @@ public class FormatBoissonDaoImpl extends GenericDao<FormatBoisson, Long> implem
         if(typeBoisson != null){
             predicates.add(cb.equal(boissonPath.get(Boisson_.typeBoisson), typeBoisson));
         }
+        predicates.add(cb.equal(fbRoot.get(FormatBoisson_.active), 1));
         
          cq.select(fbRoot).orderBy(cb.asc(boissonPath.get(Boisson_.nom)));
         if (predicates.size() > 0) {
