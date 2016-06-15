@@ -247,6 +247,7 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
                                                     if (row.getCell(8) != null) {
                                                         pointDeVente.setTypeRegime(TypeRegime.valueOf(row.getCell(8).getStringCellValue() + ""));
                                                         try {
+                                                            pointDeVente.setActive(1);
                                                             pointDeVenteDao.create(pointDeVente);
                                                             count++;
                                                         } catch (Exception e) {

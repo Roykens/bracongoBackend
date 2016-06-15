@@ -350,7 +350,7 @@ public class RapportBean {
             for (Map.Entry<String, Integer> entrySet : data1.entrySet()) {
                 String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
-                pveDiOr.set(key, value);
+                pveDiOr.set(key, value == -1 ? 0 : value);
             }
 
             Map<String, Integer> data2 = resultBiBrac.getPveAgEtBr();
@@ -359,7 +359,7 @@ public class RapportBean {
             for (Map.Entry<String, Integer> entrySet : data2.entrySet()) {
                 String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
-                pveAgBr.set(key, value);
+                pveAgBr.set(key, value == -1 ? 0 : value);
             }
 
             Map<String, Integer> data3 = resultBiBrac.getPvmDiEtOr();
@@ -368,7 +368,7 @@ public class RapportBean {
             for (Map.Entry<String, Integer> entrySet : data3.entrySet()) {
                 String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
-                pvmDiOr.set(key, value);
+                pvmDiOr.set(key, value == -1 ? 0 : value);
             }
 
             Map<String, Integer> data4 = resultBiBrac.getPvmAgEtBr();
@@ -377,7 +377,7 @@ public class RapportBean {
             for (Map.Entry<String, Integer> entrySet : data4.entrySet()) {
                 String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
-                pvmAgBr.set(key, value);
+                pvmAgBr.set(key, value == -1 ? 0 : value);
             }
             model2.addSeries(pveDiOr);
             model2.addSeries(pveAgBr);
