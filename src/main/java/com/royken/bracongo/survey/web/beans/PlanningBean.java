@@ -248,6 +248,7 @@ public class PlanningBean implements Serializable {
         if (planning != null) {
             planning.setDatePlaning(new Date());
             planning.setEnqueteur(enqueteurService.findEnqueteurById(idEnqueteur));
+            planning.setActive(1);
             planningService.saveOrUpdatePlanning(planning);
             if (planning.getId() == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Operation reussie", "Le planning a été mis à jour "));

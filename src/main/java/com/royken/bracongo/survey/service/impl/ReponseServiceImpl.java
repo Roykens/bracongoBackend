@@ -313,6 +313,7 @@ public class ReponseServiceImpl implements IReponseService {
             reponse.setSrdBralimba(reponseProjection.isSrdBral() == true ? ReponseValue.OUI : ReponseValue.NON);
             reponse.setParcEmballageBrac(reponseProjection.getParcEmballageBracongo());
             reponse.setParcEmballageBral(reponseProjection.getParcEmballageBralima());
+            reponse.setActive(1);
             reponseDao.create(reponse);
             Reponse reponse2 = reponseDao.findByPlanningAndPdv(planning, pointDeVente);
             saveBoissonInfos(reponse2, reponseProjection.getBoissonProjections());

@@ -45,7 +45,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         CriteriaBuilder cb = getManager().getCriteriaBuilder();
         CriteriaQuery<Reponse> cq = cb.createQuery(Reponse.class);
         Root<Reponse> repRoot = cq.from(Reponse.class);
-        cq.where(cb.between(repRoot.get(Reponse_.heureDeVisite), debut, fin));
+        cq.where(cb.and(cb.between(repRoot.get(Reponse_.heureDeVisite), debut, fin),cb.equal(repRoot.get(Reponse_.active), 1)));
         return getManager().createQuery(cq).getResultList();
     }
 
@@ -76,7 +76,8 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
                 predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
             }
         }
-
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
+        
         if (planning != null) {
             predicates.add(cb.equal(rpsRoot.get(Reponse_.planning), planning));
         }
@@ -175,6 +176,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
                 predicates.add(cb.equal(boisPath.get(Boisson_.typeBoisson), TypeBoisson.BG));
             }
         }
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
         if (bracongo != null) {
             predicates.add(cb.equal(boisPath.get(Boisson_.isBracongo), bracongo));
         }
@@ -245,6 +247,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
                 predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
             }
         }
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
 
         if (DiEtOr != null) {
             if (DiEtOr) {
@@ -334,7 +337,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         if(debut != null && fin != null){
             predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
         }
-        
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
         if(pve != null){
             predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), pve ? TypeRegime.PVE:TypeRegime.Mixte));
         }
@@ -373,6 +376,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         if(debut != null && fin != null){
             predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
         }
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
         
         if(pve != null){
             predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), pve ? TypeRegime.PVE:TypeRegime.Mixte));
@@ -416,7 +420,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         if(debut != null && fin != null){
             predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
         }
-        
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
         if(pve != null){
             if(pve){
                 predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), TypeRegime.PVE));
@@ -456,7 +460,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         if(debut != null && fin != null){
             predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
         }
-        
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
         if(pve != null){
             if(pve){
                 predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), TypeRegime.PVE));
@@ -503,6 +507,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
                 predicates.add(cb.between(rpsPath.get(Reponse_.heureDeVisite), debut, fin));
             }
         }
+        predicates.add(cb.equal(rpsPath.get(Reponse_.active), 1));
         predicates.add(cb.equal(boisInfoRoot.get(BoissonInfos_.formatBoisson), formatBoisson));
 
         if (pve != null) {
@@ -552,6 +557,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
             predicates.add(cb.equal(toto.get(BoissonInfos_.formatBoisson), formatBoisson));
             predicates.add(cb.equal(formPat.get(FormatBoisson_.active), 1));
         }
+        predicates.add(cb.equal(rpsRoot.get(Reponse_.active), 1));
         predicates.add(cb.gt(toto.get(BoissonInfos_.stockChaud), 0));
         if (debut != null && fin != null) {
             predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
