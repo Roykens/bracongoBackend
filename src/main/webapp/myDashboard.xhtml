@@ -107,7 +107,8 @@
                 <div class="EmptyBox10"></div>
                 
                     <div class="ContainerIndent">
-                        <p:panel style="min-height:400px;">
+                        <h:form>
+                        <p:panel style="min-height:400px;" id="graphe">
                             <div class="Container100 Responsive Fs20">
                                 <i class="icon-chart-bar"></i> Disponibilité Boisson
                             </div>
@@ -115,6 +116,8 @@
                                 <p:chart type="bar" model="#{rapportBean.model2}" style="height:300px;margin-top:10px" responsive="true"/>
                             </div>
                         </p:panel>
+                            <p:poll interval="#{30*2}"  update="graphe" />
+                        </h:form>
                     </div>
                 
                 <div class="EmptyBox20"></div>
