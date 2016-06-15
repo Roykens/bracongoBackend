@@ -34,5 +34,14 @@ public class BoissonDaoImpl extends GenericDao<Boisson, Long> implements IBoisso
         cq.where(cb.like(bsRoot.get(Boisson_.nom), name));
         return getManager().createQuery(cq).getSingleResult();
     }
+
+    @Override
+    public List<Boisson> findAllActive() throws DataAccessException {
+       CriteriaBuilder cb = getManager().getCriteriaBuilder();
+       CriteriaQuery<Boisson> cq = cb.createQuery(Boisson.class);
+       Root<Boisson> boisRoot = cq.from(Boisson.class);
+       cq.where(cb.equal(boisRoot.get(Boisson_.active), 1));
+       return getManager().createQuery(cq).getResultList();
+    }
     
 }

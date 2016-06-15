@@ -11,6 +11,7 @@ import com.royken.bracongo.survey.dao.IFormatBoissonDao;
 import com.royken.bracongo.survey.dao.IFormatDao;
 import com.royken.bracongo.survey.dao.IMaterielDao;
 import com.royken.bracongo.survey.dao.IPlanningDao;
+import com.royken.bracongo.survey.dao.IPlanningPdvDao;
 import com.royken.bracongo.survey.dao.IPlvDao;
 import com.royken.bracongo.survey.dao.IPointDeVenteDao;
 import com.royken.bracongo.survey.dao.IPrixBoissonDao;
@@ -28,6 +29,7 @@ import com.royken.bracongo.survey.entities.FormatBoisson;
 import com.royken.bracongo.survey.entities.Materiel;
 import com.royken.bracongo.survey.entities.PLV;
 import com.royken.bracongo.survey.entities.Planning;
+import com.royken.bracongo.survey.entities.PlanningPdv;
 import com.royken.bracongo.survey.entities.PointDeVente;
 import com.royken.bracongo.survey.entities.Reponse;
 import com.royken.bracongo.survey.entities.ReponseValue;
@@ -120,6 +122,9 @@ public class ReponseServiceImpl implements IReponseService {
     
     @Inject
     private ICommentaireDao commentaireDao;
+    
+    @Inject
+    private IPlanningPdvDao planningPdvDao;
 
     public IReponseDao getReponseDao() {
         return reponseDao;
@@ -315,6 +320,9 @@ public class ReponseServiceImpl implements IReponseService {
             saveEtatPlv(reponse2, reponseProjection.getPlvProjections());
             saveAction(reponse2, reponseProjection.getAction());
             saveCommentaire(reponse, reponseProjection.getCommentaire());
+            PlanningPdv planningPdv = planningPdvDao.findByPlanningPdv(planning, pointDeVente);
+            planningPdv.setActive(0);
+            planningPdvDao.update(planningPdv);
         } catch (DataAccessException ex) {
             Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -220,9 +220,14 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
        // List<BoissonInfos> boi = getManager().createQuery(cq).getResultList();
        // System.out.println("Ma liste");
        // System.out.println(boi);
-        BoissonInfos bi = getManager().createQuery(cq).getResultList().get(0);
+        try {
+            BoissonInfos bi = getManager().createQuery(cq).getSingleResult();
+            return (bi.isDisponibilite() == true) ? 1 : 0;
+        } catch (Exception e) {
+        }
+        
       //  System.out.println("La biere infos :" + bi);
-        return (bi.isDisponibilite() == true) ? 1 : 0;
+        return 0;
     }
 
     @Override
@@ -264,6 +269,8 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
                 predicates.add(cb.equal(boissonPath.get(Boisson_.typeBoisson), TypeBoisson.BG));
             }
         }
+        
+        predicates.add(cb.equal(formatPath.get(FormatBoisson_.active), 1));
 
         if (bracongo != null) {
             predicates.add(cb.equal(boissonPath.get(Boisson_.isBracongo), bracongo));
@@ -543,6 +550,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
    
         if (formatBoisson != null) {
             predicates.add(cb.equal(toto.get(BoissonInfos_.formatBoisson), formatBoisson));
+            predicates.add(cb.equal(formPat.get(FormatBoisson_.active), 1));
         }
         predicates.add(cb.gt(toto.get(BoissonInfos_.stockChaud), 0));
         if (debut != null && fin != null) {

@@ -16,4 +16,6 @@ public interface IBoissonDao extends IGenericDao<Boisson, Long>{
     
     public Boisson findByName(String name) throws DataAccessException;
     
+    public List<Boisson> findAllActive() throws DataAccessException;
+    
 }

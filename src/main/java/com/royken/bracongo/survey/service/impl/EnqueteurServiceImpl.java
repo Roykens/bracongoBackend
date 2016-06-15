@@ -34,6 +34,7 @@ public class EnqueteurServiceImpl implements IEnqueteurService {
     public Enqueteur saveOrUpdateEnqueteur(Enqueteur enqueteur) throws ServiceException {
         try {
             if (enqueteur.getId() == null) {
+                enqueteur.setActive(1);
                 return enqueteurDao.create(enqueteur);
             }
             else{
@@ -70,7 +71,8 @@ public class EnqueteurServiceImpl implements IEnqueteurService {
         try {
             Enqueteur enqueteur = enqueteurDao.findById(id);
             if(enqueteur != null){
-                enqueteurDao.delete(enqueteur);
+                enqueteur.setActive(0);
+                enqueteurDao.update(enqueteur);
             }
         } catch (DataAccessException ex) {
             Logger.getLogger(EnqueteurServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

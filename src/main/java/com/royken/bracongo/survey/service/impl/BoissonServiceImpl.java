@@ -35,6 +35,7 @@ public class BoissonServiceImpl implements IBoissonService {
     public Boisson saveOrUpdateBoisson(Boisson boisson) throws ServiceException {
         try {
             if (boisson.getId() == null) {
+                boisson.setActive(1);
                 return boissonDao.create(boisson);
             }
             else{
@@ -60,7 +61,8 @@ public class BoissonServiceImpl implements IBoissonService {
         try {
             Boisson boisson = boissonDao.findById(id);
             if(boisson != null){
-                boissonDao.delete(boisson);
+                boisson.setActive(0);
+                boissonDao.update(boisson);
             }
         } catch (DataAccessException ex) {
             Logger.getLogger(BoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,7 +72,7 @@ public class BoissonServiceImpl implements IBoissonService {
     @Override
     public List<Boisson> findAllBoisson() throws ServiceException {
         try {
-            return boissonDao.findAll();
+            return boissonDao.findAllActive();
         } catch (DataAccessException ex) {
             Logger.getLogger(BoissonServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

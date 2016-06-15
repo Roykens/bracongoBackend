@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.dao;
 
 import com.royken.bracongo.survey.entities.Planning;
 import com.royken.bracongo.survey.entities.PlanningPdv;
+import com.royken.bracongo.survey.entities.PointDeVente;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.IGenericDao;
 import java.util.List;
@@ -13,4 +14,6 @@ import java.util.List;
 public interface IPlanningPdvDao extends IGenericDao<PlanningPdv, Long>{
     
     public List<PlanningPdv> findByPlanning(Planning planning) throws DataAccessException;
+    
+    public PlanningPdv findByPlanningPdv(Planning planning, PointDeVente pointDeVente) throws DataAccessException;
 }

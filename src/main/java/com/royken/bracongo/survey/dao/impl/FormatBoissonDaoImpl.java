@@ -82,6 +82,8 @@ public class FormatBoissonDaoImpl extends GenericDao<FormatBoisson, Long> implem
             predicates.add(cb.equal(formRoot.get(FormatBoisson_.format), format));
         }
         
+        predicates.add(cb.equal(formRoot.get(FormatBoisson_.active), 1));
+        
         cq.select(formRoot);
          if (predicates.size() > 0) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));

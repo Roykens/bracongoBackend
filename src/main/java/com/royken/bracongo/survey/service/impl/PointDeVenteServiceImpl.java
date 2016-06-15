@@ -113,6 +113,7 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
 
         try {
             if (pointDeVente.getId() == null) {
+                pointDeVente.setActive(1);
                 return pointDeVenteDao.create(pointDeVente);
             } else {
                 return pointDeVenteDao.update(pointDeVente);
@@ -136,7 +137,7 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
     @Override
     public List<PointDeVente> findAllPointDeVente() throws ServiceException {
         try {
-            return pointDeVenteDao.findAll();
+            return pointDeVenteDao.findAllActive();
         } catch (DataAccessException ex) {
             Logger.getLogger(PointDeVenteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -148,7 +149,8 @@ public class PointDeVenteServiceImpl implements IPointDeVenteService {
         try {
             PointDeVente pointDeVente = pointDeVenteDao.findById(id);
             if (pointDeVente != null) {
-                pointDeVenteDao.delete(pointDeVente);
+                pointDeVente.setActive(0);
+                pointDeVenteDao.update(pointDeVente);
             }
         } catch (DataAccessException ex) {
             Logger.getLogger(PointDeVenteServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

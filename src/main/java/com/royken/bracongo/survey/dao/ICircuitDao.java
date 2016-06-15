@@ -1,7 +1,9 @@
 package com.royken.bracongo.survey.dao;
 
 import com.royken.bracongo.survey.entities.Circuit;
+import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.IGenericDao;
+import java.util.List;
 
 /**
  *
@@ -9,4 +11,5 @@ import com.royken.generic.dao.IGenericDao;
  */
 public interface ICircuitDao extends IGenericDao<Circuit, Long>{
     
+    public List<Circuit> findAllActive() throws DataAccessException;
 }

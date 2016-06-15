@@ -22,7 +22,7 @@ public class PlanningDaoImpl extends GenericDao<Planning, Long> implements IPlan
         CriteriaBuilder cb = getManager().getCriteriaBuilder();
         CriteriaQuery<Planning> cq = cb.createQuery(Planning.class);
         Root<Planning> planRoot = cq.from(Planning.class);
-        cq.where(cb.equal(planRoot.get(Planning_.enqueteur), enqueteur));
+        cq.where(cb.and(cb.equal(planRoot.get(Planning_.enqueteur), enqueteur), cb.equal(planRoot.get(Planning_.active), 1)));
         cq.select(planRoot);
         cq.orderBy(cb.desc(planRoot.get(Planning_.datePlaning)));
         return getManager().createQuery(cq).getResultList().get(0);
@@ -33,6 +33,7 @@ public class PlanningDaoImpl extends GenericDao<Planning, Long> implements IPlan
         CriteriaBuilder cb = getManager().getCriteriaBuilder();
         CriteriaQuery<Planning> cq = cb.createQuery(Planning.class);
         Root<Planning> pRoot = cq.from(Planning.class);
+        cq.where(cb.equal(pRoot.get(Planning_.active), 1));
         cq.orderBy(cb.desc(pRoot.get(Planning_.datePlaning)));
         return getManager().createQuery(cq).getResultList();
     }

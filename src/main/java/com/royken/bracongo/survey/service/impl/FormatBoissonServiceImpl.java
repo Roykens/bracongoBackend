@@ -42,6 +42,7 @@ public class FormatBoissonServiceImpl implements IFormatBoissonService{
     public FormatBoisson saveOrUpdateFormatBoisson(FormatBoisson boisson) throws ServiceException {
        try {
            if(boisson.getId() == null){           
+               boisson.setActive(1);
                 return formatBoissonDao.create(boisson);
                 }
            else{

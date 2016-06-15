@@ -31,7 +31,7 @@ public class PointDeVenteDaoImpl extends GenericDao<PointDeVente, Long> implemen
         Root<PointDeVente> pdvRoot = cq.from(PointDeVente.class);
         Path<Circuit> cirPath = pdvRoot.get(PointDeVente_.circuit);
         Path<Zone> zonePath = cirPath.get(Circuit_.zone);
-        cq.where(cb.equal(zonePath.get(Zone_.secteur), enqueteur.getSecteur()));
+        cq.where(cb.equal(cb.equal(zonePath.get(Zone_.secteur), enqueteur.getSecteur()), cb.equal(pdvRoot.get(PointDeVente_.active), 1)));
         return getManager().createQuery(cq).getResultList();
     }
 
@@ -54,12 +54,22 @@ public class PointDeVenteDaoImpl extends GenericDao<PointDeVente, Long> implemen
         if(secteur != null){
             predicates.add(cb.equal(sectPath, secteur));
         }
+        predicates.add(cb.equal(pdvRoot.get(PointDeVente_.active), 1));
         
         cq.select(pdvRoot);
         
         if (predicates.size() > 0) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
         }
+        return getManager().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<PointDeVente> findAllActive() throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<PointDeVente> cq = cb.createQuery(PointDeVente.class);
+        Root<PointDeVente> pdvRoot = cq.from(PointDeVente.class);
+        cq.where(cb.equal(pdvRoot.get(PointDeVente_.active), 1));
         return getManager().createQuery(cq).getResultList();
     }
 }

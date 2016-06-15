@@ -248,6 +248,19 @@ public class DocumentBean {
             try {
                 HttpServletResponse hsr = (HttpServletResponse) response;
                 if (excel != null) {
+                    
+                    
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(debut);
+                    cal.set(Calendar.HOUR_OF_DAY, 0);
+                    cal.set(Calendar.MINUTE, 0);
+                    debut = cal.getTime();
+                    cal = Calendar.getInstance();
+                    cal.setTime(fin);
+                    cal.set(Calendar.HOUR_OF_DAY, 23);
+                    cal.set(Calendar.MINUTE, 0);
+                    fin = cal.getTime();
+                    
                     actions = actionService.getByDates(debut, fin);
                     commentaires = commentaireService.getAllByDates(debut, fin);
                     stockDispoBibrac = reponseService.getAllBoissonStockDispoStat(debut, fin, Boolean.TRUE, Boolean.TRUE);
