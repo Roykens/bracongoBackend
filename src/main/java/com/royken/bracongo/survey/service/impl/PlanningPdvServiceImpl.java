@@ -59,10 +59,12 @@ public class PlanningPdvServiceImpl implements IPlanningPdvService{
     @Override
     public PlanningPdv saveOrUpdatePlanningPdv(PlanningPdv planningPdv) throws ServiceException {       
         try {
-            if(planningPdv.getId() == null){            
+            if(planningPdv.getId() == null){    
+                planningPdv.setActive(1);
                 return planningPdvDao.create(planningPdv);
                 }
             else{
+                planningPdv.setActive(1);
                 return planningPdvDao.update(planningPdv);
             }
             } catch (DataAccessException ex) {
@@ -104,6 +106,7 @@ public class PlanningPdvServiceImpl implements IPlanningPdvService{
             PlanningPdv planningPdv = new PlanningPdv();
             planningPdv.setPlanning(planning);
             planningPdv.setPointDeVente(pointDeVente);
+            planningPdv.setActive(1);
             planningPdvDao.create(planningPdv);
         } catch (DataAccessException ex) {
             Logger.getLogger(PlanningPdvServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
