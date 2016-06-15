@@ -334,6 +334,7 @@ public class ReponseServiceImpl implements IReponseService {
             Commentaire commentaire1 = new Commentaire();
             commentaire1.setReponse(reponse);
             commentaire1.setContenu(commentaire);
+            commentaire1.setActive(1);
             commentaireDao.create(commentaire1);
         } catch (DataAccessException ex) {
             Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -373,6 +374,8 @@ public class ReponseServiceImpl implements IReponseService {
                     }                    
                     infos.setStockChaud(0);
                 }
+                infos.setActive(1);
+                  
                 boissonInfosDao.create(infos);
             } catch (DataAccessException ex) {
                 Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -402,8 +405,8 @@ public class ReponseServiceImpl implements IReponseService {
                 else{
                     etatMateriel.setNombreDefecteux(0);
                 }
-                
-                String jourCasse = materielProjection.getJourCasse();
+                String jourCasse = "";
+                jourCasse = materielProjection.getJourCasse();
                 if(!jourCasse.isEmpty()){
                     etatMateriel.setJourCasse(Integer.parseInt(jourCasse));
                 }
@@ -428,7 +431,7 @@ public class ReponseServiceImpl implements IReponseService {
                 else{
                     etatMateriel.setNombreBralima(0);
                 }
-                
+                etatMateriel.setActive(1);
                 etatMaterielDao.create(etatMateriel);
             } catch (DataAccessException ex) {
                 Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -443,6 +446,7 @@ public class ReponseServiceImpl implements IReponseService {
                 PLV plv = plvDao.findById(Long.valueOf(plvProjection.getIdServeur()));
                 EtatPlv etatPlv = new EtatPlv();
                 etatPlv.setReponse(reponse);
+                etatPlv.setActive(1);
                 etatPlv.setPlv(plv);
                 String nombrebrac = plvProjection.getNombreBrac();
                 if(!nombrebrac.isEmpty()){
@@ -618,6 +622,7 @@ public class ReponseServiceImpl implements IReponseService {
     private void saveAction(Reponse reponse, Action action) {
         action.setReponse(reponse);
         try {
+            action.setActive(1);
             actionDao.create(action);
         } catch (DataAccessException ex) {
             Logger.getLogger(ReponseServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
