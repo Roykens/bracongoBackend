@@ -305,8 +305,8 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
             predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), pve ? TypeRegime.PVE : TypeRegime.Mixte));
         }
 
-       // predicates.add(cb.equal(boisInfoRoot.get(BoissonInfos_.disponibilite), true));
-        predicates.add(cb.gt(boisInfoRoot.get(BoissonInfos_.prixPdv), 0));
+        predicates.add(cb.equal(boisInfoRoot.get(BoissonInfos_.disponibilite), true));
+       // predicates.add(cb.gt(boisInfoRoot.get(BoissonInfos_.prixPdv), 0));
 
         Expression<Integer> sum = cb.sum(boisInfoRoot.get(BoissonInfos_.prixPdv));
 
