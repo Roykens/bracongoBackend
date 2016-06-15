@@ -77,7 +77,8 @@ public class PlanningServiceImpl implements IPlanningService {
         try {
             Planning planning = planningDao.findById(id);
             if(planning != null) {
-                planningDao.delete(planning);
+                planning.setActive(0);
+                planningDao.update(planning);
             }
         } catch (DataAccessException ex) {
             Logger.getLogger(PlanningServiceImpl.class.getName()).log(Level.SEVERE, null, ex);

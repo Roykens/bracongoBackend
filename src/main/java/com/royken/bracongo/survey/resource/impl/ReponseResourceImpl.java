@@ -1,7 +1,5 @@
 package com.royken.bracongo.survey.resource.impl;
 
-import com.royken.bracongo.survey.entities.TypeBoisson;
-import com.royken.bracongo.survey.entities.TypeRegime;
 import com.royken.bracongo.survey.entities.projection.ReponseProjection;
 import com.royken.bracongo.survey.resource.IReponseResource;
 import com.royken.bracongo.survey.service.IReponseService;
