@@ -46,6 +46,16 @@ public class PlanningDaoImpl extends GenericDao<Planning, Long> implements IPlan
         cq.where(cb.and(cb.equal(plRoot.get(Planning_.datePlaning), date), cb.equal(plRoot.get(Planning_.enqueteur), enqueteur)));
         return getManager().createQuery(cq).getSingleResult();
     }
+
+    @Override
+    public List<Planning> findAllActive() throws DataAccessException {
+        CriteriaBuilder cb = getManager().getCriteriaBuilder();
+        CriteriaQuery<Planning> cq = cb.createQuery(Planning.class);
+        Root<Planning> plRoot = cq.from(Planning.class);
+        cq.where(cb.equal(plRoot.get(Planning_.active), 1));
+         cq.orderBy(cb.desc(plRoot.get(Planning_.datePlaning)));
+        return getManager().createQuery(cq).getResultList();
+    }
     
     
     

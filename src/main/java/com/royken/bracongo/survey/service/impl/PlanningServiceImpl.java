@@ -49,9 +49,11 @@ public class PlanningServiceImpl implements IPlanningService {
     public Planning saveOrUpdatePlanning(Planning planning) throws ServiceException {
         try {
             if (planning.getId() == null) {
+                planning.setActive(1);
                 return planningDao.create(planning);
             }
             else{
+                planning.setActive(1);
                 return planningDao.update(planning);
             }
         } catch (DataAccessException ex) {
@@ -63,7 +65,7 @@ public class PlanningServiceImpl implements IPlanningService {
     @Override
     public List<Planning> findAllPlanning() throws ServiceException {
         try {
-            return planningDao.findAll();
+            return planningDao.findAllActive();
         } catch (DataAccessException ex) {
             Logger.getLogger(PlanningServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
