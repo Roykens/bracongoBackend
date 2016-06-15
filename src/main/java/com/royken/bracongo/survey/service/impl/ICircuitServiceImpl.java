@@ -33,7 +33,8 @@ public class ICircuitServiceImpl implements ICircuitService{
     @Override
     public Circuit saveOrUpdateCircuit(Circuit circuit) throws ServiceException {
         try {
-            if(circuit.getId() == null){           
+            if(circuit.getId() == null){  
+                circuit.setActive(1);
                 return circuitDao.create(circuit);
                 }
             else{
@@ -60,7 +61,8 @@ public class ICircuitServiceImpl implements ICircuitService{
         try {
             Circuit circuit = circuitDao.findById(id);
             if(circuit != null){
-                circuitDao.delete(circuit);
+                circuit.setActive(0);
+                circuitDao.update(circuit);
             }
         } catch (DataAccessException ex) {
             Logger.getLogger(ICircuitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -70,7 +72,7 @@ public class ICircuitServiceImpl implements ICircuitService{
     @Override
     public List<Circuit> findAllCircuit() throws ServiceException {
         try {
-            return circuitDao.findAll();
+            return circuitDao.findAllActive();
         } catch (DataAccessException ex) {
             Logger.getLogger(ICircuitServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }

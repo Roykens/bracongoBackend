@@ -34,6 +34,7 @@ public class ZoneServiceImpl implements IZoneService {
     public Zone saveOrUpdateZone(Zone zone) throws ServiceException {
         try {
             if (zone.getId() == null) {
+                zone.setActive(1);
                 return zoneDao.create(zone);
             } else {
                 return zoneDao.update(zone);
@@ -59,7 +60,8 @@ public class ZoneServiceImpl implements IZoneService {
         try {
             Zone zone = zoneDao.findById(id);
             if(zone != null){
-                zoneDao.delete(zone);
+                zone.setActive(0);
+                zoneDao.update(zone);
             }
         } catch (DataAccessException ex) {
             Logger.getLogger(ZoneServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -69,7 +71,7 @@ public class ZoneServiceImpl implements IZoneService {
     @Override
     public List<Zone> findAllZone() throws ServiceException {
         try {
-            return zoneDao.findAll();
+            return zoneDao.findAllActive();
         } catch (DataAccessException ex) {
             Logger.getLogger(ZoneServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
