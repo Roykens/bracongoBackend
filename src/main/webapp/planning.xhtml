@@ -9,210 +9,215 @@
         <h:outputScript name="jquery/jquery.js" library="primefaces" target="head"/>
 
         
-        <div class="Container100">
+        <!-- SECTION 1 -->
+
+        <div class="Container100 BorBotLeaden">
             <div class="ContainerIndent">
+                <div class="EmptyBox10"></div>
 
-                <h:form id="form">
-                    <h1><h:outputText value="List"/></h1>
 
-                    <p:dataTable rowIndexVar="index" value="#{planningBean.plannings}" var="item" id="table" selection="#{planningBean.planning}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Planning enregistré" reflow="true">
-                        <p:ajax event="rowSelect" listener="#{planningBean.test()}" />
-                        <f:facet name="header">
-                            La liste des Pannings
-                        </f:facet>
-                        <p:column >
-                            <f:facet name="header">
-                                <h:outputText value="No"/>
+                <p:panel style="min-height:400px;">
+                    <p:dialog modal="true" header="ATTRIBUER DES PDV A CE PLANNING " widgetVar="dlgSaveEV" hideEffect="explode" showEffect="explode" >
+                        <h:form id="formSaveEV">                                
+                            
+                            <p:panel >
+                                <h:panelGroup >
+                                    <h:panelGrid  class="rightPosition"  id="displaySaveEV" columns="2">
+                                        <h:outputText  value="Format : " class="syntaxe_content"/> 
+                                        <p:selectCheckboxMenu value="#{planningBean.pdvchoisi}" label="Points de ventes" filter="true"  filterMatchMode="contains" style="height: 30px; width: 90%">  
+                                            <f:selectItems var="player" value="#{planningBean.pointDeVentes}"   itemLabel="#{player.circuit.zone.code}-#{player.circuit.code}/ #{player.nom}" itemValue="#{player.id}" itemLabelEscaped="true" /> 
+                                        </p:selectCheckboxMenu>                                   
+
+                                        <h:inputHidden value="#{planningBean.planning.id}"/>
+                                        <h:inputHidden value="#{planningBean.planning.version}"/>
+
+                                    </h:panelGrid>  
+                                </h:panelGroup>
+                                <p:separator/>
+                                <div id="center_content_div">
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Soumettre"   actionListener ="#{planningBean.savePointDeVente()}" update=":formSaveEV,:f:d" icon="ui-icon-check" oncomplete="PF('dlgSaveEV').hide()"/> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Annuler"  type="reset" onclick="PF('dlgSaveEV').hide()" update=":formSaveEV" icon="ui-icon-close"/> 
+                                </div>                     
+                            </p:panel>
+                        </h:form>  
+                    </p:dialog>
+                    <p:dialog modal="true" header="AJOUTER UN PLANNING" widgetVar="dlgSave" hideEffect="explode" showEffect="explode">
+                        <h:form id="formSave">                                
+                            
+                            <p:panel >
+                                <h:panelGroup >
+                                    <h:panelGrid  class="rightPosition"  id="displaySave" columns="2">
+                                        <h:outputText value="Enqueteur : "/> 
+                                        <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="contains" style="height: 30px; width: 90%">
+                                            <f:selectItems value="#{planningBean.enqueteurs}" var="enqueteur" itemLabel="#{enqueteur.nom}" itemValue="#{enqueteur.id}" />
+                                        </p:selectOneMenu>
+                                    </h:panelGrid>  
+                                </h:panelGroup>
+                                <p:separator/>
+                                <div id="center_content_div">
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Soumettre"  id="ajax1" actionListener ="#{planningBean.saveOrUpdatePlanninge()}" update=":formSave,:f:d" icon="ui-icon-check" oncomplete="PF('dlgSave').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Annuler"  id="annule1" type="reset" onclick="PF('dlgSave').hide()" update=":formSave" icon="ui-icon-close"/> 
+                                </div>                     
+                            </p:panel>
+                        </h:form>  
+                    </p:dialog>   
+
+                    <p:dialog modal="true" header="MODIFIER LE PLANNING" widgetVar="dlgUpdate" hideEffect="explode" showEffect="explode">
+                        <h:form id="formUpdate">    
+                            
+                            <p:panel >
+                                <h:panelGroup >
+                                    <h:panelGrid  class="rightPosition"  id="displayUpdate" columns="2">  
+
+                                        <h:outputText value="Enqueteur : "/> 
+                                        <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="contains" style="height: 30px; width: 90%">
+                                            <f:selectItems value="#{planningBean.enqueteurs}" var="enqueteur" itemLabel="#{enqueteur.nom}" itemValue="#{enqueteur.id}" />
+                                        </p:selectOneMenu>
+                                        <h:inputHidden value="#{planningBean.planning.id}"  />
+                                        <h:inputHidden value="#{planningBean.planning.version}"  />
+                                    </h:panelGrid>  
+                                </h:panelGroup>
+                                <p:separator/>
+                                <div id="center_content_div">
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Soumettre"  id="ajax2" actionListener="#{planningBean.saveOrUpdatePlanninge()}" update=":formUpdate,:f:d" icon="ui-icon-check" oncomplete="PF('dlgUpdate').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="Annuler" type="reset"  id="annule2" onclick="PF('dlgUpdate').hide()" update=":formUpdate" icon="ui-icon-close"/> 
+                                </div>                    
+                            </p:panel>
+                        </h:form>  
+                    </p:dialog>
+                    <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDelete" hideEffect="explode" showEffect="explode">
+                        <h:form id="fs">    
+                            
+                            <p:panel >
+                                <h:panelGroup >
+                                    <h:panelGrid  class="rightPosition"  id="ds" columns="1">   
+                                        <h:outputLabel value="voulez-vous vraiment supprimer ce planning ?"/>
+                                        <h:inputHidden value="#{planningBean.planning.id}"  />
+                                        <h:inputHidden value="#{planningBean.planning.version}"  />
+                                    </h:panelGrid>  
+                                </h:panelGroup>
+                                <p:separator/>
+                                <div id="center_content_div">
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="OUI"   actionListener="#{planningBean.deletePlanning()}" update=":fs,:f:d" icon="ui-icon-check" oncomplete="PF('dlgDelete').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete').hide()" update=":fs" icon="ui-icon-close" /> 
+                                </div>                    
+                            </p:panel>
+                        </h:form>  
+                    </p:dialog>
+                    <p:dialog modal="true" header="Initialisation de la suppression" widgetVar="dlgDelete1" hideEffect="explode" showEffect="explode">
+                        <h:form id="fs1">    
+                            
+                            <p:panel >
+                                <h:panelGroup >
+                                    <h:panelGrid   class="rightPosition"  id="ds1" columns="1">   
+                                        <h:outputLabel value="voulez-vous vraiment supprimer ce format?"/>
+                                        <h:inputHidden value="#{planningBean.planning.id}"  />
+                                        <h:inputHidden value="#{planningBean.planning.version}"  />
+                                    </h:panelGrid>  
+                                </h:panelGroup>
+                                <p:separator/>
+                                <div id="center_content_div">
+                                    <p:commandButton  styleClass="RedButton" class="cmd_button" value="OUI"   actionListener="#{boissonBean.deleteFormatBoisson()}" update=":fs1,:f:d" icon="ui-icon-check" oncomplete="PF('dlgDelete1').hide()" /> 
+                                    <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" type="reset"  onclick="PF('dlgDelete1').hide()" update=":fs1" icon="ui-icon-close" /> 
+                                </div>                    
+                            </p:panel>
+                        </h:form>  
+                    </p:dialog>
+
+
+                    <h:form id="f" class="syntaxe_content" >                        
+                         
+                        <p:confirmDialog id="h" message="voulez-vous vraiment supprimer la boisson #{boissonBean.boisson.nom}?"
+                                         header="Initialisation de la suppression" severity="alert"
+                                         widgetVar="confirmation" showEffect="explode" hideEffect="explode"> 
+                            <p:commandButton styleClass="RedButton" class="cmd_button"   value="OUI" action="#{boissonBean.deleteBoisson()}" oncomplete="PF('confirmation').hide()" update=":f:d" />
+                            <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" type="reset" onclick ="PF('confirmation').hide();" />
+                        </p:confirmDialog>
+                        <p:confirmDialog id="g" 
+                                         message="voulez-vous vraiment supprimer cette boisson ?"
+                                         header="Initialisation de la suppression" severity="alert"
+                                         widgetVar="c" 
+                                         showEffect="explode" 
+                                         hideEffect="explode"> 
+                            <div id="center_content_div">
+                                <p:commandButton styleClass="RedButton" class="cmd_button" value="OUI" 
+                                                 action="#{boissonBean.deleteFormatBoisson()}" 
+                                                 oncomplete="PF('c').hide()" 
+                                                 update=":f:d:e" 
+                                                 />
+                                <p:commandButton styleClass="RedButton" class="cmd_button" value="NON" 
+                                                 type="reset" 
+                                                 onclick ="PF('c').hide();" 
+                                                 />
+                            </div>
+                        </p:confirmDialog>
+                        <p:dataGrid id = "d" var="car"  
+                                    emptyMessage="Aucun Planning trouvé" 
+                                    value="#{planningBean.plannings}" 
+                                    columns="3" 
+                                    paginator="true" 
+                                    rows="10"   
+                                    paginatorPosition="bottom" 
+                                    paginatorTemplate="{PreviousPageLink} {CurrentPageReport} {NextPageLink}"  >              
+                            <f:facet name="header" >  
+                                LA LISTE DES PLANNINGS
                             </f:facet>
-                            <h:outputText value="#{index + 1}"/>
-                        </p:column>
-                        <p:column sortable="true" filterBy="#{item.datePlaning}" sortBy="#{item.datePlaning}">
-                            <f:facet name="header">
-                                <h:outputText value="Date"/>
+                            <f:facet name="footer" >  
+                                <p:commandButton styleClass="RedButton" icon="ui-icon-disk" value="Nouveau Planning" type="button" onclick="PF('dlgSave').show()"/>
                             </f:facet>
-                            <h:outputText value="#{item.datePlaning}"/>
-                        </p:column>
-                        <p:column sortable="true" filterBy="#{item.enqueteur.nom}" sortBy="#{item.enqueteur.nom}">
-                            <f:facet name="header">
-                                <h:outputText value="Responsable"/>
-                            </f:facet>
-                            <h:outputText value="#{item.enqueteur.nom}"/>
-                        </p:column>
-                        <p:column >
-                            <f:facet name="header">
-                                <h:outputText value="Nombre PDV"/>
-                            </f:facet>
-                            <h:outputText value="#{planningBean.getPlanningPdvs(item).size()}"/>
-                        </p:column>
-                        <p:column >
-                            <f:facet name="header">
-                                <h:outputText value="Gérer PDV"/>
-                            </f:facet>
-                            <p:commandButton styleClass="RedButton" id="q" onclick="PF('detail_dialog').show()" icon="ui-icon-arrowrefresh-1-w" class="type_cours_menuClass">
-                                <f:setPropertyActionListener value="#{item}" target="#{planningBean.planning}"/>
-                            </p:commandButton>
-                            <p:tooltip for="q" value="cliquez ici gérer les PDV de ce planning"/>
+                            <p:column >                               
+                                <p:dataTable  id="e"  
+                                              emptyMessage="Aucune PDV n'est enregistré" 
+                                              var="planingPvd" 
+                                              value="#{planningBean.getPlanningPdvs(car)}" 
+                                              rowKey="#{planingPvd.id}" 
+                                              rows="5"
+                                              sortOrder="ascending" class="type_cours_datatable_in_datadgrid" >  
+                                    <f:facet name="header" >  
+                                        <table class="type_cours">
+                                            <tr >
+                                                <td><h:outputText value="#{car.datePlaning}" style="font:white">
+                                                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                                    </h:outputText><h:outputText value=" / #{car.enqueteur.nom}" style="font:white"/>
+                                                         </td>
+                                                <td><p:commandButton styleClass="RedButton" id="a" onclick="PF('dlgDelete').show()" update=":fs:ds" icon="ui-icon-trash" class="type_cours_menuClass">
+                                                        <f:setPropertyActionListener  value="#{car}" target="#{planningBean.planning}"/>
+                                                    </p:commandButton>
+                                                    <p:tooltip for="a" value="cliquez ici pour supprimer ce planning"/>
+                                                    <p:commandButton styleClass="RedButton"  id="q" onclick="PF('dlgUpdate').show()" icon="ui-icon-arrowrefresh-1-w"  update=":formUpdate:displayUpdate" class="type_cours_menuClass">
+                                                        <f:setPropertyActionListener value="#{car}" target="#{planningBean.planning}"/>
+                                                    </p:commandButton>
+                                                    <p:tooltip for="q" value="cliquez ici pour modifier ce planning"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </f:facet>
+                                    <p:column headerText="Format " id="code" >  
+                                        #{planingPvd.pointDeVente.nom}   
+                                    </p:column>                                                                          
+                                    <p:column headerText="Action">
+                                        <p:commandLink id="delete" value="|Supprimer" onclick="PF('dlgDelete1').show()"  update=":fs1:ds1" >  
+                                            <f:setPropertyActionListener  value="#{car}" target="#{boissonBean.boisson}"/>
+                                            <f:setPropertyActionListener value="#{planingPvd}" target="#{planningBean.planningPdv}"/>
+                                        </p:commandLink> 
 
-                        </p:column>
-
-                        <f:facet name="footer">  
-
-                            <p:commandButton styleClass="RedButton" value="Ajouter un Planning" oncomplete="PF('ajouter_dialog').show()" icon="ui-icon-disk"  />
-                            <p:commandButton styleClass="RedButton" value="Detail" oncomplete="PF('detail_dialog').show()" icon="ui-icon-disk" update="detailPDV"/>
-                            <p:commandButton styleClass="RedButton" value="Modifier un Planning" oncomplete="PF('modifier_dialog').show()" icon="ui-icon-disk" update=":modifier"/>
-                            <p:commandButton styleClass="RedButton" value="Supprimer un Planning" oncomplete="PF('delete_dialog').show()" icon="ui-icon-disk" update=":delete"/>
-                        </f:facet> 
-                    </p:dataTable>
-                </h:form>
-
-                <p:dialog id="ajout" header="Ajouter un Planning" widgetVar="ajouter_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
-                    <h:form id ="saveform">
-                        <h:panelGrid id="display" columns="2" >  
-                            <h:outputText value="Enqueteur : "/> 
-                            <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{planningBean.enqueteurs}" var="enqueteur" itemLabel="#{enqueteur.nom}" itemValue="#{enqueteur.id}" />
-                            </p:selectOneMenu>
-
-                            <f:facet name="footer"> <br/> 
-                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{planningBean.saveOrUpdatePlanninge()}"  oncomplete="PF('ajouter_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
-                            </f:facet>
-                            <f:facet name="footer">  
-                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('ajouter_dialog').hide()" />  
-                            </f:facet>
-                        </h:panelGrid> 
-                    </h:form>
-                </p:dialog>
-
-
-                <p:dialog id="modifier" header="Modifier planning" widgetVar="modifier_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="true"> 
-                    <h:form id ="modifierform">
-                        <h:panelGrid id="modifierdisplay" columns="2" rendered="#{not empty planningBean.planning}">  
-                            <h:outputText value="Enqueteur : "/> 
-                            <p:selectOneMenu value="#{planningBean.idEnqueteur}" class="syntaxe_content" required="true" requiredMessage="L'enqueteur est obligatoire" filter="true" filterMatchMode="startsWith">
-                                <f:selectItems value="#{planningBean.enqueteurs}" var="enqueteur" itemLabel="#{enqueteur.nom}" itemValue="#{enqueteur.id}" />
-                            </p:selectOneMenu>
-                            <h:inputHidden  value="#{planningBean.planning.id}"/> 
-                            <h:inputHidden value="#{planningBean.planning.version}"/>
-                            <f:facet name="footer"> <br/> 
-                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{planningBean.saveOrUpdatePlanninge()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
-                            </f:facet>
-                            <f:facet name="footer">  
-                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('modifier_dialog').hide()" />  
-                            </f:facet>
-                        </h:panelGrid> 
-                    </h:form>
-                </p:dialog>
-
-                <p:dialog id="toto" header="toto" widgetVar="toto_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
-                    <h:form id ="totoPDV">
-                        <h:panelGrid id="totoPDV" columns="2" >  
-                            <h:outputText value="choisir PDV : "/> 
-
-                            <p:inputText value="#{planningBean.planning.datePlaning}"/>
-
-                            <f:facet name="footer"> <br/> 
-                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{planningBean.savePointDeVente()}"  oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":detailformPDV:tablePDV" />  
-                            </f:facet>
-                            <f:facet name="footer">  
-                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('toto_dialog').hide()" />  
-                            </f:facet>
-                        </h:panelGrid> 
-                    </h:form>
-                </p:dialog>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <p:dialog id="detailPDV" header="Detail du planning" widgetVar="detail_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
-                    <h:form id ="detailformPDV">
-                        <h:outputText value="choisir PDV : "/> 
-
-                        <p:inputText value="#{planningBean.planning.datePlaning}"/>
-                        <p:dataTable rowIndexVar="index" value="#{planningBean.planningPdv2}" var="item" id="tablePDV" selection="#{planningBean.planningPdv}" selectionMode="single" rowKey="#{item.id}" paginator="true" rows="10" paginatorPosition="bottom" emptyMessage="Aucun Point de vente enregistré" reflow="true">
-                            <f:facet name="header">
-                                La liste des point de vente
-                            </f:facet>
-                            <p:column >
-                                <f:facet name="header">
-                                    <h:outputText value="No"/>
-                                </f:facet>
-                                <h:outputText value="#{index + 1}"/>
+                                    </p:column>        
+                                    <f:facet name="footer" >  
+                                        <p:commandLink  id="ajouter" value="Nouveau PDV" type="button" onclick="PF('dlgSaveEV').show()" update=":formSaveEV:displaySaveEV" >
+                                            <f:setPropertyActionListener  value="#{car}" target="#{planningBean.planning}"/>
+                                        </p:commandLink>
+                                    </f:facet>                                         
+                                </p:dataTable>                                    
                             </p:column>
-                            <p:column >
-                                <f:facet name="header">
-                                    <h:outputText value="Zone"/>
-                                </f:facet>
-                                <h:outputText value="#{item.pointDeVente.circuit.zone.code}-#{item.pointDeVente.circuit.code}"/>
-                            </p:column>
-                            <p:column sortable="true" filterBy="#{item.pointDeVente.nom}" sortBy="#{item.pointDeVente.nom}">
-                                <f:facet name="header">
-                                    <h:outputText value="Nom"/>
-                                </f:facet>
-                                <h:outputText value="#{item.pointDeVente.nom}"/>
-                            </p:column>
-
-                            <f:facet name="footer">  
-
-                                <p:commandButton styleClass="RedButton" value="Ajouter Point de vente" oncomplete="PF('ajouterPDV_dialog').show()" icon="ui-icon-disk" />
-                                <p:commandButton styleClass="RedButton" value="Supprimer un Enqueteur" oncomplete="PF('deletePDV_dialog').show()" icon="ui-icon-disk" update=":detailformPDV:tablePDV"/>
-                                <p:commandButton styleClass="RedButton" value="Terminer" onclick="#{planningBean.terminerPDV()}" oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":form:table"/>
-                            </f:facet> 
-                        </p:dataTable>
-
-                    </h:form>
-                </p:dialog>
-                <p:dialog id="ajoutPDV" header="Ajouter points de vente" widgetVar="ajouterPDV_dialog" resizable="true"  showEffect="clip" hideEffect="explode" modal="false"> 
-                    <h:form id ="saveformPDV">
-                        <h:panelGrid id="displayPDV" columns="2" >  
-                            <h:outputText value="choisir PDV : "/> 
-
-                            <p:selectCheckboxMenu value="#{planningBean.pdvchoisi}" label="Points de ventes" filter="true"  filterMatchMode="startsWith" >  
-                                <f:selectItems var="player" value="#{planningBean.byEnqueteur}"   itemLabel="#{player.circuit.zone.code}-#{player.circuit.code}/ #{player.nom}" itemValue="#{player.id}" itemLabelEscaped="true" /> 
-                            </p:selectCheckboxMenu>
-                            <h:inputHidden value="#{planningBean.planning.id}"/>
-                            <h:inputHidden value="#{planningBean.planning.version}"/>
-
-                            <f:facet name="footer"> <br/> 
-                                <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{planningBean.savePointDeVente()}"  oncomplete="PF('ajouterPDV_dialog').hide()" icon="ui-icon-disk" update=":detailformPDV:tablePDV" />  
-                            </f:facet>
-                            <f:facet name="footer">  
-                                <p:commandButton styleClass="RedButton" value="Annuler" onclick="PF('ajouterPDV_dialog').hide()" />  
-                            </f:facet>
-                        </h:panelGrid> 
-                    </h:form>
-                </p:dialog>
-
-                <p:confirmDialog id="deletePDV" message="voulez-vous vraiment supprimer cet enqueteur ?"
-                                 header="Initialisation de la suppression" severity="alert"
-                                 widgetVar="deletePDV_dialog" showEffect="explode" hideEffect="explode"> 
-                    <div id="center_content_div">
-                        <p:commandButton styleClass="RedButton" id="confirmPDV" value="OUI" action="#{enqueteursBean.deleteSecteur()}" oncomplete="PF('delete_dialog').hide()" update=":detailformPDV:tablePDV"/>
-                        <p:commandButton styleClass="RedButton" id="declinePDV" value="NON" type="reset" onclick ="PF('deletePDV_dialog').hide();"  />
-                    </div>
-                </p:confirmDialog>
-                <p:confirmDialog id="delete" message="voulez-vous vraiment supprimer cet enqueteur ?"
-                                 header="Initialisation de la suppression" severity="alert"
-                                 widgetVar="delete_dialog" showEffect="explode" hideEffect="explode"> 
-                    <div id="center_content_div">
-                        <p:commandButton styleClass="RedButton" id="confirm" value="OUI" action="#{enqueteursBean.deleteSecteur()}" oncomplete="PF('delete_dialog').hide()" update=":form:table"/>
-                        <p:commandButton styleClass="RedButton"  id="decline" value="NON" type="reset" onclick ="PF('delete_dialog').hide();"  />
-                    </div>
-                </p:confirmDialog>
+                        </p:dataGrid>                                                                                     
+                    </h:form>   
+                </p:panel>
 
 
+                <div class="EmptyBox20"></div>
             </div>
         </div>
+
     </ui:define>
 
 </ui:composition>

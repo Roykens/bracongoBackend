@@ -13,20 +13,18 @@
         </div>
 
         <div class="layout-menubarinner-box" id="searchArea">
-            <i class="icon-search floatLeft gray"></i>
-            <input type="text" class="layout-menubar-search floatLeft Animated05" placeholder="Search Here"/>
+            
+            
         </div>
 
         <ps:menu id="sm_leftmenu">
             <p:menuitem id="sm_dashboardMy" value="Tableau de bord" icon="icon-home-outline" outcome="myDashboard" containerStyleClass="layout-menubar-active"/>
-            <p:menuitem id="sm_rapport" value="Rapport" icon="icon-archive" outcome="rapport"/>
-            <p:menuitem id="sm_rapport2" value="Rapport2" icon="icon-archive" outcome="rapport2"/>
+            <p:menuitem id="sm_rapport2" value="Rapport2" icon="icon-archive" outcome="rapport"/>
             <p:menuitem id="sm_pdv" value="PDV" icon=" icon-basket" outcome="pdv" />
             <p:menuitem id="sm_format" value="Format" icon="icon-graduation-cap" outcome="format" />
-            <p:menuitem id="sm_toto" value="Boisson" icon="icon-glass" outcome="toto" />
+            <p:menuitem id="sm_toto" value="Boisson" icon="icon-glass" outcome="boisson" />
             <p:menuitem id="sm_enq" value="Enquêteurs" icon=" icon-users" outcome="enqueteurs" />
-            <p:menuitem id="sm_map" value="Map" icon="icon-graduation-cap" outcome="pdvMap" />
-            <p:menuitem id="sm_planning" value="Planning" icon=" icon-calendar-2" outcome="planningTest" />
+            <p:menuitem id="sm_planning" value="Planning" icon=" icon-calendar-2" outcome="planning" />
             <p:menuitem id="sm_materiel" value="Matériels" icon="icon-graduation-cap" outcome="materiels" />
             <p:menuitem id="sm_plv" value="PLVs" icon=" icon-umbrella" outcome="plvs" />
             <p:submenu id="sm_repartition" label="Repartition" icon="icon-gauge" >
@@ -34,6 +32,7 @@
                 <p:menuitem id="sm_secteur" value="Secteur" icon="icon-th" outcome="secteur"/>
                 <p:menuitem id="sm_circuit" value="Circuit" icon="icon-table" outcome="circuit"/>
             </p:submenu>
+            <p:menuitem id="sm_user" value="PLVs" icon=" icon-umbrella" outcome="utilisateurs" />
         </ps:menu>
         
     </div>

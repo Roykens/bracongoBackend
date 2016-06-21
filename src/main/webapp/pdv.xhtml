@@ -240,7 +240,7 @@
                                 <!--                                    <p:ajax listener="" event="change" update="cities" process="@this"/>-->
                             </p:fileUpload>
                             <h:outputText  value="Circuit : " />                                  
-                            <p:selectOneMenu     filter="true" filterMatchMode="startsWith" value="#{pointDeVenteBean.idCircuit}" class="syntaxe_content" >
+                            <p:selectOneMenu     filter="true" filterMatchMode="startsWith" value="#{pointDeVenteBean.idCircuit}" class="syntaxe_content" style="width: 100%;">
                                 <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.zone.code}-#{circuit.code}" itemValue="#{circuit.id}" />                                            
                             </p:selectOneMenu><br/><br/>
 
