@@ -190,12 +190,12 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            <plugin>
+            <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <version>1.1.1</version>
                 <configuration>
-                     Do not wait after the container is started 
+                      
                     <wait>false</wait>
  
                     <container>
@@ -205,20 +205,18 @@
                         <append>false</append>
                         <log>${project.build.directory}/glassfish/cargo.log</log>
                     </container>
- 
                     <configuration>
-                        <deployable>
-                            <groupId>com.royken.bracongo</groupId>
-                            <artifactId>survey</artifactId>
-                            <type>war</type>
-                            <properties>
-                                <context>/</context>
-                            </properties>
-                        </deployable>
+                        <type>runtime</type>
+                        <properties>
+                            <cargo.runtime.args>force=true</cargo.runtime.args>
+<!--                            <cargo.hostname>${hostname}</cargo.hostname>
+                            <cargo.remote.username>${username}</cargo.remote.username>
+                            <cargo.remote.password>${password}</cargo.remote.password>-->
+                        </properties>
                     </configuration>
  
                 </configuration>
-            </plugin>-->
+            </plugin>
         </plugins>
     </build>
 </project>
