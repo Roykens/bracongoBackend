@@ -113,7 +113,7 @@
                             <h:outputText value="Circuit"/> 
                             <p:selectOneMenu value="#{pointDeVenteBean.id}" class="syntaxe_content" style="width: 100%;" required="true" requiredMessage="Le circuit est obligatoire" filter="true" filterMatchMode="startsWith">
                                 <f:selectItem itemLabel="Selectionner" itemValue="#{null}"/>
-                                <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.code}" itemValue="#{circuit.id}" />
+                                <f:selectItems value="#{pointDeVenteBean.circuits}" var="circuit" itemLabel="#{circuit.zone.secteur.code}-#{circuit.code}" itemValue="#{circuit.id}" />
                             </p:selectOneMenu> 
 
                             <h:outputText  value="Regime: "  class="syntaxe_content" />                   
