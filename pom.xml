@@ -176,7 +176,7 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>2.8.1</version>
@@ -189,7 +189,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
@@ -200,7 +200,7 @@
  
                     <container>
                         <containerId>glassfish-4.1</containerId>
-                        <home>glassfish-4.1</home>
+                        <home>/home/royken/glassfish-4.1</home>
                         <output>${project.build.directory}/glassfish/container.log</output>
                         <append>false</append>
                         <log>${project.build.directory}/glassfish/cargo.log</log>
@@ -209,13 +209,21 @@
                         <type>runtime</type>
                         <properties>
                             <cargo.runtime.args>force=true</cargo.runtime.args>
-<!--                            <cargo.hostname>${hostname}</cargo.hostname>
-                            <cargo.remote.username>${username}</cargo.remote.username>
+                            <cargo.hostname>localhost</cargo.hostname>
+                            <!--                            <cargo.remote.username>${username}</cargo.remote.username>
                             <cargo.remote.password>${password}</cargo.remote.password>-->
                         </properties>
                     </configuration>
  
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.glassfish.deployment</groupId>
+                        <artifactId>deployment-client</artifactId>
+                        <version>3.1.1</version>
+
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>

@@ -81,6 +81,7 @@
                             </p:selectOneMenu>  
                             <h:inputHidden value="#{circuitBean.circuit.id}"/>
                             <h:inputHidden value="#{circuitBean.circuit.version}"/>
+                            <h:inputHidden value="#{circuitBean.circuit.active}"/>
                             <f:facet name="footer"> <br/> 
                                 <p:commandButton styleClass="RedButton" value="Enregistrer" action="#{circuitBean.saveOrUpdateZone()}"  oncomplete="PF('modifier_dialog').hide()" icon="ui-icon-disk" update=":form:table" />  
                             </f:facet>
