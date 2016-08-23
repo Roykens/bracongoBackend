@@ -2,6 +2,7 @@ package com.royken.bracongo.survey.entities.projection;
 
 import com.royken.bracongo.survey.entities.Materiel;
 import com.royken.bracongo.survey.entities.PLV;
+import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,8 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="question")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Question {
+public class Question implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     private List<NomBoisson> biereBracongo;
     
     private List<NomBoisson> bgBracongo;

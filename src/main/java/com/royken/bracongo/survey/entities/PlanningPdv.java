@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="plannindPdv")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PlanningPdv implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
  
     @Version
     private int version;

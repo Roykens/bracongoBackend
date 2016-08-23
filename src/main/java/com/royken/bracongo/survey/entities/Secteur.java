@@ -24,19 +24,33 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Secteur implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
     @Version
     private int version;
     
+    /**
+     * L'identifiant de l'entité dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le code du secteur
+     */
     @Column(unique = true)
     private String code;
     
+    /**
+     * La liste des zones du secteur
+     */
     @OneToMany(mappedBy = "secteur")
     private List<Zone> zones;
     
+    /**
+     * Le mao responsable du secteur
+     */
     @OneToOne(mappedBy = "secteur")
     private Enqueteur enqueteur;
 

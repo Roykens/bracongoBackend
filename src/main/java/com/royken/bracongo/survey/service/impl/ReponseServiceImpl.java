@@ -4,7 +4,6 @@ import com.royken.bracongo.survey.dao.IActionDao;
 import com.royken.bracongo.survey.dao.IBoissonDao;
 import com.royken.bracongo.survey.dao.IBoissonInfosDao;
 import com.royken.bracongo.survey.dao.ICommentaireDao;
-import com.royken.bracongo.survey.dao.IDisponibiliteBoissonDao;
 import com.royken.bracongo.survey.dao.IEtatMaterielDao;
 import com.royken.bracongo.survey.dao.IEtatPlvDao;
 import com.royken.bracongo.survey.dao.IFormatBoissonDao;
@@ -14,9 +13,7 @@ import com.royken.bracongo.survey.dao.IPlanningDao;
 import com.royken.bracongo.survey.dao.IPlanningPdvDao;
 import com.royken.bracongo.survey.dao.IPlvDao;
 import com.royken.bracongo.survey.dao.IPointDeVenteDao;
-import com.royken.bracongo.survey.dao.IPrixBoissonDao;
 import com.royken.bracongo.survey.dao.IReponseDao;
-import com.royken.bracongo.survey.dao.IStockChaudDao;
 import com.royken.bracongo.survey.dao.IsecteurDao;
 import com.royken.bracongo.survey.entities.Action;
 import com.royken.bracongo.survey.entities.Boisson;
@@ -83,15 +80,6 @@ public class ReponseServiceImpl implements IReponseService {
 
     @Inject
     private IPlanningDao planningDao;
-
-    @Inject
-    private IPrixBoissonDao prixBoissonDao;
-
-    @Inject
-    private IDisponibiliteBoissonDao disponibiliteBoissonDao;
-
-    @Inject
-    private IStockChaudDao stockChaudDao;
 
     @Inject
     private IBoissonInfosDao boissonInfosDao;
@@ -180,30 +168,6 @@ public class ReponseServiceImpl implements IReponseService {
 
     public void setPlanningDao(IPlanningDao planningDao) {
         this.planningDao = planningDao;
-    }
-
-    public IPrixBoissonDao getPrixBoissonDao() {
-        return prixBoissonDao;
-    }
-
-    public void setPrixBoissonDao(IPrixBoissonDao prixBoissonDao) {
-        this.prixBoissonDao = prixBoissonDao;
-    }
-
-    public IDisponibiliteBoissonDao getDisponibiliteBoissonDao() {
-        return disponibiliteBoissonDao;
-    }
-
-    public void setDisponibiliteBoissonDao(IDisponibiliteBoissonDao disponibiliteBoissonDao) {
-        this.disponibiliteBoissonDao = disponibiliteBoissonDao;
-    }
-
-    public IStockChaudDao getStockChaudDao() {
-        return stockChaudDao;
-    }
-
-    public void setStockChaudDao(IStockChaudDao stockChaudDao) {
-        this.stockChaudDao = stockChaudDao;
     }
 
     public IEtatMaterielDao getEtatMaterielDao() {

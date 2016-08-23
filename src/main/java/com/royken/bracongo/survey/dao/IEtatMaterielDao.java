@@ -11,5 +11,10 @@ import java.util.List;
  */
 public interface IEtatMaterielDao extends IGenericDao<EtatMateriel, Long>{
     
+    /**
+     * Retourne la liste des matériels
+     * @return la liste
+     * @throws DataAccessException 
+     */
     public List<EtatMateriel> findAllactive() throws DataAccessException;
 }

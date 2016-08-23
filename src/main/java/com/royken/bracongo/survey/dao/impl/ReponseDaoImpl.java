@@ -26,6 +26,8 @@ import com.royken.generic.dao.impl.GenericDao;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
@@ -68,10 +70,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         Path<Circuit> cirPath = pdvPath.get(PointDeVente_.circuit);
         Path<Zone> zonePath = cirPath.get(Circuit_.zone);
         Path<Secteur> secPath = zonePath.get(Zone_.secteur);
-        //Path<DisponibiliteBoisson> dispPath = rpsRoot.get(Reponse_.disponibiliteBoisson);
-        //Path<FormatBoisson> frmPat = dispPath.get(DisponibiliteBoisson_.formatBoisson);
-        // Path<Boisson> bsPath = frmPat.get(FormatBoisson_.boisson);   
-        if (debut != null) {
+       if (debut != null) {
             if (fin != null) {
                 predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
             }
@@ -91,10 +90,6 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         if (categorie != null) {
             predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeCategorie), categorie));
         }
-
-        //  if(null == fin){
-        //      predicates.add(cb.equal(rpsRoot.get(Reponse_.heureDeVisite), debut));
-        // }
         cq.select(rpsRoot);
         if (predicates.size() > 0) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
@@ -102,45 +97,6 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         return getManager().createQuery(cq).getResultList().size();
     }
 
-/*    @Override
-    public int countReponseByCriteria(Secteur secteur, TypeBoisson typeBoisson, TypeRegime typeRegime, Date debut, Date fin) throws DataAccessException {
-        CriteriaBuilder cb = getManager().getCriteriaBuilder();
-        CriteriaQuery<Reponse> cq = cb.createQuery(Reponse.class);
-        Root<Reponse> rpsRoot = cq.from(Reponse.class);
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        Path<PointDeVente> pdvPath = rpsRoot.get(Reponse_.pointDeVente);
-        Path<Circuit> cirPath = pdvPath.get(PointDeVente_.circuit);
-        Path<Zone> zonePath = cirPath.get(Circuit_.zone);
-        Path<Secteur> secPath = zonePath.get(Zone_.secteur);
-        Path<DisponibiliteBoisson> dispPath = rpsRoot.get(Reponse_.disponibiliteBoisson);
-        Path<FormatBoisson> frmPat = dispPath.get(DisponibiliteBoisson_.formatBoisson);
-        Path<Boisson> bsPath = frmPat.get(FormatBoisson_.boisson);
-        if (fin != null) {
-            predicates.add(cb.between(rpsRoot.get(Reponse_.heureDeVisite), debut, fin));
-        }
-        //   else{
-        //     predicates.add(cb.equal(rpsRoot.get(Reponse_.heureDeVisite), debut));
-        //}
-        if (secteur != null) {
-            predicates.add(cb.equal(secPath, secteur));
-        }
-        if (typeBoisson != null) {
-            predicates.add(cb.equal(bsPath.get(Boisson_.typeBoisson), typeBoisson));
-        }
-        if (typeRegime != null) {
-            predicates.add(cb.equal(pdvPath.get(PointDeVente_.typeRegime), typeRegime));
-        }
-        //  if(null == fin){
-        //      predicates.add(cb.equal(rpsRoot.get(Reponse_.heureDeVisite), debut));
-        // }
-        cq.select(rpsRoot);
-        if (predicates.size() > 0) {
-            cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
-        }
-        return getManager().createQuery(cq).getResultList().size();
-        //return 0;
-    }
-*/
     @Override
     public Reponse findByPdvAndDate(PointDeVente pointDeVente, Date date) throws DataAccessException {
         CriteriaBuilder cb = getManager().getCriteriaBuilder();
@@ -215,20 +171,13 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         CriteriaQuery<BoissonInfos> cq = cb.createQuery(BoissonInfos.class);
         Root<BoissonInfos> biRoot = cq.from(BoissonInfos.class);
         cq.where(cb.and(cb.equal(biRoot.get(BoissonInfos_.reponse), reponse), cb.equal(biRoot.get(BoissonInfos_.formatBoisson), formatBoisson)));
-        //cq.select(biRoot.get(BoissonInfos_.disponibilite));
-       // System.out.println("Les données");
-       // System.out.println("LE FORMAT : " + formatBoisson.getId());
-       // System.out.println("LA REPONSE : " + reponse.getId());
-       // List<BoissonInfos> boi = getManager().createQuery(cq).getResultList();
-       // System.out.println("Ma liste");
-       // System.out.println(boi);
         try {
             BoissonInfos bi = getManager().createQuery(cq).getSingleResult();
             return (bi.isDisponibilite() == true) ? 1 : 0;
         } catch (Exception e) {
+            Logger.getLogger(ReponseDaoImpl.class.getName()).log(Level.SEVERE, null, e);
         }
         
-      //  System.out.println("La biere infos :" + bi);
         return 0;
     }
 
@@ -322,6 +271,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         try {
             return getManager().createQuery(cq).getSingleResult().intValue();
         } catch (Exception e) {
+             Logger.getLogger(ReponseDaoImpl.class.getName()).log(Level.SEVERE, null, e);
             return 0;
         }
         
@@ -361,6 +311,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         try {
             return getManager().createQuery(cq).getSingleResult().intValue();
         } catch (Exception e) {
+             Logger.getLogger(ReponseDaoImpl.class.getName()).log(Level.SEVERE, null, e);
             return 0;
         }
          
@@ -404,6 +355,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         try {
             return getManager().createQuery(cq).getSingleResult().doubleValue();
         } catch (Exception e) {
+            Logger.getLogger(ReponseDaoImpl.class.getName()).log(Level.SEVERE, null, e);
             return 0;
         }
          
@@ -490,6 +442,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
         try {
             return getManager().createQuery(cq).getSingleResult().intValue();
         } catch (Exception e) {
+             Logger.getLogger(ReponseDaoImpl.class.getName()).log(Level.SEVERE, null, e);
             return 0;
         }
     }
@@ -538,6 +491,7 @@ public class ReponseDaoImpl extends GenericDao<Reponse, Long> implements IRepons
        try {
             return getManager().createQuery(cq).getSingleResult().intValue();
         } catch (Exception e) {
+             Logger.getLogger(ReponseDaoImpl.class.getName()).log(Level.SEVERE, null, e);
             return 0;
         }
     

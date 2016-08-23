@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Materiel implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
     @XmlTransient
     @OneToMany(mappedBy = "materiel")
     private List<EtatMateriel> etatMateriels;

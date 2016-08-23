@@ -5,6 +5,8 @@ import com.royken.bracongo.survey.entities.Utilisateur;
 import com.royken.bracongo.survey.entities.Utilisateur_;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.impl.GenericDao;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -25,6 +27,7 @@ public class UtilisateurDaoImpl extends GenericDao<Utilisateur, Long> implements
         try {
             return getManager().createQuery(cq).getSingleResult();
         } catch (NoResultException nre) {
+            Logger.getLogger(ReponseDaoImpl.class.getName()).log(Level.SEVERE, null, nre);
         }
         return null;
     }

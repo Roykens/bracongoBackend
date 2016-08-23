@@ -24,19 +24,34 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="format")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Format implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * La liste des formats de boisson du format
+     */
     @OneToMany(mappedBy = "format")
     private List<FormatBoisson> formatBoissons;
     
     @Version
     private int version;
     
+    /**
+     * L'identifiant de l'entité dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le volume du format
+     */
     @Basic
     private int volume;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

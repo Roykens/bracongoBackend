@@ -24,38 +24,61 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Enqueteur implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * Le secteur de l'enqueteur
+     */
     @OneToOne
     private Secteur secteur;
-    @OneToOne(mappedBy = "enqueteur")
-    private Telephone telephone;
+    
+    /**
+     * La liste des plannings de l'enqueteur
+     */
     @OneToMany(mappedBy = "enqueteur")
     private List<Planning> plannings;
-    @OneToMany(mappedBy = "enqueteur")
-    private List<Position> positions;
-    
+   
     @Version
     @XmlTransient
     private int version;
     
+    /**
+     * L'identifiant de l'enqueteur dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le nom de l'enqueteur
+     */
     @Column(unique = true)
     private String nom;
     
+    /**
+     * Le login de l'enqueteur
+     */
     @Column(unique = true)
     private String username;
     
     
     private String matricule;
     
+    /**
+     * Le mot de passe de l'enqueteur
+     */
     @Column(unique = true)
     private String codeSecret;
     
+    /**
+     * La liste des reponses envoyées par l'enqueteur
+     */
     @OneToMany(mappedBy = "enqueteur")
     private List<Reponse> reponses;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;
@@ -100,28 +123,12 @@ public class Enqueteur implements Serializable{
         this.reponses = reponses;
     }
 
-    public Telephone getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(Telephone telephone) {
-        this.telephone = telephone;
-    }
-
     public List<Planning> getPlannings() {
         return plannings;
     }
 
     public void setPlannings(List<Planning> plannings) {
         this.plannings = plannings;
-    }
-
-    public List<Position> getPositions() {
-        return positions;
-    }
-
-    public void setPositions(List<Position> positions) {
-        this.positions = positions;
     }
 
     public String getCodeSecret() {

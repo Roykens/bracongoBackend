@@ -13,8 +13,19 @@ import java.util.List;
  */
 public interface IPlanningDao extends IGenericDao<Planning, Long>{
     
+    /**
+     * Retourne le planning d'un enqueteur
+     * @param enqueteur l'enqueteur
+     * @return le planning
+     * @throws DataAccessException 
+     */
     public Planning getByEnqueteur(Enqueteur enqueteur) throws DataAccessException; 
     
+    /**
+     * Retourne la liste des plannings
+     * @returncla liste
+     * @throws DataAccessException 
+     */
     public List<Planning> findAllActive() throws DataAccessException;
     
     public Planning getByEnqueteurDate(Date date , Enqueteur enqueteur ) throws DataAccessException;

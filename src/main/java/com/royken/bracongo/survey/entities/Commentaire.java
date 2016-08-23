@@ -24,24 +24,41 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name = "commentaire")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Commentaire implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     @Version
     private int version;
 
+    /**
+     * L'identifiant du commentaire dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     
+    /**
+     * La reponse à laquele ce commentaire est associé
+     */
     @OneToOne
     @XmlTransient
     private Reponse reponse;
 
+    /**
+     * Le contenu du commentaire
+     */
     @Basic
     private String contenu;
 
+    /**
+     * Les images associées au commentaire (non utilisé pour l'instant)
+     */
     @OneToMany(mappedBy = "commentaire")
     private List<Images> images;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

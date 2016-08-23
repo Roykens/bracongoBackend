@@ -12,5 +12,12 @@ import java.util.List;
  */
 public interface ICommentaireDao extends IGenericDao<Commentaire, Long>{
     
+    /**
+     * La liste des désidératats des tenanciers dans une plage de dates
+     * @param debut le début de la plage
+     * @param fin la fin de la plage
+     * @return la liste des désidératats
+     * @throws DataAccessException 
+     */
     public List<Commentaire> getAllByDates(Date debut, Date fin) throws DataAccessException;
 }

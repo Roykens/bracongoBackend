@@ -24,25 +24,43 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="etatMateriel")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EtatMateriel implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
     @OneToOne(mappedBy = "etatMateriel")
     private Reponse reponse;
     
     @Version
     private int version;
     
+    /**
+     * L'identifiant de l'entité dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le nombre de matériel dans le PDV
+     */
     @Basic
     private int nombre;
     
+    /**
+     * L'etat général du matériel (M,B,TB)
+     */
     @Enumerated
     private TypeEtat typeEtat;
     
+    /**
+     * L'etat général du matériel de la concurrence
+     */
     @Enumerated
     private TypeEtat typeEtatConc;
     
+    /**
+     * Le nombre de matériel défectueux
+     */
     @Basic
     private int nombreDefecteux;
     
@@ -55,9 +73,15 @@ public class EtatMateriel implements Serializable{
     @Basic
     private int nombreBralima;
     
+    /**
+     * Le matériel 
+     */
     @ManyToOne
     private Materiel materiel;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

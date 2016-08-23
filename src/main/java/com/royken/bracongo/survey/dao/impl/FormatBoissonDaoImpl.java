@@ -39,7 +39,7 @@ public class FormatBoissonDaoImpl extends GenericDao<FormatBoisson, Long> implem
         predicates.add(cb.equal(fbRoot.get(FormatBoisson_.active), 1));
         
          cq.select(fbRoot).orderBy(cb.asc(boissonPath.get(Boisson_.nom)));
-        if (predicates.size() > 0) {
+        if (!predicates.isEmpty()) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
         }
         return getManager().createQuery(cq).getResultList();
@@ -85,7 +85,7 @@ public class FormatBoissonDaoImpl extends GenericDao<FormatBoisson, Long> implem
         predicates.add(cb.equal(formRoot.get(FormatBoisson_.active), 1));
         
         cq.select(formRoot);
-         if (predicates.size() > 0) {
+         if (!predicates.isEmpty()) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
         }
         return getManager().createQuery(cq).getResultList();

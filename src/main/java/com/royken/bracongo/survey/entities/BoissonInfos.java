@@ -23,28 +23,51 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BoissonInfos implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
     @Version
     private int version;
     
+    /**
+     * L'identifiant de l'entité dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Indique si le format de boisson est disponible au PDV
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean disponibilite;
     
+    /**
+     * Le prix du format de boisson dans le PDV
+     */
     @Basic
     private int prixPdv;
     
+    /**
+     * Le stock chaud du format de boisson dans le PDV
+     */
     @Basic
     private int stockChaud;
     
+    /**
+     * Le format de boisson
+     */
     @ManyToOne
     private FormatBoisson  formatBoisson;
     
+    /**
+     * La reponse à laquele l'infos est associée
+     */
     @ManyToOne
     private Reponse reponse;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

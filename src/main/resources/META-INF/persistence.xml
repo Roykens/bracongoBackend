@@ -13,16 +13,13 @@
     <class>com.royken.bracongo.survey.entities.Zone</class>
     <class>com.royken.bracongo.survey.entities.Action</class>
     <class>com.royken.bracongo.survey.entities.Boisson</class>
-    <class>com.royken.bracongo.survey.entities.DisponibiliteBoisson</class>
     <class>com.royken.bracongo.survey.entities.EtatMateriel</class>
     <class>com.royken.bracongo.survey.entities.EtatPlv</class>
     <class>com.royken.bracongo.survey.entities.Format</class>
     <class>com.royken.bracongo.survey.entities.FormatBoisson</class>
     <class>com.royken.bracongo.survey.entities.Materiel</class>
     <class>com.royken.bracongo.survey.entities.PLV</class>
-    <class>com.royken.bracongo.survey.entities.PrixBoisson</class>
     <class>com.royken.bracongo.survey.entities.Telephone</class>
-    <class>com.royken.bracongo.survey.entities.StockChaud</class>
     <class>com.royken.bracongo.survey.entities.PlanningPdv</class>
     <class>com.royken.bracongo.survey.entities.Commentaire</class>
     <class>com.royken.bracongo.survey.entities.Images</class>

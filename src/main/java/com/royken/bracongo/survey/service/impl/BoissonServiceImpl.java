@@ -42,6 +42,7 @@ public class BoissonServiceImpl implements IBoissonService {
                 return boissonDao.update(boisson);
             }
         } catch (DataAccessException ex) {
+            Logger.getLogger("Log").log(Level.SEVERE, ex.toString());
             throw new ServiceException("Opération impossible");
         }
         
@@ -52,6 +53,7 @@ public class BoissonServiceImpl implements IBoissonService {
         try {
             return boissonDao.findById(id);
         } catch (DataAccessException ex) {
+            Logger.getLogger("Log").log(Level.SEVERE, ex.toString());
             throw new ServiceException("Boisson non trouvée");
         }
     }

@@ -12,5 +12,12 @@ import java.util.List;
  */
 public interface IFormatDao extends IGenericDao<Format, Long>{
     
+    /**
+     * Rtourne la liste des formats d'un type de boisson d'une entreprise
+     * @param bracongo l'entreprise (True pour Bracongo)
+     * @param typeBoisson le type de boisson (BI pour bière, BG pour boisson gazeuse)
+     * @return
+     * @throws DataAccessException 
+     */
     public List<Format> getAllFormatByTypeEnterprise(Boolean bracongo, TypeBoisson typeBoisson) throws DataAccessException;
 }

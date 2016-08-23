@@ -2,7 +2,6 @@ package com.royken.bracongo.survey.service.impl;
 
 import com.royken.bracongo.survey.dao.IFormatDao;
 import com.royken.bracongo.survey.entities.Format;
-import com.royken.bracongo.survey.entities.TypeBoisson;
 import com.royken.bracongo.survey.service.IFormatService;
 import com.royken.bracongo.survey.service.ServiceException;
 import com.royken.generic.dao.DataAccessException;
@@ -41,6 +40,7 @@ public class FormatServiceImpl implements IFormatService{
                 return formatDao.update(format);
             }
         } catch (Exception e) {
+            Logger.getLogger("Log").log(Level.SEVERE, e.toString());
         }
         return null;
     }

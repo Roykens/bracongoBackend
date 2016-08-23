@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name = "reponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Reponse implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
 
     @OneToOne(mappedBy = "reponse")
     private Action action;

@@ -701,14 +701,12 @@ public class DocumentBean {
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell("PVE(Di&Or)", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data1.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBiBrac.getPveDiO() + "%", f8, 1, 1, false, BaseColor.WHITE));
 
             for (Map.Entry<String, Integer> entrySet : data1a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -717,13 +715,11 @@ public class DocumentBean {
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell("PVE(Ag&Br)", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data2.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBiBrac.getPveArBz() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : data2a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -732,13 +728,11 @@ public class DocumentBean {
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell("PVE", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve */
             for (Map.Entry<String, Integer> entrySet : data3.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBiBrac.getPve() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : data3a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -747,13 +741,11 @@ public class DocumentBean {
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell("MIXTE(Di&Or)", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data4.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBiBrac.getPvmDiOr() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : data4a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -762,13 +754,11 @@ public class DocumentBean {
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell("MIXTE(Ag & Br)", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pvm Ag et Bz*/
             for (Map.Entry<String, Integer> entrySet : data5.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBiBrac.getPvmArBz() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : data5a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -777,13 +767,11 @@ public class DocumentBean {
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell("MIXTE", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data6.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBiBrac.getPvm() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : data6a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -792,13 +780,11 @@ public class DocumentBean {
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell("GLOBAL", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data7.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             biereTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBiBrac.getPdv() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : data7a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 biereTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -834,14 +820,12 @@ public class DocumentBean {
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell("PVE(Di&Or)", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai1.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBgBrac.getPveDiO() + "%", f8, 1, 1, false, BaseColor.WHITE));
 
             for (Map.Entry<String, Integer> entrySet : datai1a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -856,7 +840,6 @@ public class DocumentBean {
             }
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBgBrac.getPveArBz() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : datai2a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -865,13 +848,11 @@ public class DocumentBean {
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell("PVE", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve */
             for (Map.Entry<String, Integer> entrySet : datai3.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBgBrac.getPve() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : datai3a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -880,13 +861,11 @@ public class DocumentBean {
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell("MIXTE(Di&Or)", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai4.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBgBrac.getPvmDiOr() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : datai4a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -895,13 +874,11 @@ public class DocumentBean {
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell("MIXTE(Ag & Br)", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pvm Ag et Bz*/
             for (Map.Entry<String, Integer> entrySet : datai5.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBgBrac.getPvmArBz() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : datai5a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -910,13 +887,11 @@ public class DocumentBean {
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell("MIXTE", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai6.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBgBrac.getPvm() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : datai6a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -925,13 +900,11 @@ public class DocumentBean {
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell("GLOBAL", f8, 1, 1, false, BaseColor.WHITE));
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai7.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             bgTable.addCell(DocumentUtil.createDefaultHeaderCell(numeriqueStatBgBrac.getPdv() + "%", f8, 1, 1, false, BaseColor.WHITE));
             for (Map.Entry<String, Integer> entrySet : datai7a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 bgTable.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
@@ -951,7 +924,6 @@ public class DocumentBean {
         try {
             PdfContentByte canvas = writer.getDirectContent();
             Rectangle rect1 = new Rectangle(llx, lly, urx, ury);
-            Rectangle rect2 = new Rectangle(llx, lly, urx, ury);
             rect1.setBackgroundColor(BaseColor.GRAY);
             rect1.setBorder(Rectangle.BOX);
             rect1.setBorderWidth(1);
@@ -1026,8 +998,6 @@ public class DocumentBean {
                 classement.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             cell = new PdfPCell(classement);
-            //  cell.setBorder(0);
-            // cell.setBorderWidth(0);
             cell.setBorderColor(BaseColor.WHITE);
             pve.addCell(cell);
 
@@ -1054,16 +1024,12 @@ public class DocumentBean {
                 classement.addCell(DocumentUtil.createDefaultHeaderCell(value + "%", f8, 1, 1, false, BaseColor.WHITE));
             }
             cell = new PdfPCell(classement);
-            //  cell.setBorder(0);
-            // cell.setBorderWidth(0);
             cell.setBorderColor(BaseColor.WHITE);
             pve.addCell(cell);
 
             cell = new PdfPCell();
             cell.addElement(pve);
             cell.setPadding(0);
-            // cell.setBorder(0);
-            //  cell.setBorderWidth(0);
             cell.setBorderWidthRight(2f);
 
             cell.setBorderColor(BaseColor.WHITE);
@@ -1092,9 +1058,6 @@ public class DocumentBean {
             }
 
             cell = new PdfPCell(classement);
-            // cell.setBorder(0);
-            // cell.setBorderWidth(0);
-            //  cell.setBorderWidthLeft(2f);
             cell.setBorderColor(BaseColor.WHITE);
             mixte.addCell(cell);
 
@@ -1122,9 +1085,6 @@ public class DocumentBean {
             }
 
             cell = new PdfPCell(classement);
-            // cell.setBorder(0);
-            // cell.setBorderWidth(0);
-            // cell.setBorderWidthRight(2f);
             cell.setBorderColor(BaseColor.WHITE);
 
             mixte.addCell(cell);
@@ -1246,7 +1206,6 @@ public class DocumentBean {
         int temp = 0;
         int taille = map.size();
         for (Map.Entry<String, Integer> entrySet : map.entrySet()) {
-            String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             temp += value;
 
@@ -1327,7 +1286,6 @@ public class DocumentBean {
         try {
             PdfContentByte canvas = writer.getDirectContent();
             Rectangle rect1 = new Rectangle(llx, lly, urx, ury);
-            Rectangle rect2 = new Rectangle(llx, lly, urx, ury);
             rect1.setBackgroundColor(BaseColor.GRAY);
             rect1.setBorder(Rectangle.BOX);
             rect1.setBorderWidth(1);
@@ -1350,9 +1308,7 @@ public class DocumentBean {
             ct.addElement(pa);
             ct.go();
             document.add(new Paragraph("\n"));
-            Font f5 = new Font(Font.FontFamily.HELVETICA, 13.0f, Font.BOLD);
             Font f6 = new Font(Font.FontFamily.HELVETICA, 13.0f, Font.NORMAL);
-            Font f7 = new Font(Font.FontFamily.HELVETICA, 10f, Font.BOLD);
             Font f8 = new Font(Font.FontFamily.HELVETICA, 10f, Font.NORMAL);
             Paragraph p1 = new Paragraph("PRIX MOYENS DES PRODUITS BRACONGO", f6);
             p1.setAlignment(Element.ALIGN_CENTER);
@@ -1391,7 +1347,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrixPve();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table1.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1403,7 +1358,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrixMixte();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table1.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1416,7 +1370,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrixGlobal();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table1.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1429,7 +1382,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrix();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table1.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1442,7 +1394,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Double> noms = value.getEcart();
                 for (Map.Entry<String, Double> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     double ecart = entrySet1.getValue();
                     table1.addCell(DocumentUtil.createDefaultHeaderCell(calculateEcart(ecart) + "%", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1490,7 +1441,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrixPve();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table3.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1502,7 +1452,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrixMixte();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table3.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1515,7 +1464,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrixGlobal();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table3.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1528,7 +1476,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Integer> noms = value.getPrix();
                 for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     int prix = entrySet1.getValue();
                     table3.addCell(DocumentUtil.createDefaultHeaderCell(prix + "", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1541,7 +1488,6 @@ public class DocumentBean {
                 BoissonPrixStat value = entrySet.getValue();
                 Map<String, Double> noms = value.getEcart();
                 for (Map.Entry<String, Double> entrySet1 : noms.entrySet()) {
-                    String key = entrySet1.getKey();
                     double ecart = entrySet1.getValue();
                     table3.addCell(DocumentUtil.createDefaultHeaderCell(calculateEcart(ecart) + "%", f8, 1, 1, false, BaseColor.WHITE));
 
@@ -1732,7 +1678,6 @@ public class DocumentBean {
     private static int getMapSize(Map<Integer, BoissonPrixStat> map) {
         int result = 0;
         for (Map.Entry<Integer, BoissonPrixStat> entrySet : map.entrySet()) {
-            //Integer key = entrySet.getKey();
             BoissonPrixStat value = entrySet.getValue();
             result += value.getPrix().size();
 
@@ -1776,9 +1721,6 @@ public class DocumentBean {
             XSSFWorkbook workbook = new XSSFWorkbook();
 
             XSSFFont blackFont = workbook.createFont();
-            //font.setFontHeightInPoints((short) 30);
-            //font.setFontName("IMPACT");
-            //font.setItalic(true);
             blackFont.setColor(HSSFColor.WHITE.index);
 
             myStyle = workbook.createCellStyle();
@@ -1791,7 +1733,6 @@ public class DocumentBean {
 
             grey = workbook.createCellStyle();
             grey.setFillForegroundColor(HSSFColor.GREY_50_PERCENT.index);
-            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
             grey.setBorderColor(XSSFCellBorder.BorderSide.LEFT, b);
             grey.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             grey.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
@@ -1805,8 +1746,6 @@ public class DocumentBean {
             black.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             black.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
             black.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
-            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
-            // black.setAlignment(HorizontalAlignment.CENTER);
             black.setFont(blackFont);
             black.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
@@ -1816,7 +1755,6 @@ public class DocumentBean {
             gold.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             gold.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
             gold.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
-            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
             gold.setAlignment(HorizontalAlignment.CENTER);
             gold.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
@@ -1826,7 +1764,6 @@ public class DocumentBean {
             blue.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             blue.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
             blue.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
-            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
             blue.setAlignment(HorizontalAlignment.CENTER);
             blue.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
@@ -1836,7 +1773,6 @@ public class DocumentBean {
             yellow.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             yellow.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
             yellow.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
-            //style6.setFillPattern(XSSFCellStyle.LESS_DOTS);
             yellow.setAlignment(HorizontalAlignment.CENTER);
             yellow.setFillPattern(CellStyle.SOLID_FOREGROUND);
 
@@ -1847,8 +1783,7 @@ public class DocumentBean {
             myStyle.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             myStyle.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
             myStyle.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
-            //myStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
+        
             myStyle2 = workbook.createCellStyle();
             myStyle2.setRotation((short) 90);
             myStyle2.setFillForegroundColor(HSSFColor.LIGHT_BLUE.index);
@@ -1856,8 +1791,7 @@ public class DocumentBean {
             myStyle2.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             myStyle2.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
             myStyle2.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
-            // myStyle2.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
+        
             myStyle3 = workbook.createCellStyle();
             myStyle3.setRotation((short) 90);
             myStyle3.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
@@ -1865,8 +1799,7 @@ public class DocumentBean {
             myStyle3.setBorderColor(XSSFCellBorder.BorderSide.BOTTOM, b);
             myStyle3.setBorderColor(XSSFCellBorder.BorderSide.RIGHT, b);
             myStyle3.setBorderColor(XSSFCellBorder.BorderSide.TOP, b);
-            //myStyle3.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
+        
             XSSFSheet spreadsheet = workbook.createSheet("reporting");
             produceExcelReporting(spreadsheet);
             XSSFSheet spreadsheet2 = workbook.createSheet("disponibiliteBi&Bg");
@@ -2017,7 +1950,6 @@ public class DocumentBean {
         cell = row.createCell(colId++);
         cell.setCellValue("S3");
         cell = row.createCell(colId++);
-        System.out.println("TOTOTOTOTOTOTOTOTOTOTO = " + pveDiS1);
         cell.setCellValue(pveDiS3);
         cell = row.createCell(colId++);
         cell.setCellValue(pveOrS3);
@@ -2256,14 +2188,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombrePveDiOr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : data1.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data1a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2279,7 +2209,6 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombrePveArBr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : data2.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2287,7 +2216,6 @@ public class DocumentBean {
 
         }
         for (Map.Entry<String, Integer> entrySet : data2a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2300,18 +2228,15 @@ public class DocumentBean {
         cell.setCellValue("PVE");
         cell.setCellStyle(grey);
         cell = row.createCell(colId++);
-        System.out.println("LE NOMBRE DE  PVE ================ " + stockBibrac.getNombrePve());
         cell.setCellValue(stockBibrac.getNombrePve());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : data3.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data3a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2327,14 +2252,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombreMixteDiOr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : data4.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data4a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2350,14 +2273,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombreMixteAgBr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : data5.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data5a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2374,14 +2295,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombreMixte());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : data6.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data6a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2397,14 +2316,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombrePdv());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : data7.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data7a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value);
@@ -2475,14 +2392,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombrePveDiOr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : datai1.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : data1ia.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
@@ -2499,7 +2414,6 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombrePveArBr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : datai2.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
@@ -2524,14 +2438,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombrePve());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : datai3.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : datai3a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
@@ -2547,14 +2459,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombreMixteDiOr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : datai4.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : datai4a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
@@ -2570,14 +2480,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombreMixteAgBr());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : datai5.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : datai5a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
@@ -2594,14 +2502,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombreMixte());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : datai6.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : datai6a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
@@ -2617,14 +2523,12 @@ public class DocumentBean {
         cell.setCellValue(stockBibrac.getNombrePdv());
         cell.setCellStyle(yellow);
         for (Map.Entry<String, Integer> entrySet : datai7.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
             cell.setCellStyle(gold);
         }
         for (Map.Entry<String, Integer> entrySet : datai7a.entrySet()) {
-            //  String key = entrySet.getKey();
             Integer value = entrySet.getValue();
             cell = row.createCell(colId++);
             cell.setCellValue(value + "%");
@@ -3091,7 +2995,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Integer> noms = value.getPrixPve();
             for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 int prix = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(prix);
@@ -3109,7 +3012,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Integer> noms = value.getPrixMixte();
             for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 int prix = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(prix);
@@ -3127,7 +3029,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Integer> noms = value.getPrixGlobal();
             for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 int prix = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(prix);
@@ -3165,7 +3066,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Integer> noms = value.getPrix();
             for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 int prix = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(prix);
@@ -3190,7 +3090,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Double> noms = value.getEcart();
             for (Map.Entry<String, Double> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 double ecart = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(calculateEcart(ecart) + "%");
@@ -3274,7 +3173,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Integer> noms = value.getPrixPve();
             for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 int prix = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(prix);
@@ -3292,7 +3190,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Integer> noms = value.getPrixMixte();
             for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 int prix = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(prix);
@@ -3310,7 +3207,6 @@ public class DocumentBean {
             BoissonPrixStat value = entrySet.getValue();
             Map<String, Integer> noms = value.getPrixGlobal();
             for (Map.Entry<String, Integer> entrySet1 : noms.entrySet()) {
-                String key = entrySet1.getKey();
                 int prix = entrySet1.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(prix);
@@ -3725,7 +3621,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data1.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3736,7 +3631,6 @@ public class DocumentBean {
             cell.setCellStyle(yellow);
 
             for (Map.Entry<String, Integer> entrySet : data1a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3754,7 +3648,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data2.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3765,7 +3658,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBiBrac.getPveArBz() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : data2a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3784,7 +3676,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve */
             for (Map.Entry<String, Integer> entrySet : data3.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3794,7 +3685,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBiBrac.getPve() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : data3a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3812,7 +3702,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data4.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3822,7 +3711,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBiBrac.getPvmDiOr() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : data4a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3840,7 +3728,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pvm Ag et Bz*/
             for (Map.Entry<String, Integer> entrySet : data5.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3850,7 +3737,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBiBrac.getPvmArBz() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : data5a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3868,7 +3754,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data6.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3878,7 +3763,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBiBrac.getPvm() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : data6a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3895,7 +3779,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : data7.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3905,7 +3788,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBiBrac.getPdv() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : data7a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3982,7 +3864,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai1.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -3993,7 +3874,6 @@ public class DocumentBean {
             cell.setCellStyle(yellow);
 
             for (Map.Entry<String, Integer> entrySet : datai1a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4011,7 +3891,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai2.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4022,7 +3901,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBgBrac.getPveArBz() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : datai2a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4041,7 +3919,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve */
             for (Map.Entry<String, Integer> entrySet : datai3.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4051,7 +3928,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBgBrac.getPve() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : datai3a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4069,7 +3945,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai4.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4079,7 +3954,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBgBrac.getPvmDiOr() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : datai4a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4097,7 +3971,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pvm Ag et Bz*/
             for (Map.Entry<String, Integer> entrySet : datai5.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4107,7 +3980,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBgBrac.getPvmArBz() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : datai5a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4125,7 +3997,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai6.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4135,7 +4006,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBgBrac.getPvm() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : datai6a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4152,7 +4022,6 @@ public class DocumentBean {
             cell.setCellStyle(grey);
             /* J'entre les données des bières bracongo pve di et Or*/
             for (Map.Entry<String, Integer> entrySet : datai7.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");
@@ -4162,7 +4031,6 @@ public class DocumentBean {
             cell.setCellValue(numeriqueStatBgBrac.getPdv() + "%");
             cell.setCellStyle(yellow);
             for (Map.Entry<String, Integer> entrySet : datai7a.entrySet()) {
-                //  String key = entrySet.getKey();
                 Integer value = entrySet.getValue();
                 cell = row.createCell(colId++);
                 cell.setCellValue(value + "%");

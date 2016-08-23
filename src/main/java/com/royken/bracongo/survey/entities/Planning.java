@@ -26,6 +26,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="planning")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Planning implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
     @OneToMany(mappedBy = "planning")
     private List<PlanningPdv> planningPdvs;
     @OneToOne(mappedBy = "planning")

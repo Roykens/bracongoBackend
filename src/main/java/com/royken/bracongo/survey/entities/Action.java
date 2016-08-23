@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="action")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Action implements Serializable{
+    private static final long serialVersionUID = 1L;
     
     @Version
     @XmlTransient
@@ -30,58 +31,113 @@ public class Action implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlTransient
+    /**
+     * L'identitiant d'une action dans la BD
+     */
     private Long id;
     
     
     @OneToOne
     @XmlTransient
+    /**
+     * La reponse à laquelle l'Action est associée
+     */
     private Reponse reponse;
     
     @Column(columnDefinition = "tinyint(1) default true")
+    /**
+     * Indique si le PDV a besoin d'un contrat
+     */
     private boolean besoinDeContrat;
     
     @Column(columnDefinition = "tinyint(1) default true")
+    /**
+     * Indique si le PDV a besoin d'un renouvellement de contrat
+     */
     private boolean besoinRenouvellementContrat; 
     
+    /**
+     * Indique si le PDV execute partiellement le contrat
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean contratPartiel;
     
+    /**
+     * Indique si le PDV a des reclamations de remise
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean reclamationRemise;
     
+    /**
+     * Indique si le PDV est ferme ou non operationnel
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean fermeNonOperationel;
     
+    /**
+     * Indique s'il s'agit d'un PDV mixte voulant devenir PVE
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean mixteSollicitantCoversion;
     
+    /**
+     * Indique si le PDV a besoin de l'operation 3 bacs contre 1
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean besoinOperation3Bac1;
     
+    /**
+     * Le nombre de bacs à echanger dans l'operation 3bacs/1
+     */
     @Basic
     private int nombreBacs;
     
+    /**
+     * Indique si le PDV a demenage sans prevenir
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean demenageSansPrevenir;
     
+    /**
+     * Indique si le PDV a besoin d'un renforcement en capacité
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean renforcerEnCapacite;
     
+    /**
+     * Indique si le PDV a besoin de PLV
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean besoinPlv;
     
+    /**
+     * Indique si le PDV a besoin de consignation d'emballage
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean besoinConsignationEmballage;
     
+    /**
+     * Indique si le PDV a une adresse erronee
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean adresseErronee;
     
+    /**
+     * Indique si le PDV a besoin de 5 chaises contre 1
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean besoin5ChaisesContre1;
+    
+    /**
+     * Indique les PHN du PDV etaient capsulés
+     */
 
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean phnCapsule;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

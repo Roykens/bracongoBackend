@@ -42,7 +42,7 @@ public class FormatDaoImpl extends GenericDao<Format, Long> implements IFormatDa
         }
         cq.select(toto);
         
-         if (predicates.size() > 0) {
+         if (!predicates.isEmpty()) {
             cq.where((predicates.size() == 1) ? predicates.get(0) : cb.and(predicates.toArray(new Predicate[0])));
         }
         return getManager().createQuery(cq).getResultList();

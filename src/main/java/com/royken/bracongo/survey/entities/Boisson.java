@@ -23,6 +23,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="boisson")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Boisson implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * La liste des formats de boissons de la boisson
+     */
     @XmlTransient
     @OneToMany(mappedBy = "boisson")
     private List<FormatBoisson> formatBoissons;
@@ -30,19 +36,34 @@ public class Boisson implements Serializable{
     @Version
     private int version;
     
+    /**
+     * L'identifiant de la boisson dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le nom de la boisson
+     */
     @Column(unique = true)
     private String nom;
     
+    /**
+     * Le type de la boisson(BI ou BG)
+     */
     @Enumerated
     private TypeBoisson typeBoisson;
     
+    /**
+     * Indique si c'est une boisson de la Bracongo ou non
+     */
     @Column(columnDefinition = "tinyint(1) default true")
     private boolean isBracongo;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

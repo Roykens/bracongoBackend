@@ -24,36 +24,46 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="formatBoisson")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FormatBoisson implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * La liste des boissonsInfos du format de boisson
+     */
     @OneToMany(mappedBy = "formatBoisson")
     private List<BoissonInfos> boissonInfoss;
-    @XmlTransient
-    @OneToMany(mappedBy = "formatBoisson")
-    private List<StockChaud> stockChauds;
-    
-    @XmlTransient
-    @OneToMany(mappedBy = "formatBoisson")
-    private List<PrixBoisson> prixBoissons;
-    
-    @XmlTransient
-    @OneToMany(mappedBy = "formatBoisson")
-    private List<DisponibiliteBoisson> disponibiliteBoissons;
     
     @Version
     private int version;
     
+    /**
+     * L'identifiant de l'entité dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le prix conseillé du format de boisson
+     */
     @Basic
     private int prix;
     
+    /**
+     * La boisson à laquelle ce format est associé
+     */
     @ManyToOne
     private Boisson boisson;
     
+    /**
+     * Le format auquel ce format est associé
+     */
     @ManyToOne
     private Format format;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;
@@ -90,29 +100,6 @@ public class FormatBoisson implements Serializable{
         this.format = format;
     }
 
-   public List<PrixBoisson> getPrixBoissons() {
-        return prixBoissons;
-    }
-
-    public void setPrixBoissons(List<PrixBoisson> prixBoissons) {
-        this.prixBoissons = prixBoissons;
-    }
-
-    public List<DisponibiliteBoisson> getDisponibiliteBoissons() {
-        return disponibiliteBoissons;
-    }
-
-    public void setDisponibiliteBoissons(List<DisponibiliteBoisson> disponibiliteBoissons) {
-        this.disponibiliteBoissons = disponibiliteBoissons;
-    }
-
-    public List<StockChaud> getStockChauds() {
-        return stockChauds;
-    }
-
-    public void setStockChauds(List<StockChaud> stockChauds) {
-        this.stockChauds = stockChauds;
-    }
 
     public int getPrix() {
         return prix;

@@ -22,6 +22,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="plv")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PLV implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
     @XmlTransient
     @OneToMany(mappedBy = "plv")
     private List<EtatPlv> etatPlvs;

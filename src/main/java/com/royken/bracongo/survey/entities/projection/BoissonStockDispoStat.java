@@ -1,5 +1,6 @@
 package com.royken.bracongo.survey.entities.projection;
 
+import java.io.Serializable;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="boissonStockDispoStat")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BoissonStockDispoStat {
+public class BoissonStockDispoStat implements Serializable{
     
     private Map<String,Integer> pveDiEtOr;
     

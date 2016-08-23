@@ -10,5 +10,12 @@ import com.royken.generic.dao.IGenericDao;
  */
 public interface IUtilisateurDao extends IGenericDao<Utilisateur, Long>{
  
+    /**
+     * Retourne l'utilisateur ayant un login et un mote de passe donné
+     * @param login le login
+     * @param password le mot de passe
+     * @return l'uitlisateur
+     * @throws DataAccessException 
+     */
     public Utilisateur findUtilisateurByLogin(String login, String password) throws DataAccessException;
 }

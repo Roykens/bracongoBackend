@@ -1,6 +1,7 @@
 package com.royken.bracongo.survey.entities.projection;
 
 import com.royken.bracongo.survey.entities.PointDeVente;
+import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,7 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "planningEnqueteur")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PlanningEnquetteur {
+public class PlanningEnquetteur implements Serializable{
+    private static final long serialVersionUID = 1L;
     
     private Long idPlanning;
     

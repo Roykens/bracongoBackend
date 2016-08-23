@@ -24,24 +24,40 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Circuit implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     
     @Version
     @XmlTransient
     private int version;
     
+    /**
+     * L'identifiant du circuit dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le code du circuit
+     */
     @Column
     private String code;
     
+    /**
+     * La liste des points de vente du circuit
+     */
     @OneToMany(mappedBy = "circuit")
     private List<PointDeVente> pointDeVentes;
     
+    /**
+     * La zone dans laquelle se trouve le circuit
+     */
     @ManyToOne
     private Zone zone;
 
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

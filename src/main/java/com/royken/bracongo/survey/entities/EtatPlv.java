@@ -25,6 +25,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EtatPlv implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
     @Version
     private int version;
     

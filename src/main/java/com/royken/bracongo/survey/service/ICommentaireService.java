@@ -12,5 +12,12 @@ import javax.ejb.Local;
 @Local
 public interface ICommentaireService {
     
+    /**
+     * Retourne la liste des commentaires envoyées sur une plage de dates
+     * @param debut le début de la date
+     * @param fin la fin de la date
+     * @return la liste
+     * @throws ServiceException 
+     */
     public List<Commentaire> getAllByDates(Date debut, Date fin) throws ServiceException;
 }

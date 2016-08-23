@@ -5,6 +5,8 @@ import com.royken.bracongo.survey.entities.Enqueteur;
 import com.royken.bracongo.survey.entities.Enqueteur_;
 import com.royken.generic.dao.DataAccessException;
 import com.royken.generic.dao.impl.GenericDao;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -31,13 +33,13 @@ public class EnqueteurDaoImpl extends GenericDao<Enqueteur, Long> implements IEn
         CriteriaBuilder cb = getManager().getCriteriaBuilder();
         CriteriaQuery<Enqueteur> cq = cb.createQuery(Enqueteur.class);
         Root<Enqueteur> enqRoot = cq.from(Enqueteur.class);
-        System.out.println("Username : "+ username + "Password : "+ password);
         cq.where(cb.and(cb.like(enqRoot.get(Enqueteur_.username), username), cb.like(enqRoot.get(Enqueteur_.codeSecret), password)));
         try {
             return getManager().createQuery(cq).getSingleResult();
         } catch (NoResultException nre) {
-        }
-        return null;
+            Logger.getLogger(EnqueteurDaoImpl.class.getName()).log(Level.SEVERE, null,nre);
+            return null;
+            }
     }
     
 }

@@ -12,5 +12,12 @@ import java.util.List;
  */
 public interface IActionDao extends IGenericDao<Action, Long>{
  
+    /**
+     * La liste des actions des enquêtes dur une période
+     * @param debut le début de la période
+     * @param fin la fin de la période
+     * @return La liste des actions à mener sur différents PDV
+     * @throws DataAccessException 
+     */
     public List<Action> getAllActionByDates(Date debut, Date fin) throws DataAccessException;
 }

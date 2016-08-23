@@ -10,7 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
@@ -27,6 +26,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement(name="pointDeVente")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PointDeVente implements Serializable{
+    
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * La liste des plannings dans lequel se trouve le PDV
+     */
     @XmlTransient
     @OneToMany(mappedBy = "pointDeVente")
     private List<PlanningPdv> planningPdvs;
@@ -35,42 +40,78 @@ public class PointDeVente implements Serializable{
     @XmlTransient
     private int version;
     
+    /**
+     * L'identifiant de l'entité dans la BD
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    /**
+     * Le nom du PDV
+     */
     @Basic
     private String nom;
     
+    /**
+     * Le numero de compte
+     */
     @Column(unique = true, nullable = false)
     private String code;
     
+    /**
+     * L'adresse du PDV
+     */
     @Basic
     private String adresse;
     
+    /**
+     * La longitude 
+     */
     @Basic
     private Double longitude;
     
+    /**
+     * La latitude
+     */
     @Basic
     private Double latitude;
     
+    /**
+     * Le type du PDV (Depot, Bar)
+     */
     @Enumerated(EnumType.STRING)
     private TypePdv typePdv;
     
+    /**
+     * La categorie du PDV (Di,Or,Br,Ag)
+     */
     @Enumerated(EnumType.STRING)
     private TypeCategorie typeCategorie;
     
+    /**
+     * Le regime du PDV (Mixte, PVE)
+     */
     @Enumerated(EnumType.STRING)
     private TypeRegime typeRegime;
     
+    /**
+     * Le circuit du PDV
+     */
     @XmlTransient
     @ManyToOne
     private Circuit circuit;    
     
+    /**
+     * La liste des reponses envoyées par le PDV
+     */
     @XmlTransient
     @OneToMany(mappedBy = "pointDeVente")
     private List<Reponse> reponses;
     
+    /**
+     * Indique si l'entité est active ou supprimée (0 = supprimé, 1 = actif)
+     */
     @XmlTransient
     @Column(columnDefinition = "int default 1")
     private int active;

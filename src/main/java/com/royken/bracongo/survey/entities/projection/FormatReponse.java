@@ -3,6 +3,7 @@ package com.royken.bracongo.survey.entities.projection;
 import com.royken.bracongo.survey.entities.EtatMateriel;
 import com.royken.bracongo.survey.entities.ReponseValue;
 import com.royken.bracongo.survey.entities.TypePdv;
+import java.io.Serializable;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +15,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "formatReponse")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class FormatReponse {
+public class FormatReponse implements Serializable{
+    private static final long serialVersionUID = 1L;
     
     private Long idPdv;
 

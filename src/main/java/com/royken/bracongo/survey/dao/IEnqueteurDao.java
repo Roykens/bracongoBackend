@@ -9,7 +9,22 @@ import com.royken.generic.dao.IGenericDao;
  */
 public interface IEnqueteurDao extends IGenericDao<Enqueteur, Long>{
     
+    /**
+     * l'enqueteur ayant un matricule donné
+     * @param matricule le matricule
+     * @deprecated 
+     * @return l'enqueteur
+     * @throws DataAccessException 
+     */
+    @Deprecated
     public Enqueteur findEnqueteurByMatricule(String matricule) throws DataAccessException;
     
+    /**
+     * Retourne l'enquteur ayant un username et un mot de passe donné
+     * @param username le username
+     * @param password le mot de passe
+     * @return l'enqueteur
+     * @throws DataAccessException 
+     */
     public Enqueteur findEnqueteurByUsernameAndPassword(String username, String password) throws DataAccessException;
 }

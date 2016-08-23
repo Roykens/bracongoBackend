@@ -11,5 +11,10 @@ import java.util.List;
  */
 public interface ICircuitDao extends IGenericDao<Circuit, Long>{
     
+    /**
+     * La liste des circuits
+     * @return la liste
+     * @throws DataAccessException 
+     */
     public List<Circuit> findAllActive() throws DataAccessException;
 }

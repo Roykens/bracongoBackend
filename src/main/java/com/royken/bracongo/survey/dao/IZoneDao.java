@@ -11,5 +11,10 @@ import java.util.List;
  */
 public interface IZoneDao extends IGenericDao<Zone, Long>{
  
+    /**
+     * Retourne la liste des zones
+     * @return la liste
+     * @throws DataAccessException 
+     */
     public List<Zone> findAllActive()throws DataAccessException;
 }
